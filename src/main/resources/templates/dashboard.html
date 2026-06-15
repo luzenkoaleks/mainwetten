@@ -54,7 +54,11 @@
                     <tbody>
                     <tr th:each="participation : ${participations}">
                         <td>
-                            <strong th:text="${participation.bet.title}">Titel</strong>
+                            <a class="fw-bold text-decoration-none"
+                               th:href="@{/bets/{id}(id=${participation.bet.id})}"
+                               th:text="${participation.bet.title}">
+                                Titel
+                            </a>
                             <div class="small text-muted" th:text="${participation.bet.description}">
                                 Beschreibung
                             </div>
