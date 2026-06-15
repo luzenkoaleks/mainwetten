@@ -110,33 +110,77 @@
 
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h2 class="h5 mb-3">Fänge</h2>
+                    <h2 class="h5 mb-3">Fänge nach Fischart</h2>
 
-                    <p class="text-muted mb-0" th:if="${#lists.isEmpty(catchEntries)}">
+                    <p class="text-muted mb-0" th:if="${#lists.isEmpty(catchGroups)}">
                         Für diese Wette wurden noch keine Fänge eingetragen.
                     </p>
 
-                    <div class="table-responsive" th:unless="${#lists.isEmpty(catchEntries)}">
-                        <table class="table align-middle">
-                            <thead>
-                            <tr>
-                                <th>Datum</th>
-                                <th>Angler</th>
-                                <th>Fischart</th>
-                                <th class="text-end">Länge</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="entry : ${catchEntries}">
-                                <td th:text="${#temporals.format(entry.caughtDate, 'dd.MM.yyyy')}">01.01.2026</td>
-                                <td th:text="${entry.user.username}">Benutzer</td>
-                                <td th:text="${entry.fishSpecies.name}">Fischart</td>
-                                <td class="text-end">
-                                    <span th:text="${entry.lengthCm}">50.0</span> cm
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div th:unless="${#lists.isEmpty(catchGroups)}">
+                        <div class="border rounded p-3 mb-3" th:each="speciesGroup : ${catchGroups}">
+                            <h3 class="h6 mb-3" th:text="${speciesGroup.fishSpeciesName}">
+                                Fischart
+                            </h3>
+
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th>Angler</th>
+                                        <th class="text-end">Bester Fang</th>
+                                        <th class="text-end">Anzahl Fänge</th>
+                                        <th>Alle Fänge</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="userGroup : ${speciesGroup.userGroups}">
+                                        <td>
+                                            <strong th:text="${userGroup.username}">Benutzer</strong>
+                                        </td>
+
+                                        <td class="text-end">
+                                            <span class="badge text-bg-success me-1">Bester</span>
+                                            <strong>
+                                                <span th:text="${userGroup.bestEntry.lengthCm}">50.0</span> cm
+                                            </strong>
+                                            <div class="small text-muted"
+                                                 th:text="${#temporals.format(userGroup.bestEntry.caughtDate, 'dd.MM.yyyy')}">
+                                                01.01.2026
+                                            </div>
+                                        </td>
+
+                                        <td class="text-end" th:text="${userGroup.catchCount}">
+                                            1
+                                        </td>
+
+                                        <td>
+                                            <details>
+                                                <summary class="small text-primary" style="cursor: pointer;">
+                                                    anzeigen
+                                                </summary>
+
+                                                <ul class="list-unstyled small mt-2 mb-0">
+                                                    <li th:each="entry : ${userGroup.entries}">
+                                            <span th:text="${#temporals.format(entry.caughtDate, 'dd.MM.yyyy')}">
+                                                01.01.2026
+                                            </span>
+                                                        –
+                                                        <strong>
+                                                            <span th:text="${entry.lengthCm}">50.0</span> cm
+                                                        </strong>
+                                                        <span th:if="${entry.id == userGroup.bestEntry.id}"
+                                                              class="badge text-bg-success ms-1">
+                                                bester Fang
+                                            </span>
+                                                    </li>
+                                                </ul>
+                                            </details>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

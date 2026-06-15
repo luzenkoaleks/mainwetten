@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import de.mainwetten.catchentry.CatchEntryRepository;
 import de.mainwetten.scoring.ScoringService;
+import de.mainwetten.catchentry.CatchOverviewService;
 
 @Controller
 @RequestMapping("/bets")
@@ -19,17 +20,20 @@ public class BetController {
     private final BetParticipantRepository betParticipantRepository;
     private final CatchEntryRepository catchEntryRepository;
     private final ScoringService scoringService;
+    private final CatchOverviewService catchOverviewService;
 
     public BetController(
             BetService betService,
             BetParticipantRepository betParticipantRepository,
             CatchEntryRepository catchEntryRepository,
-            ScoringService scoringService
+            ScoringService scoringService,
+            CatchOverviewService catchOverviewService
     ) {
         this.betService = betService;
         this.betParticipantRepository = betParticipantRepository;
         this.catchEntryRepository = catchEntryRepository;
         this.scoringService = scoringService;
+        this.catchOverviewService = catchOverviewService;
     }
 
     @GetMapping("/new")
@@ -84,6 +88,8 @@ public class BetController {
         model.addAttribute("bet", bet);
         model.addAttribute("participants", betParticipantRepository.findByBetIdOrderByUserUsernameAsc(id));
         model.addAttribute("catchEntries", catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(id));
+        model.addAttribute("catchGroups", catchOverviewService.getGroupedCatches(id));
+
         var leaderboard = scoringService.calculateLeaderboard(id, bet.getScoringMode());
 
         model.addAttribute("leaderboard", leaderboard);
