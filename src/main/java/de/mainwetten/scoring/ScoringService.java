@@ -66,13 +66,7 @@ public class ScoringService {
                     .merge(speciesId, entry.getLengthCm(), ScoringService::max);
         }
 
-        for (LeaderboardEntry entry : leaderboardByUserId.values()) {
-            int speciesCount = speciesIdsByUserId
-                    .getOrDefault(entry.getUserId(), Set.of())
-                    .size();
-
-            entry.setSpeciesCount(speciesCount);
-        }
+        awardCaughtSpeciesPoints(leaderboardByUserId, speciesIdsByUserId);
 
         Map<Long, List<CatchEntry>> entriesBySpeciesId = catchEntries.stream()
                 .collect(Collectors.groupingBy(entry -> entry.getFishSpecies().getId()));
@@ -85,7 +79,7 @@ public class ScoringService {
             }
         }
 
-        awardDiversityPoints(leaderboardByUserId);
+        awardDiversityPointOnlyForSingleWinner(leaderboardByUserId);
 
         calculateTieBreakerLengths(leaderboardByUserId, bestLengthByUserIdAndSpeciesId);
 
@@ -100,6 +94,20 @@ public class ScoringService {
         assignRanks(leaderboard);
 
         return leaderboard;
+    }
+
+    private void awardCaughtSpeciesPoints(
+            Map<Long, LeaderboardEntry> leaderboardByUserId,
+            Map<Long, Set<Long>> speciesIdsByUserId
+    ) {
+        for (LeaderboardEntry entry : leaderboardByUserId.values()) {
+            int speciesCount = speciesIdsByUserId
+                    .getOrDefault(entry.getUserId(), Set.of())
+                    .size();
+
+            entry.setSpeciesCount(speciesCount);
+            entry.addCaughtSpeciesPoints(speciesCount);
+        }
     }
 
     private void awardBiggestFishPoints(
@@ -143,7 +151,7 @@ public class ScoringService {
         }
     }
 
-    private void awardDiversityPoints(Map<Long, LeaderboardEntry> leaderboardByUserId) {
+    private void awardDiversityPointOnlyForSingleWinner(Map<Long, LeaderboardEntry> leaderboardByUserId) {
         int maxSpeciesCount = leaderboardByUserId.values()
                 .stream()
                 .mapToInt(LeaderboardEntry::getSpeciesCount)
@@ -154,10 +162,13 @@ public class ScoringService {
             return;
         }
 
-        for (LeaderboardEntry entry : leaderboardByUserId.values()) {
-            if (entry.getSpeciesCount() == maxSpeciesCount) {
-                entry.addDiversityPoint();
-            }
+        List<LeaderboardEntry> usersWithMaxSpeciesCount = leaderboardByUserId.values()
+                .stream()
+                .filter(entry -> entry.getSpeciesCount() == maxSpeciesCount)
+                .toList();
+
+        if (usersWithMaxSpeciesCount.size() == 1) {
+            usersWithMaxSpeciesCount.getFirst().addDiversityPoint();
         }
     }
 
@@ -172,9 +183,8 @@ public class ScoringService {
         for (List<LeaderboardEntry> tiedEntries : entriesByPoints.values()) {
             if (tiedEntries.size() == 1) {
                 LeaderboardEntry entry = tiedEntries.getFirst();
-                entry.setTieBreakerLength(sumAllBestLengths(
-                        bestLengthByUserIdAndSpeciesId.getOrDefault(entry.getUserId(), Map.of())
-                ));
+                entry.setTieBreakerRelevant(false);
+                entry.setTieBreakerLength(BigDecimal.ZERO);
                 continue;
             }
 
@@ -206,6 +216,7 @@ public class ScoringService {
                     sum = sum.add(bestLengthsBySpeciesId.getOrDefault(speciesId, BigDecimal.ZERO));
                 }
 
+                entry.setTieBreakerRelevant(true);
                 entry.setTieBreakerLength(sum);
             }
         }

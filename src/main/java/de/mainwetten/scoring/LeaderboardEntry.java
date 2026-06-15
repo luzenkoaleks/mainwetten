@@ -9,16 +9,23 @@ public class LeaderboardEntry {
 
     private int rank;
     private int points;
+    private int caughtSpeciesPoints;
     private int biggestFishPoints;
     private int mostFishPoints;
     private int diversityPoints;
     private int speciesCount;
 
+    private boolean tieBreakerRelevant;
     private BigDecimal tieBreakerLength = BigDecimal.ZERO;
 
     public LeaderboardEntry(Long userId, String username) {
         this.userId = userId;
         this.username = username;
+    }
+
+    public void addCaughtSpeciesPoints(int amount) {
+        caughtSpeciesPoints += amount;
+        points += amount;
     }
 
     public void addBiggestFishPoint() {
@@ -56,6 +63,10 @@ public class LeaderboardEntry {
         return points;
     }
 
+    public int getCaughtSpeciesPoints() {
+        return caughtSpeciesPoints;
+    }
+
     public int getBiggestFishPoints() {
         return biggestFishPoints;
     }
@@ -74,6 +85,14 @@ public class LeaderboardEntry {
 
     public void setSpeciesCount(int speciesCount) {
         this.speciesCount = speciesCount;
+    }
+
+    public boolean isTieBreakerRelevant() {
+        return tieBreakerRelevant;
+    }
+
+    public void setTieBreakerRelevant(boolean tieBreakerRelevant) {
+        this.tieBreakerRelevant = tieBreakerRelevant;
     }
 
     public BigDecimal getTieBreakerLength() {

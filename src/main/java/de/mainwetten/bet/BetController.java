@@ -84,7 +84,13 @@ public class BetController {
         model.addAttribute("bet", bet);
         model.addAttribute("participants", betParticipantRepository.findByBetIdOrderByUserUsernameAsc(id));
         model.addAttribute("catchEntries", catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(id));
-        model.addAttribute("leaderboard", scoringService.calculateLeaderboard(id, bet.getScoringMode()));
+        var leaderboard = scoringService.calculateLeaderboard(id, bet.getScoringMode());
+
+        model.addAttribute("leaderboard", leaderboard);
+        model.addAttribute(
+                "showTieBreaker",
+                leaderboard.stream().anyMatch(entry -> entry.isTieBreakerRelevant())
+        );
 
         return "bets/detail";
     }
