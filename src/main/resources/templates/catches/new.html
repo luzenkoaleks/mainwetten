@@ -15,6 +15,7 @@
         <a class="navbar-brand fw-bold" href="/">Mainwetten</a>
 
         <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" href="/dashboard">Dashboard</a>
             <a class="btn btn-outline-secondary" th:href="@{/bets/{id}(id=${bet.id})}">Zur Wette</a>
 
             <form th:action="@{/logout}" method="post" class="mb-0">

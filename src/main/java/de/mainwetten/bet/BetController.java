@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import de.mainwetten.catchentry.CatchEntryRepository;
+import de.mainwetten.scoring.ScoringService;
 
 @Controller
 @RequestMapping("/bets")
@@ -17,15 +18,18 @@ public class BetController {
     private final BetService betService;
     private final BetParticipantRepository betParticipantRepository;
     private final CatchEntryRepository catchEntryRepository;
+    private final ScoringService scoringService;
 
     public BetController(
             BetService betService,
             BetParticipantRepository betParticipantRepository,
-            CatchEntryRepository catchEntryRepository
+            CatchEntryRepository catchEntryRepository,
+            ScoringService scoringService
     ) {
         this.betService = betService;
         this.betParticipantRepository = betParticipantRepository;
         this.catchEntryRepository = catchEntryRepository;
+        this.scoringService = scoringService;
     }
 
     @GetMapping("/new")
@@ -75,9 +79,12 @@ public class BetController {
                 )
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
-        model.addAttribute("bet", currentUserParticipation.getBet());
+        Bet bet = currentUserParticipation.getBet();
+
+        model.addAttribute("bet", bet);
         model.addAttribute("participants", betParticipantRepository.findByBetIdOrderByUserUsernameAsc(id));
         model.addAttribute("catchEntries", catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(id));
+        model.addAttribute("leaderboard", scoringService.calculateLeaderboard(id, bet.getScoringMode()));
 
         return "bets/detail";
     }

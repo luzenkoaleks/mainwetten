@@ -57,6 +57,52 @@
                 </div>
             </div>
 
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h2 class="h5 mb-3">Rangliste</h2>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                            <tr>
+                                <th>Platz</th>
+                                <th>Angler</th>
+                                <th class="text-end">Punkte</th>
+                                <th class="text-end">Größte Fische</th>
+                                <th class="text-end">Meiste Fische</th>
+                                <th class="text-end">Artenbonus</th>
+                                <th class="text-end">Tiebreaker</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="entry : ${leaderboard}">
+                                <td th:text="${entry.rank}">1</td>
+                                <td>
+                                    <strong th:text="${entry.username}">Benutzer</strong>
+                                    <div class="small text-muted">
+                                        <span th:text="${entry.speciesCount}">0</span>
+                                        gefangene Fischarten
+                                    </div>
+                                </td>
+                                <td class="text-end fw-bold" th:text="${entry.points}">0</td>
+                                <td class="text-end" th:text="${entry.biggestFishPoints}">0</td>
+                                <td class="text-end" th:text="${entry.mostFishPoints}">0</td>
+                                <td class="text-end" th:text="${entry.diversityPoints}">0</td>
+                                <td class="text-end">
+                                    <span th:text="${entry.tieBreakerLength}">0</span> cm
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p class="text-muted small mb-0">
+                        Bei Punktegleichstand entscheidet die Tiebreaker-Länge. Dafür zählen nur Fischarten,
+                        die alle gleichauf liegenden Spieler gefangen haben.
+                    </p>
+                </div>
+            </div>
+            
             <div class="card shadow-sm">
                 <div class="card-body">
                     <h2 class="h5 mb-3">Fänge</h2>
