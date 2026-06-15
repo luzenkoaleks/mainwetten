@@ -22,18 +22,60 @@
 </nav>
 
 <main class="container py-5">
-    <h1 class="h3">Dashboard</h1>
-
-    <p class="lead">
-        Eingeloggt als <strong th:text="${username}">Benutzer</strong>.
-    </p>
-
-    <div class="card shadow-sm mt-4">
-        <div class="card-body">
-            <h2 class="h5">Nächster Projektstand</h2>
-            <p class="mb-0">
-                Als nächstes bauen wir hier die Übersicht deiner Angelwetten ein.
+    <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+        <div>
+            <h1 class="h3 mb-1">Dashboard</h1>
+            <p class="text-muted mb-0">
+                Eingeloggt als <strong th:text="${username}">Benutzer</strong>.
             </p>
+        </div>
+
+        <a class="btn btn-primary" href="/bets/new">Neue Wette</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="h5 mb-3">Meine Wetten</h2>
+
+            <div th:if="${#lists.isEmpty(participations)}" class="text-muted">
+                Du bist noch in keiner Wette. Erstelle deine erste Angelwette.
+            </div>
+
+            <div class="table-responsive" th:unless="${#lists.isEmpty(participations)}">
+                <table class="table align-middle">
+                    <thead>
+                    <tr>
+                        <th>Titel</th>
+                        <th>Zeitraum</th>
+                        <th>Bewertung</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="participation : ${participations}">
+                        <td>
+                            <strong th:text="${participation.bet.title}">Titel</strong>
+                            <div class="small text-muted" th:text="${participation.bet.description}">
+                                Beschreibung
+                            </div>
+                        </td>
+                        <td>
+                            <span th:text="${#temporals.format(participation.bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
+                            –
+                            <span th:text="${#temporals.format(participation.bet.endDate, 'dd.MM.yyyy')}">07.01.2026</span>
+                        </td>
+                        <td th:text="${participation.bet.scoringMode.displayName}">
+                            Bewertungsmodus
+                        </td>
+                        <td>
+                            <span class="badge text-bg-success" th:text="${participation.status}">
+                                ACCEPTED
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </main>
