@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import de.mainwetten.catchentry.CatchEntryRepository;
 
 @Controller
 @RequestMapping("/bets")
@@ -15,13 +16,16 @@ public class BetController {
 
     private final BetService betService;
     private final BetParticipantRepository betParticipantRepository;
+    private final CatchEntryRepository catchEntryRepository;
 
     public BetController(
             BetService betService,
-            BetParticipantRepository betParticipantRepository
+            BetParticipantRepository betParticipantRepository,
+            CatchEntryRepository catchEntryRepository
     ) {
         this.betService = betService;
         this.betParticipantRepository = betParticipantRepository;
+        this.catchEntryRepository = catchEntryRepository;
     }
 
     @GetMapping("/new")
@@ -73,6 +77,7 @@ public class BetController {
 
         model.addAttribute("bet", currentUserParticipation.getBet());
         model.addAttribute("participants", betParticipantRepository.findByBetIdOrderByUserUsernameAsc(id));
+        model.addAttribute("catchEntries", catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(id));
 
         return "bets/detail";
     }
