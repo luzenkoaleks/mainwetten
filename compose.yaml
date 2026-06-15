@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: mainwetten-postgres
+    environment:
+      POSTGRES_DB: mainwetten
+      POSTGRES_USER: mainwetten
+      POSTGRES_PASSWORD: mainwetten
+    ports:
+      - "5432:5432"
+    volumes:
+      - mainwetten-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  mainwetten-postgres-data:
+
