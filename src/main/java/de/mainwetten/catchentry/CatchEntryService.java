@@ -9,7 +9,6 @@ import de.mainwetten.fish.FishSpeciesRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZoneOffset;
 
 @Service
 public class CatchEntryService {
@@ -48,7 +47,7 @@ public class CatchEntryService {
         catchEntry.setUser(participation.getUser());
         catchEntry.setFishSpecies(fishSpecies);
         catchEntry.setLengthCm(form.getLengthCm());
-        catchEntry.setCaughtAt(form.getCaughtDate().atStartOfDay().atOffset(ZoneOffset.UTC));
+        catchEntry.setCaughtAt(java.time.OffsetDateTime.now());
 
         return catchEntryRepository.save(catchEntry);
     }

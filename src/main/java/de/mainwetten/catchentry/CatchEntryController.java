@@ -58,21 +58,6 @@ public class CatchEntryController {
         BetParticipant participation = getCurrentUserParticipationOr404(betId, authentication.getName());
         Bet bet = participation.getBet();
 
-        if (form.getCaughtDate() != null && form.getCaughtDate().isBefore(bet.getStartDate())) {
-            bindingResult.rejectValue(
-                    "caughtDate",
-                    "caughtDate.beforeBetStart",
-                    "Das Fangdatum darf nicht vor dem Startdatum der Wette liegen."
-            );
-        }
-
-        if (form.getCaughtDate() != null && form.getCaughtDate().isAfter(bet.getEndDate())) {
-            bindingResult.rejectValue(
-                    "caughtDate",
-                    "caughtDate.afterBetEnd",
-                    "Das Fangdatum darf nicht nach dem Enddatum der Wette liegen."
-            );
-        }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("bet", bet);

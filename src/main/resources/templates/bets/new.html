@@ -71,6 +71,18 @@
                     <div class="text-danger small mt-1" th:if="${#fields.hasErrors('scoringMode')}" th:errors="*{scoringMode}"></div>
                 </div>
 
+                <div class="alert alert-info small">
+                    <strong>Alle Fänge zählen:</strong>
+                    Pro Fischart gibt es Punkte für den größten Fisch und für die meisten Fänge.
+                    Zusätzlich gibt es einen Bonuspunkt für die größte Artenvielfalt.
+                    <br><br>
+                    <strong>Bester Fang pro Fischart zählt:</strong>
+                    Pro Fischart zählt nur der größte Fisch. Zusätzlich gibt es einen Bonuspunkt
+                    für die größte Artenvielfalt. Der Punkt für die meisten Fänge entfällt.
+                    <br><br>
+                    Bei Gleichstand erhalten alle betroffenen Spieler den jeweiligen Punkt.
+                </div>
+
                 <button type="submit" class="btn btn-primary">Wette erstellen</button>
             </form>
         </div>

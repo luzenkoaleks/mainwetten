@@ -51,13 +51,11 @@
                     <label for="lengthCm" class="form-label">Länge in cm</label>
                     <input id="lengthCm" type="number" step="0.1" min="1" class="form-control" th:field="*{lengthCm}">
                     <div class="text-danger small mt-1" th:if="${#fields.hasErrors('lengthCm')}" th:errors="*{lengthCm}"></div>
+                    <p class="text-muted small mb-4">
+                        Das Fangdatum wird automatisch beim Speichern gesetzt.
+                    </p>
                 </div>
 
-                <div class="mb-4">
-                    <label for="caughtDate" class="form-label">Fangdatum</label>
-                    <input id="caughtDate" type="date" class="form-control" th:field="*{caughtDate}">
-                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('caughtDate')}" th:errors="*{caughtDate}"></div>
-                </div>
 
                 <button type="submit" class="btn btn-primary">Fang speichern</button>
             </form>
