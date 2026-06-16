@@ -3,6 +3,7 @@ package de.mainwetten.catchentry;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -28,6 +29,12 @@ public class CatchOverviewService {
         List<CatchSpeciesGroup> speciesGroups = new ArrayList<>();
 
         for (Map.Entry<String, List<CatchEntry>> speciesEntry : entriesBySpecies.entrySet()) {
+            BigDecimal overallBestLength = speciesEntry.getValue()
+                    .stream()
+                    .map(CatchEntry::getLengthCm)
+                    .max(BigDecimal::compareTo)
+                    .orElse(BigDecimal.ZERO);
+
             Map<String, List<CatchEntry>> entriesByUser = speciesEntry.getValue()
                     .stream()
                     .collect(Collectors.groupingBy(entry -> entry.getUser().getUsername()));
@@ -44,11 +51,13 @@ public class CatchOverviewService {
                         .toList();
 
                 CatchEntry bestEntry = userEntries.getFirst();
+                boolean overallBestForSpecies = bestEntry.getLengthCm().compareTo(overallBestLength) == 0;
 
                 userGroups.add(new CatchUserGroup(
                         userEntry.getKey(),
                         bestEntry,
-                        userEntries
+                        userEntries,
+                        overallBestForSpecies
                 ));
             }
 

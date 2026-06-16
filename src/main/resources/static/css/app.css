@@ -184,3 +184,61 @@ a.app-card:hover {
     border-color: rgba(47, 111, 62, 0.35);
     box-shadow: 0 0.75rem 1.75rem rgba(31, 42, 31, 0.09);
 }
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+}
+
+.stat-box {
+    border: 1px solid var(--mw-border);
+    border-radius: 0.75rem;
+    background: #f8faf6;
+    padding: 0.75rem;
+}
+
+.stat-box-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--mw-muted);
+}
+
+.stat-box-value {
+    display: block;
+    font-weight: 700;
+    color: var(--mw-text);
+}
+
+.mobile-rank-card + .mobile-rank-card {
+    margin-top: 0.75rem;
+}
+
+.catch-species-card {
+    border: 1px solid var(--mw-border);
+    border-radius: 1rem;
+    background: #fff;
+    padding: 1rem;
+}
+
+.catch-user-row {
+    border-top: 1px solid var(--mw-border);
+    padding-top: 0.85rem;
+    margin-top: 0.85rem;
+}
+
+.catch-user-row:first-of-type {
+    border-top: 0;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+@media (max-width: 575.98px) {
+    .stat-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .catch-species-card {
+        padding: 0.85rem;
+    }
+}

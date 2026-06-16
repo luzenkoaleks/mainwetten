@@ -38,51 +38,100 @@
                 </div>
             </div>
 
-            <div class="card sapp-card mb-4">
+            <div class="card app-card mb-4">
                 <div class="card-body">
                     <h2 class="h5 mb-3">Rangliste</h2>
 
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead>
-                            <tr>
-                                <th>Platz</th>
-                                <th>Angler</th>
-                                <th class="text-end">Punkte</th>
-                                <th class="text-end">Fischarten</th>
-                                <th class="text-end">Größte Fische</th>
-                                <th class="text-end">Meiste Fische</th>
-                                <th class="text-end">Artenbonus</th>
-                                <th class="text-end" th:if="${showTieBreaker}">Tiebreaker</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="entry : ${leaderboard}">
-                                <td th:text="${entry.rank}">1</td>
-                                <td>
-                                    <strong th:text="${entry.username}">Benutzer</strong>
-                                    <div class="small text-muted">
-                                        <span th:text="${entry.speciesCount}">0</span>
-                                        gefangene Fischarten
-                                    </div>
-                                </td>
-                                <td class="text-end fw-bold" th:text="${entry.points}">0</td>
-                                <td class="text-end" th:text="${entry.caughtSpeciesPoints}">0</td>
-                                <td class="text-end" th:text="${entry.biggestFishPoints}">0</td>
-                                <td class="text-end" th:text="${entry.mostFishPoints}">0</td>
-                                <td class="text-end" th:text="${entry.diversityPoints}">0</td>
-                                <td class="text-end" th:if="${showTieBreaker}">
-                                    <span th:if="${entry.tieBreakerRelevant}">
-                                        <span th:text="${entry.tieBreakerLength}">0</span> cm
-                                    </span>
-                                    <span th:unless="${entry.tieBreakerRelevant}" class="text-muted">–</span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <div class="d-none d-md-block">
+                        <div class="table-responsive">
+                            <table class="table align-middle">
+                                <thead>
+                                <tr>
+                                    <th>Platz</th>
+                                    <th>Angler</th>
+                                    <th class="text-end">Punkte</th>
+                                    <th class="text-end">Fischarten</th>
+                                    <th class="text-end">Größte Fische</th>
+                                    <th class="text-end">Meiste Fische</th>
+                                    <th class="text-end">Artenbonus</th>
+                                    <th class="text-end" th:if="${showTieBreaker}">Tiebreaker</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="entry : ${leaderboard}">
+                                    <td th:text="${entry.rank}">1</td>
+                                    <td>
+                                        <strong th:text="${entry.username}">Benutzer</strong>
+                                    </td>
+                                    <td class="text-end fw-bold" th:text="${entry.points}">0</td>
+                                    <td class="text-end" th:text="${entry.caughtSpeciesPoints}">0</td>
+                                    <td class="text-end" th:text="${entry.biggestFishPoints}">0</td>
+                                    <td class="text-end" th:text="${entry.mostFishPoints}">0</td>
+                                    <td class="text-end" th:text="${entry.diversityPoints}">0</td>
+                                    <td class="text-end" th:if="${showTieBreaker}">
+                            <span th:if="${entry.tieBreakerRelevant}">
+                                <span th:text="${entry.tieBreakerLength}">0</span> cm
+                            </span>
+                                        <span th:unless="${entry.tieBreakerRelevant}" class="text-muted">–</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
-                    <p class="text-muted small mb-0" th:if="${showTieBreaker}">
+                    <div class="d-md-none">
+                        <div class="mobile-rank-card card app-card" th:each="entry : ${leaderboard}">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start gap-2 mb-3">
+                                    <div>
+                                        <div class="small text-muted">Platz</div>
+                                        <div class="h5 mb-0">
+                                            <span th:text="${entry.rank}">1</span>.
+                                            <span th:text="${entry.username}">Benutzer</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-end">
+                                        <div class="small text-muted">Punkte</div>
+                                        <div class="h4 mb-0" th:text="${entry.points}">0</div>
+                                    </div>
+                                </div>
+
+                                <div class="stat-grid">
+                                    <div class="stat-box">
+                                        <span class="stat-box-label">Fischarten</span>
+                                        <span class="stat-box-value" th:text="${entry.caughtSpeciesPoints}">0</span>
+                                    </div>
+
+                                    <div class="stat-box">
+                                        <span class="stat-box-label">Größte Fische</span>
+                                        <span class="stat-box-value" th:text="${entry.biggestFishPoints}">0</span>
+                                    </div>
+
+                                    <div class="stat-box">
+                                        <span class="stat-box-label">Meiste Fische</span>
+                                        <span class="stat-box-value" th:text="${entry.mostFishPoints}">0</span>
+                                    </div>
+
+                                    <div class="stat-box">
+                                        <span class="stat-box-label">Artenbonus</span>
+                                        <span class="stat-box-value" th:text="${entry.diversityPoints}">0</span>
+                                    </div>
+
+                                    <div class="stat-box" th:if="${showTieBreaker}">
+                                        <span class="stat-box-label">Tiebreaker</span>
+                                        <span class="stat-box-value" th:if="${entry.tieBreakerRelevant}">
+                                <span th:text="${entry.tieBreakerLength}">0</span> cm
+                            </span>
+                                        <span class="stat-box-value text-muted" th:unless="${entry.tieBreakerRelevant}">–</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-muted small mt-3 mb-0" th:if="${showTieBreaker}">
                         Bei Punktegleichstand entscheidet die Tiebreaker-Länge. Dafür zählen nur Fischarten,
                         die alle gleichauf liegenden Spieler gefangen haben.
                     </p>
@@ -98,73 +147,64 @@
                     </p>
 
                     <div th:unless="${#lists.isEmpty(catchGroups)}">
-                        <div class="border rounded p-3 mb-3" th:each="speciesGroup : ${catchGroups}">
-                            <h3 class="h6 mb-3" th:text="${speciesGroup.fishSpeciesName}">
-                                Fischart
-                            </h3>
+                        <div class="catch-species-card mb-3" th:each="speciesGroup : ${catchGroups}">
+                            <div class="d-flex justify-content-between align-items-center gap-2 mb-3">
+                                <h3 class="h6 mb-0" th:text="${speciesGroup.fishSpeciesName}">
+                                    Fischart
+                                </h3>
+                            </div>
 
-                            <div class="table-responsive">
-                                <table class="table table-sm align-middle mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th>Angler</th>
-                                        <th class="text-end">Bester Fang</th>
-                                        <th class="text-end">Anzahl Fänge</th>
-                                        <th>Alle Fänge</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="userGroup : ${speciesGroup.userGroups}">
-                                        <td>
-                                            <strong th:text="${userGroup.username}">Benutzer</strong>
-                                        </td>
+                            <div class="catch-user-row" th:each="userGroup : ${speciesGroup.userGroups}">
+                                <div class="d-flex justify-content-between align-items-start gap-3">
+                                    <div>
+                                        <strong th:text="${userGroup.username}">Benutzer</strong>
+                                        <div class="small text-muted">
+                                            <span th:text="${userGroup.catchCount}">1</span>
+                                            Fang/Fänge
+                                        </div>
+                                    </div>
 
-                                        <td class="text-end">
-                                            <span class="badge text-bg-success me-1">Bester</span>
+                                    <div class="text-end">
+                                        <div class="small text-muted">Bester Fang</div>
+                                        <strong>
+                                            <span th:text="${userGroup.bestEntry.lengthCm}">50.0</span> cm
+                                        </strong>
+                                        <div>
+                                <span th:if="${userGroup.overallBestForSpecies}"
+                                      class="badge text-bg-success mt-1">
+                                    größter dieser Art
+                                </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <details class="mt-2">
+                                    <summary class="small text-primary" style="cursor: pointer;">
+                                        Alle Fänge anzeigen
+                                    </summary>
+
+                                    <ul class="list-unstyled small mt-2 mb-0">
+                                        <li th:each="entry : ${userGroup.entries}">
+                                <span th:text="${#temporals.format(entry.caughtDate, 'dd.MM.yyyy')}">
+                                    01.01.2026
+                                </span>
+                                            –
                                             <strong>
-                                                <span th:text="${userGroup.bestEntry.lengthCm}">50.0</span> cm
+                                                <span th:text="${entry.lengthCm}">50.0</span> cm
                                             </strong>
-                                            <div class="small text-muted"
-                                                 th:text="${#temporals.format(userGroup.bestEntry.caughtDate, 'dd.MM.yyyy')}">
-                                                01.01.2026
-                                            </div>
-                                        </td>
-
-                                        <td class="text-end" th:text="${userGroup.catchCount}">
-                                            1
-                                        </td>
-
-                                        <td>
-                                            <details>
-                                                <summary class="small text-primary" style="cursor: pointer;">
-                                                    anzeigen
-                                                </summary>
-
-                                                <ul class="list-unstyled small mt-2 mb-0">
-                                                    <li th:each="entry : ${userGroup.entries}">
-                                            <span th:text="${#temporals.format(entry.caughtDate, 'dd.MM.yyyy')}">
-                                                01.01.2026
-                                            </span>
-                                                        –
-                                                        <strong>
-                                                            <span th:text="${entry.lengthCm}">50.0</span> cm
-                                                        </strong>
-                                                        <span th:if="${entry.id == userGroup.bestEntry.id}"
-                                                              class="badge text-bg-success ms-1">
-                                                bester Fang
-                                            </span>
-                                                    </li>
-                                                </ul>
-                                            </details>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                                            <span th:if="${userGroup.overallBestForSpecies && entry.id == userGroup.bestEntry.id}"
+                                                  class="badge text-bg-success ms-1">
+                                    größter dieser Art
+                                </span>
+                                        </li>
+                                    </ul>
+                                </details>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
         <div class="col-lg-4">
