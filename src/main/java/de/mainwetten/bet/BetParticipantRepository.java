@@ -19,4 +19,6 @@ public interface BetParticipantRepository extends JpaRepository<BetParticipant, 
     );
 
     List<BetParticipant> findByBetIdOrderByUserUsernameAsc(Long betId);
+
+    Optional<BetParticipant> findByBetIdAndUserId(Long betId, Long userId);
 }

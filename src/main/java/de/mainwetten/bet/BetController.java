@@ -21,19 +21,22 @@ public class BetController {
     private final CatchEntryRepository catchEntryRepository;
     private final ScoringService scoringService;
     private final CatchOverviewService catchOverviewService;
+    private final BetInvitationService betInvitationService;
 
     public BetController(
             BetService betService,
             BetParticipantRepository betParticipantRepository,
             CatchEntryRepository catchEntryRepository,
             ScoringService scoringService,
-            CatchOverviewService catchOverviewService
+            CatchOverviewService catchOverviewService,
+            BetInvitationService betInvitationService
     ) {
         this.betService = betService;
         this.betParticipantRepository = betParticipantRepository;
         this.catchEntryRepository = catchEntryRepository;
         this.scoringService = scoringService;
         this.catchOverviewService = catchOverviewService;
+        this.betInvitationService = betInvitationService;
     }
 
     @GetMapping("/new")
@@ -89,6 +92,7 @@ public class BetController {
         model.addAttribute("participants", betParticipantRepository.findByBetIdOrderByUserUsernameAsc(id));
         model.addAttribute("catchEntries", catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(id));
         model.addAttribute("catchGroups", catchOverviewService.getGroupedCatches(id));
+        model.addAttribute("inviteUserForm", new InviteUserForm());
 
         var leaderboard = scoringService.calculateLeaderboard(id, bet.getScoringMode());
 
@@ -99,5 +103,27 @@ public class BetController {
         );
 
         return "bets/detail";
+    }
+
+    @PostMapping("/{id}/participants")
+    public String inviteUser(
+            @PathVariable Long id,
+            @ModelAttribute InviteUserForm inviteUserForm,
+            Authentication authentication,
+            org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes
+    ) {
+        try {
+            betInvitationService.inviteUser(
+                    id,
+                    authentication.getName(),
+                    inviteUserForm.getUsername()
+            );
+
+            redirectAttributes.addFlashAttribute("inviteSuccess", "Benutzer wurde eingeladen.");
+        } catch (IllegalArgumentException exception) {
+            redirectAttributes.addFlashAttribute("inviteError", exception.getMessage());
+        }
+
+        return "redirect:/bets/" + id;
     }
 }
