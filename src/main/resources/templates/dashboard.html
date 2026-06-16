@@ -33,101 +33,174 @@
         <a class="btn btn-primary" href="/bets/new">Neue Wette</a>
     </div>
 
-    <div class="card app-card mb-4" th:if="${!#lists.isEmpty(invitations)}">
-        <div class="card-body">
-            <h2 class="h5 mb-3">Einladungen</h2>
+    <section class="mb-4" th:if="${!#lists.isEmpty(invitations)}">
+        <h2 class="h5 mb-3">Einladungen</h2>
 
-            <div class="table-responsive">
-                <table class="table align-middle mb-0">
-                    <thead>
-                    <tr>
-                        <th>Wette</th>
-                        <th>Zeitraum</th>
-                        <th class="text-end">Aktion</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="invitation : ${invitations}">
-                        <td>
-                            <strong th:text="${invitation.bet.title}">Titel</strong>
-                            <div class="small text-muted" th:text="${invitation.bet.description}">
-                                Beschreibung
-                            </div>
-                        </td>
-                        <td>
+        <div class="row g-3">
+            <div class="col-12 col-md-6 col-xl-4" th:each="invitation : ${invitations}">
+                <div class="card app-card h-100">
+                    <div class="card-body">
+                        <h3 class="h6 mb-2" th:text="${invitation.bet.title}">Titel</h3>
+
+                        <p class="small text-muted mb-3"
+                           th:if="${invitation.bet.description != null && !invitation.bet.description.isBlank()}"
+                           th:text="${invitation.bet.description}">
+                            Beschreibung
+                        </p>
+
+                        <div class="small text-muted mb-3">
+                            <strong>Zeitraum:</strong>
                             <span th:text="${#temporals.format(invitation.bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
                             –
                             <span th:text="${#temporals.format(invitation.bet.endDate, 'dd.MM.yyyy')}">07.01.2026</span>
-                        </td>
-                        <td class="text-end">
-                            <div class="d-inline-flex gap-2">
-                                <form th:action="@{/invitations/{id}/accept(id=${invitation.id})}" method="post" class="mb-0">
-                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                                    <button class="btn btn-sm btn-success" type="submit">Annehmen</button>
-                                </form>
+                        </div>
 
-                                <form th:action="@{/invitations/{id}/decline(id=${invitation.id})}" method="post" class="mb-0">
-                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                                    <button class="btn btn-sm btn-outline-danger" type="submit">Ablehnen</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                        <div class="d-grid gap-2">
+                            <form th:action="@{/invitations/{id}/accept(id=${invitation.id})}" method="post" class="mb-0">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                <button class="btn btn-success w-100" type="submit">Annehmen</button>
+                            </form>
+
+                            <form th:action="@{/invitations/{id}/decline(id=${invitation.id})}"
+                                  method="post"
+                                  class="mb-0"
+                                  onsubmit="return confirm('Möchtest du diese Einladung wirklich ablehnen? Du nimmst dann nicht an dieser Wette teil.');">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                <button class="btn btn-outline-danger w-100" type="submit">Ablehnen</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="card app-card">
-        <div class="card-body">
-            <h2 class="h5 mb-3">Meine Wetten</h2>
+    <section class="mb-4">
+        <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+            <h2 class="h5 mb-0">Meine Wetten</h2>
+        </div>
 
-            <div th:if="${#lists.isEmpty(participations)}" class="text-muted">
-                Du bist noch in keiner Wette. Erstelle deine erste Angelwette.
+        <div th:if="${#lists.isEmpty(activeBets) && #lists.isEmpty(upcomingBets) && #lists.isEmpty(expiredBets)}"
+             class="card app-card">
+            <div class="card-body">
+                <p class="text-muted mb-3">
+                    Du bist noch in keiner Wette. Erstelle deine erste Angelwette.
+                </p>
+                <a class="btn btn-primary" href="/bets/new">Neue Wette erstellen</a>
             </div>
+        </div>
 
-            <div class="table-responsive" th:unless="${#lists.isEmpty(participations)}">
-                <table class="table align-middle">
-                    <thead>
-                    <tr>
-                        <th>Titel</th>
-                        <th>Zeitraum</th>
-                        <th>Bewertung</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="participation : ${participations}">
-                        <td>
-                            <a class="fw-bold text-decoration-none"
-                               th:href="@{/bets/{id}(id=${participation.bet.id})}"
-                               th:text="${participation.bet.title}">
-                                Titel
-                            </a>
-                            <div class="small text-muted" th:text="${participation.bet.description}">
+        <div class="mb-4" th:unless="${#lists.isEmpty(activeBets)}">
+            <h3 class="h6 text-muted mb-2">Aktive Wetten</h3>
+
+            <div class="row g-3">
+                <div class="col-12 col-md-6 col-xl-4" th:each="card : ${activeBets}">
+                    <a class="card app-card h-100 text-decoration-none text-reset"
+                       th:href="@{/bets/{id}(id=${card.bet.id})}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <h4 class="h6 mb-0" th:text="${card.bet.title}">Titel</h4>
+                                <span class="badge text-bg-success" th:text="${card.statusLabel}">Aktiv</span>
+                            </div>
+
+                            <p class="small text-muted mb-3"
+                               th:if="${card.bet.description != null && !card.bet.description.isBlank()}"
+                               th:text="${card.bet.description}">
                                 Beschreibung
+                            </p>
+
+                            <div class="small text-muted">
+                                <div>
+                                    <strong>Zeitraum:</strong>
+                                    <span th:text="${#temporals.format(card.bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
+                                    –
+                                    <span th:text="${#temporals.format(card.bet.endDate, 'dd.MM.yyyy')}">07.01.2026</span>
+                                </div>
+                                <div>
+                                    <strong>Modus:</strong>
+                                    <span th:text="${card.bet.scoringMode.displayName}">Bewertungsmodus</span>
+                                </div>
                             </div>
-                        </td>
-                        <td>
-                            <span th:text="${#temporals.format(participation.bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
-                            –
-                            <span th:text="${#temporals.format(participation.bet.endDate, 'dd.MM.yyyy')}">07.01.2026</span>
-                        </td>
-                        <td th:text="${participation.bet.scoringMode.displayName}">
-                            Bewertungsmodus
-                        </td>
-                        <td>
-                            <span class="badge text-bg-success" th:text="${participation.status}">
-                                ACCEPTED
-                            </span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
+
+        <div class="mb-4" th:unless="${#lists.isEmpty(upcomingBets)}">
+            <h3 class="h6 text-muted mb-2">Kommende Wetten</h3>
+
+            <div class="row g-3">
+                <div class="col-12 col-md-6 col-xl-4" th:each="card : ${upcomingBets}">
+                    <a class="card app-card h-100 text-decoration-none text-reset"
+                       th:href="@{/bets/{id}(id=${card.bet.id})}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <h4 class="h6 mb-0" th:text="${card.bet.title}">Titel</h4>
+                                <span class="badge text-bg-warning" th:text="${card.statusLabel}">Kommend</span>
+                            </div>
+
+                            <p class="small text-muted mb-3"
+                               th:if="${card.bet.description != null && !card.bet.description.isBlank()}"
+                               th:text="${card.bet.description}">
+                                Beschreibung
+                            </p>
+
+                            <div class="small text-muted">
+                                <div>
+                                    <strong>Zeitraum:</strong>
+                                    <span th:text="${#temporals.format(card.bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
+                                    –
+                                    <span th:text="${#temporals.format(card.bet.endDate, 'dd.MM.yyyy')}">07.01.2026</span>
+                                </div>
+                                <div>
+                                    <strong>Modus:</strong>
+                                    <span th:text="${card.bet.scoringMode.displayName}">Bewertungsmodus</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div th:unless="${#lists.isEmpty(expiredBets)}">
+            <h3 class="h6 text-muted mb-2">Abgelaufene Wetten</h3>
+
+            <div class="row g-3">
+                <div class="col-12 col-md-6 col-xl-4" th:each="card : ${expiredBets}">
+                    <a class="card app-card h-100 text-decoration-none text-reset"
+                       th:href="@{/bets/{id}(id=${card.bet.id})}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                <h4 class="h6 mb-0" th:text="${card.bet.title}">Titel</h4>
+                                <span class="badge text-bg-secondary" th:text="${card.statusLabel}">Abgelaufen</span>
+                            </div>
+
+                            <p class="small text-muted mb-3"
+                               th:if="${card.bet.description != null && !card.bet.description.isBlank()}"
+                               th:text="${card.bet.description}">
+                                Beschreibung
+                            </p>
+
+                            <div class="small text-muted">
+                                <div>
+                                    <strong>Zeitraum:</strong>
+                                    <span th:text="${#temporals.format(card.bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
+                                    –
+                                    <span th:text="${#temporals.format(card.bet.endDate, 'dd.MM.yyyy')}">07.01.2026</span>
+                                </div>
+                                <div>
+                                    <strong>Modus:</strong>
+                                    <span th:text="${card.bet.scoringMode.displayName}">Bewertungsmodus</span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 </body>
 </html>

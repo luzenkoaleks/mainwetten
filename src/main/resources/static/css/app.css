@@ -173,3 +173,14 @@ a:hover {
         padding: 1rem;
     }
 }
+.app-card[href],
+a.app-card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.app-card[href]:hover,
+a.app-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(47, 111, 62, 0.35);
+    box-shadow: 0 0.75rem 1.75rem rgba(31, 42, 31, 0.09);
+}
