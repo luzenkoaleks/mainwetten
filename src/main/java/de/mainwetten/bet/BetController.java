@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import de.mainwetten.catchentry.CatchEntryRepository;
 import de.mainwetten.scoring.ScoringService;
 import de.mainwetten.catchentry.CatchOverviewService;
+import de.mainwetten.catchentry.CatchEntryWindowService;
 
 @Controller
 @RequestMapping("/bets")
@@ -22,6 +23,7 @@ public class BetController {
     private final ScoringService scoringService;
     private final CatchOverviewService catchOverviewService;
     private final BetInvitationService betInvitationService;
+    private final CatchEntryWindowService catchEntryWindowService;
 
     public BetController(
             BetService betService,
@@ -29,7 +31,8 @@ public class BetController {
             CatchEntryRepository catchEntryRepository,
             ScoringService scoringService,
             CatchOverviewService catchOverviewService,
-            BetInvitationService betInvitationService
+            BetInvitationService betInvitationService,
+            CatchEntryWindowService catchEntryWindowService
     ) {
         this.betService = betService;
         this.betParticipantRepository = betParticipantRepository;
@@ -37,6 +40,7 @@ public class BetController {
         this.scoringService = scoringService;
         this.catchOverviewService = catchOverviewService;
         this.betInvitationService = betInvitationService;
+        this.catchEntryWindowService = catchEntryWindowService;
     }
 
     @GetMapping("/new")
@@ -93,6 +97,8 @@ public class BetController {
         model.addAttribute("catchEntries", catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(id));
         model.addAttribute("catchGroups", catchOverviewService.getGroupedCatches(id));
         model.addAttribute("inviteUserForm", new InviteUserForm());
+        model.addAttribute("catchEntryAllowed", catchEntryWindowService.canEnterCatch(bet));
+        model.addAttribute("catchEntryNotice", catchEntryWindowService.getCatchEntryNotice(bet));
 
         var leaderboard = scoringService.calculateLeaderboard(id, bet.getScoringMode());
 

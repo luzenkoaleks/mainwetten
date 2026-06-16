@@ -18,7 +18,27 @@
             </p>
         </div>
 
-        <a class="btn btn-primary" th:href="@{/bets/{id}/catches/new(id=${bet.id})}">Fang eintragen</a>
+        <div class="text-end">
+            <a class="btn btn-primary"
+               th:if="${catchEntryAllowed}"
+               th:href="@{/bets/{id}/catches/new(id=${bet.id})}">
+                Fang eintragen
+            </a>
+
+            <button class="btn btn-outline-secondary"
+                    th:unless="${catchEntryAllowed}"
+                    type="button"
+                    disabled>
+                Fang eintragen
+            </button>
+
+            <div class="small text-muted mt-2"
+                 th:if="${catchEntryNotice != null && !catchEntryNotice.isBlank()}"
+                 th:text="${catchEntryNotice}">
+                Hinweis zur Fang-Eintragung
+            </div>
+        </div>
+
     </div>
 
     <div class="row g-4">

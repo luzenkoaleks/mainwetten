@@ -21,15 +21,18 @@ public class CatchEntryController {
     private final CatchEntryService catchEntryService;
     private final BetParticipantRepository betParticipantRepository;
     private final FishSpeciesRepository fishSpeciesRepository;
+    private final CatchEntryWindowService catchEntryWindowService;
 
     public CatchEntryController(
             CatchEntryService catchEntryService,
             BetParticipantRepository betParticipantRepository,
-            FishSpeciesRepository fishSpeciesRepository
+            FishSpeciesRepository fishSpeciesRepository,
+            CatchEntryWindowService catchEntryWindowService
     ) {
         this.catchEntryService = catchEntryService;
         this.betParticipantRepository = betParticipantRepository;
         this.fishSpeciesRepository = fishSpeciesRepository;
+        this.catchEntryWindowService = catchEntryWindowService;
     }
 
     @GetMapping("/new")
@@ -39,6 +42,10 @@ public class CatchEntryController {
             Model model
     ) {
         BetParticipant participation = getCurrentUserParticipationOr404(betId, authentication.getName());
+
+        if (!catchEntryWindowService.canEnterCatch(participation.getBet())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, catchEntryWindowService.getCatchEntryNotice(participation.getBet()));
+        }
 
         model.addAttribute("bet", participation.getBet());
         model.addAttribute("catchForm", new CatchForm());
@@ -58,6 +65,9 @@ public class CatchEntryController {
         BetParticipant participation = getCurrentUserParticipationOr404(betId, authentication.getName());
         Bet bet = participation.getBet();
 
+        if (!catchEntryWindowService.canEnterCatch(bet)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, catchEntryWindowService.getCatchEntryNotice(bet));
+        }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("bet", bet);
