@@ -27,12 +27,6 @@
                 Dashboard
             </a>
 
-            <a class="btn btn-sm btn-outline-primary"
-               href="/bets/new"
-               th:classappend="${activePage == 'new-bet'} ? ' active' : ''">
-                Neue Wette
-            </a>
-
             <form th:action="@{/logout}" method="post" class="mb-0">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                 <button class="btn btn-sm btn-outline-danger" type="submit">Logout</button>

@@ -55,9 +55,11 @@ public class CatchEntryController {
             );
         }
 
-        model.addAttribute("bet", participation.getBet());
+        Bet bet = participation.getBet();
+
+        model.addAttribute("bet", bet);
         model.addAttribute("catchForm", new CatchForm());
-        model.addAttribute("fishSpecies", getAllowedFishSpecies(participation.getBet()));
+        addFishSpeciesAttributes(model, bet);
 
         return "catches/new";
     }
@@ -84,7 +86,7 @@ public class CatchEntryController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("bet", bet);
-            model.addAttribute("fishSpecies", getAllowedFishSpecies(bet));
+            addFishSpeciesAttributes(model, bet);
             return "catches/new";
         }
 
@@ -102,12 +104,20 @@ public class CatchEntryController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    private List<FishSpecies> getAllowedFishSpecies(Bet bet) {
-        if (bet.getFishCategory() == FishCategory.ALL) {
-            return fishSpeciesRepository.findByActiveTrueOrderByCategoryAscNameAsc();
+    private void addFishSpeciesAttributes(Model model, Bet bet) {
+        List<FishSpecies> freshwaterFishSpecies = List.of();
+        List<FishSpecies> saltwaterFishSpecies = List.of();
+
+        if (bet.getFishCategory() == FishCategory.ALL || bet.getFishCategory() == FishCategory.FRESHWATER) {
+            freshwaterFishSpecies = fishSpeciesRepository.findByCategoryAndActiveTrueOrderByNameAsc(FishCategory.FRESHWATER);
         }
 
-        return fishSpeciesRepository.findByCategoryAndActiveTrueOrderByNameAsc(bet.getFishCategory());
+        if (bet.getFishCategory() == FishCategory.ALL || bet.getFishCategory() == FishCategory.SALTWATER) {
+            saltwaterFishSpecies = fishSpeciesRepository.findByCategoryAndActiveTrueOrderByNameAsc(FishCategory.SALTWATER);
+        }
+
+        model.addAttribute("freshwaterFishSpecies", freshwaterFishSpecies);
+        model.addAttribute("saltwaterFishSpecies", saltwaterFishSpecies);
     }
 
     private void validateFishSpeciesForBet(CatchForm form, Bet bet, BindingResult bindingResult) {

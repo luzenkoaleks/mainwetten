@@ -23,11 +23,24 @@
                     <label for="fishSpeciesId" class="form-label">Fischart</label>
                     <select id="fishSpeciesId" class="form-select" th:field="*{fishSpeciesId}">
                         <option value="">Bitte auswählen</option>
-                        <option th:each="fish : ${fishSpecies}"
-                                th:value="${fish.id}"
-                                th:text="${fish.name}">
-                            Fischart
-                        </option>
+
+                        <optgroup label="Süßwasser"
+                                  th:if="${!#lists.isEmpty(freshwaterFishSpecies)}">
+                            <option th:each="fish : ${freshwaterFishSpecies}"
+                                    th:value="${fish.id}"
+                                    th:text="${fish.name}">
+                                Fischart
+                            </option>
+                        </optgroup>
+
+                        <optgroup label="Salzwasser"
+                                  th:if="${!#lists.isEmpty(saltwaterFishSpecies)}">
+                            <option th:each="fish : ${saltwaterFishSpecies}"
+                                    th:value="${fish.id}"
+                                    th:text="${fish.name}">
+                                Fischart
+                            </option>
+                        </optgroup>
                     </select>
                     <div class="text-danger small mt-1" th:if="${#fields.hasErrors('fishSpeciesId')}" th:errors="*{fishSpeciesId}"></div>
                 </div>
