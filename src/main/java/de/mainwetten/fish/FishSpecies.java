@@ -10,11 +10,12 @@ public class FishSpecies {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, unique = true, length = 80)
     private String name;
 
-    @Column(name = "base_points", nullable = false)
-    private Integer basePoints;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private FishCategory category;
 
     @Column(nullable = false)
     private Boolean active;
@@ -27,8 +28,8 @@ public class FishSpecies {
         return name;
     }
 
-    public Integer getBasePoints() {
-        return basePoints;
+    public FishCategory getCategory() {
+        return category;
     }
 
     public Boolean getActive() {

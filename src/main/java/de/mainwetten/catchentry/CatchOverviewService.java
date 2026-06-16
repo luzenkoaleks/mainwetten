@@ -13,50 +13,54 @@ import java.util.stream.Collectors;
 @Service
 public class CatchOverviewService {
 
-    private final CatchEntryRepository catchEntryRepository;
+    private final CatchAssignmentRepository catchAssignmentRepository;
 
-    public CatchOverviewService(CatchEntryRepository catchEntryRepository) {
-        this.catchEntryRepository = catchEntryRepository;
+    public CatchOverviewService(CatchAssignmentRepository catchAssignmentRepository) {
+        this.catchAssignmentRepository = catchAssignmentRepository;
     }
 
     @Transactional(readOnly = true)
     public List<CatchSpeciesGroup> getGroupedCatches(Long betId) {
-        List<CatchEntry> entries = catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(betId);
+        List<CatchRecord> records = catchAssignmentRepository
+                .findByBetIdWithDetailsOrderByCaughtAtDesc(betId)
+                .stream()
+                .map(CatchAssignment::getCatchRecord)
+                .toList();
 
-        Map<String, List<CatchEntry>> entriesBySpecies = entries.stream()
-                .collect(Collectors.groupingBy(entry -> entry.getFishSpecies().getName()));
+        Map<String, List<CatchRecord>> recordsBySpecies = records.stream()
+                .collect(Collectors.groupingBy(record -> record.getFishSpecies().getName()));
 
         List<CatchSpeciesGroup> speciesGroups = new ArrayList<>();
 
-        for (Map.Entry<String, List<CatchEntry>> speciesEntry : entriesBySpecies.entrySet()) {
+        for (Map.Entry<String, List<CatchRecord>> speciesEntry : recordsBySpecies.entrySet()) {
             BigDecimal overallBestLength = speciesEntry.getValue()
                     .stream()
-                    .map(CatchEntry::getLengthCm)
+                    .map(CatchRecord::getLengthCm)
                     .max(BigDecimal::compareTo)
                     .orElse(BigDecimal.ZERO);
 
-            Map<String, List<CatchEntry>> entriesByUser = speciesEntry.getValue()
+            Map<String, List<CatchRecord>> recordsByUser = speciesEntry.getValue()
                     .stream()
-                    .collect(Collectors.groupingBy(entry -> entry.getUser().getUsername()));
+                    .collect(Collectors.groupingBy(record -> record.getUser().getUsername()));
 
             List<CatchUserGroup> userGroups = new ArrayList<>();
 
-            for (Map.Entry<String, List<CatchEntry>> userEntry : entriesByUser.entrySet()) {
-                List<CatchEntry> userEntries = userEntry.getValue()
+            for (Map.Entry<String, List<CatchRecord>> userEntry : recordsByUser.entrySet()) {
+                List<CatchRecord> userRecords = userEntry.getValue()
                         .stream()
                         .sorted(
-                                Comparator.comparing(CatchEntry::getLengthCm, Comparator.reverseOrder())
-                                        .thenComparing(CatchEntry::getCaughtAt, Comparator.reverseOrder())
+                                Comparator.comparing(CatchRecord::getLengthCm, Comparator.reverseOrder())
+                                        .thenComparing(CatchRecord::getCaughtAt, Comparator.reverseOrder())
                         )
                         .toList();
 
-                CatchEntry bestEntry = userEntries.getFirst();
+                CatchRecord bestEntry = userRecords.getFirst();
                 boolean overallBestForSpecies = bestEntry.getLengthCm().compareTo(overallBestLength) == 0;
 
                 userGroups.add(new CatchUserGroup(
                         userEntry.getKey(),
                         bestEntry,
-                        userEntries,
+                        userRecords,
                         overallBestForSpecies
                 ));
             }

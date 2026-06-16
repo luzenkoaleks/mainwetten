@@ -33,6 +33,7 @@ public class BetService {
         bet.setStartDate(form.getStartDate());
         bet.setEndDate(form.getEndDate());
         bet.setScoringMode(form.getScoringMode());
+        bet.setFishCategory(form.getFishCategory());
         bet.setCreatedBy(creator);
 
         Bet savedBet = betRepository.save(bet);

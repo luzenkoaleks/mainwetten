@@ -4,8 +4,9 @@ import de.mainwetten.bet.BetParticipant;
 import de.mainwetten.bet.BetParticipantRepository;
 import de.mainwetten.bet.ParticipantStatus;
 import de.mainwetten.bet.ScoringMode;
-import de.mainwetten.catchentry.CatchEntry;
-import de.mainwetten.catchentry.CatchEntryRepository;
+import de.mainwetten.catchentry.CatchAssignment;
+import de.mainwetten.catchentry.CatchAssignmentRepository;
+import de.mainwetten.catchentry.CatchRecord;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,14 +18,14 @@ import java.util.stream.Collectors;
 public class ScoringService {
 
     private final BetParticipantRepository betParticipantRepository;
-    private final CatchEntryRepository catchEntryRepository;
+    private final CatchAssignmentRepository catchAssignmentRepository;
 
     public ScoringService(
             BetParticipantRepository betParticipantRepository,
-            CatchEntryRepository catchEntryRepository
+            CatchAssignmentRepository catchAssignmentRepository
     ) {
         this.betParticipantRepository = betParticipantRepository;
-        this.catchEntryRepository = catchEntryRepository;
+        this.catchAssignmentRepository = catchAssignmentRepository;
     }
 
     @Transactional(readOnly = true)
@@ -45,17 +46,18 @@ public class ScoringService {
             }
         }
 
-        List<CatchEntry> catchEntries = catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(betId)
+        List<CatchRecord> catchRecords = catchAssignmentRepository.findByBetIdWithDetailsOrderByCaughtAtDesc(betId)
                 .stream()
-                .filter(entry -> leaderboardByUserId.containsKey(entry.getUser().getId()))
+                .map(CatchAssignment::getCatchRecord)
+                .filter(record -> leaderboardByUserId.containsKey(record.getUser().getId()))
                 .toList();
 
         Map<Long, Set<Long>> speciesIdsByUserId = new HashMap<>();
         Map<Long, Map<Long, BigDecimal>> bestLengthByUserIdAndSpeciesId = new HashMap<>();
 
-        for (CatchEntry entry : catchEntries) {
-            Long userId = entry.getUser().getId();
-            Long speciesId = entry.getFishSpecies().getId();
+        for (CatchRecord record : catchRecords) {
+            Long userId = record.getUser().getId();
+            Long speciesId = record.getFishSpecies().getId();
 
             speciesIdsByUserId
                     .computeIfAbsent(userId, ignored -> new HashSet<>())
@@ -63,19 +65,19 @@ public class ScoringService {
 
             bestLengthByUserIdAndSpeciesId
                     .computeIfAbsent(userId, ignored -> new HashMap<>())
-                    .merge(speciesId, entry.getLengthCm(), ScoringService::max);
+                    .merge(speciesId, record.getLengthCm(), ScoringService::max);
         }
 
         awardCaughtSpeciesPoints(leaderboardByUserId, speciesIdsByUserId);
 
-        Map<Long, List<CatchEntry>> entriesBySpeciesId = catchEntries.stream()
-                .collect(Collectors.groupingBy(entry -> entry.getFishSpecies().getId()));
+        Map<Long, List<CatchRecord>> recordsBySpeciesId = catchRecords.stream()
+                .collect(Collectors.groupingBy(record -> record.getFishSpecies().getId()));
 
-        for (List<CatchEntry> speciesEntries : entriesBySpeciesId.values()) {
-            awardBiggestFishPoints(speciesEntries, leaderboardByUserId);
+        for (List<CatchRecord> speciesRecords : recordsBySpeciesId.values()) {
+            awardBiggestFishPoints(speciesRecords, leaderboardByUserId);
 
             if (scoringMode == ScoringMode.TOTAL_POINTS) {
-                awardMostFishPoints(speciesEntries, leaderboardByUserId);
+                awardMostFishPoints(speciesRecords, leaderboardByUserId);
             }
         }
 
@@ -111,17 +113,17 @@ public class ScoringService {
     }
 
     private void awardBiggestFishPoints(
-            List<CatchEntry> speciesEntries,
+            List<CatchRecord> speciesRecords,
             Map<Long, LeaderboardEntry> leaderboardByUserId
     ) {
-        BigDecimal maxLength = speciesEntries.stream()
-                .map(CatchEntry::getLengthCm)
+        BigDecimal maxLength = speciesRecords.stream()
+                .map(CatchRecord::getLengthCm)
                 .max(BigDecimal::compareTo)
                 .orElse(BigDecimal.ZERO);
 
-        Set<Long> usersWithMaxLength = speciesEntries.stream()
-                .filter(entry -> entry.getLengthCm().compareTo(maxLength) == 0)
-                .map(entry -> entry.getUser().getId())
+        Set<Long> usersWithMaxLength = speciesRecords.stream()
+                .filter(record -> record.getLengthCm().compareTo(maxLength) == 0)
+                .map(record -> record.getUser().getId())
                 .collect(Collectors.toSet());
 
         for (Long userId : usersWithMaxLength) {
@@ -130,12 +132,12 @@ public class ScoringService {
     }
 
     private void awardMostFishPoints(
-            List<CatchEntry> speciesEntries,
+            List<CatchRecord> speciesRecords,
             Map<Long, LeaderboardEntry> leaderboardByUserId
     ) {
-        Map<Long, Long> catchCountByUserId = speciesEntries.stream()
+        Map<Long, Long> catchCountByUserId = speciesRecords.stream()
                 .collect(Collectors.groupingBy(
-                        entry -> entry.getUser().getId(),
+                        record -> record.getUser().getId(),
                         Collectors.counting()
                 ));
 
@@ -220,16 +222,6 @@ public class ScoringService {
                 entry.setTieBreakerLength(sum);
             }
         }
-    }
-
-    private BigDecimal sumAllBestLengths(Map<Long, BigDecimal> bestLengthsBySpeciesId) {
-        BigDecimal sum = BigDecimal.ZERO;
-
-        for (BigDecimal length : bestLengthsBySpeciesId.values()) {
-            sum = sum.add(length);
-        }
-
-        return sum;
     }
 
     private void assignRanks(List<LeaderboardEntry> leaderboard) {

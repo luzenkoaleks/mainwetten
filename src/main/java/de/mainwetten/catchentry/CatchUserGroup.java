@@ -5,14 +5,14 @@ import java.util.List;
 public class CatchUserGroup {
 
     private final String username;
-    private final CatchEntry bestEntry;
-    private final List<CatchEntry> entries;
+    private final CatchRecord bestEntry;
+    private final List<CatchRecord> entries;
     private final boolean overallBestForSpecies;
 
     public CatchUserGroup(
             String username,
-            CatchEntry bestEntry,
-            List<CatchEntry> entries,
+            CatchRecord bestEntry,
+            List<CatchRecord> entries,
             boolean overallBestForSpecies
     ) {
         this.username = username;
@@ -25,11 +25,11 @@ public class CatchUserGroup {
         return username;
     }
 
-    public CatchEntry getBestEntry() {
+    public CatchRecord getBestEntry() {
         return bestEntry;
     }
 
-    public List<CatchEntry> getEntries() {
+    public List<CatchRecord> getEntries() {
         return entries;
     }
 

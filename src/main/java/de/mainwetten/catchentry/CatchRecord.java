@@ -1,6 +1,5 @@
 package de.mainwetten.catchentry;
 
-import de.mainwetten.bet.Bet;
 import de.mainwetten.fish.FishSpecies;
 import de.mainwetten.user.AppUser;
 import jakarta.persistence.*;
@@ -10,16 +9,12 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "catch_entry")
-public class CatchEntry {
+@Table(name = "catch_record")
+public class CatchRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "bet_id", nullable = false)
-    private Bet bet;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -47,14 +42,6 @@ public class CatchEntry {
 
     public Long getId() {
         return id;
-    }
-
-    public Bet getBet() {
-        return bet;
-    }
-
-    public void setBet(Bet bet) {
-        this.bet = bet;
     }
 
     public AppUser getUser() {

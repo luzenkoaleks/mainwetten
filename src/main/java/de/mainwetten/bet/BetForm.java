@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
+import de.mainwetten.fish.FishCategory;
+
 public class BetForm {
 
     @NotBlank(message = "Der Titel darf nicht leer sein.")
@@ -27,10 +29,14 @@ public class BetForm {
     @NotNull(message = "Bitte wähle einen Bewertungsmodus aus.")
     private ScoringMode scoringMode;
 
+    @NotNull(message = "Bitte wähle aus, welche Fischarten in der Wette zählen sollen.")
+    private FishCategory fishCategory;
+
     public BetForm() {
         this.startDate = LocalDate.now();
         this.endDate = LocalDate.now().plusWeeks(1);
         this.scoringMode = ScoringMode.TOTAL_POINTS;
+        this.fishCategory = FishCategory.ALL;
     }
 
     public String getTitle() {
@@ -71,5 +77,13 @@ public class BetForm {
 
     public void setScoringMode(ScoringMode scoringMode) {
         this.scoringMode = scoringMode;
+    }
+
+    public FishCategory getFishCategory() {
+        return fishCategory;
+    }
+
+    public void setFishCategory(FishCategory fishCategory) {
+        this.fishCategory = fishCategory;
     }
 }

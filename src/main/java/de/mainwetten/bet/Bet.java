@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 
+import de.mainwetten.fish.FishCategory;
+
 @Entity
 @Table(name = "bet")
 public class Bet {
@@ -29,6 +31,10 @@ public class Bet {
     @Enumerated(EnumType.STRING)
     @Column(name = "scoring_mode", nullable = false, length = 30)
     private ScoringMode scoringMode;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "fish_category", nullable = false, length = 30)
+    private FishCategory fishCategory;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "created_by_id", nullable = false)
@@ -86,6 +92,14 @@ public class Bet {
 
     public void setScoringMode(ScoringMode scoringMode) {
         this.scoringMode = scoringMode;
+    }
+
+    public FishCategory getFishCategory() {
+        return fishCategory;
+    }
+
+    public void setFishCategory(FishCategory fishCategory) {
+        this.fishCategory = fishCategory;
     }
 
     public AppUser getCreatedBy() {

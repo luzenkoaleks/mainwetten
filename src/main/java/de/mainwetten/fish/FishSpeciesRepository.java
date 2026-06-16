@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface FishSpeciesRepository extends JpaRepository<FishSpecies, Long> {
 
-    List<FishSpecies> findByActiveTrueOrderByNameAsc();
+    List<FishSpecies> findByActiveTrueOrderByCategoryAscNameAsc();
+
+    List<FishSpecies> findByCategoryAndActiveTrueOrderByNameAsc(FishCategory category);
 }

@@ -4,31 +4,36 @@ import de.mainwetten.bet.Bet;
 import de.mainwetten.bet.BetParticipant;
 import de.mainwetten.bet.BetParticipantRepository;
 import de.mainwetten.bet.ParticipantStatus;
+import de.mainwetten.fish.FishCategory;
 import de.mainwetten.fish.FishSpecies;
 import de.mainwetten.fish.FishSpeciesRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.OffsetDateTime;
 
 @Service
 public class CatchEntryService {
 
-    private final CatchEntryRepository catchEntryRepository;
+    private final CatchRecordRepository catchRecordRepository;
+    private final CatchAssignmentRepository catchAssignmentRepository;
     private final BetParticipantRepository betParticipantRepository;
     private final FishSpeciesRepository fishSpeciesRepository;
 
     public CatchEntryService(
-            CatchEntryRepository catchEntryRepository,
+            CatchRecordRepository catchRecordRepository,
+            CatchAssignmentRepository catchAssignmentRepository,
             BetParticipantRepository betParticipantRepository,
             FishSpeciesRepository fishSpeciesRepository
     ) {
-        this.catchEntryRepository = catchEntryRepository;
+        this.catchRecordRepository = catchRecordRepository;
+        this.catchAssignmentRepository = catchAssignmentRepository;
         this.betParticipantRepository = betParticipantRepository;
         this.fishSpeciesRepository = fishSpeciesRepository;
     }
 
     @Transactional
-    public CatchEntry createCatchEntry(Long betId, String username, CatchForm form) {
+    public CatchRecord createCatchEntry(Long betId, String username, CatchForm form) {
         BetParticipant participation = betParticipantRepository
                 .findByBetIdAndUserUsernameAndStatus(
                         betId,
@@ -42,13 +47,29 @@ public class CatchEntryService {
 
         Bet bet = participation.getBet();
 
-        CatchEntry catchEntry = new CatchEntry();
-        catchEntry.setBet(bet);
-        catchEntry.setUser(participation.getUser());
-        catchEntry.setFishSpecies(fishSpecies);
-        catchEntry.setLengthCm(form.getLengthCm());
-        catchEntry.setCaughtAt(java.time.OffsetDateTime.now());
+        if (!isFishAllowedForBet(bet, fishSpecies)) {
+            throw new IllegalArgumentException("Diese Fischart ist für die ausgewählte Wette nicht erlaubt.");
+        }
 
-        return catchEntryRepository.save(catchEntry);
+        CatchRecord catchRecord = new CatchRecord();
+        catchRecord.setUser(participation.getUser());
+        catchRecord.setFishSpecies(fishSpecies);
+        catchRecord.setLengthCm(form.getLengthCm());
+        catchRecord.setCaughtAt(OffsetDateTime.now());
+
+        CatchRecord savedCatchRecord = catchRecordRepository.save(catchRecord);
+
+        CatchAssignment catchAssignment = new CatchAssignment();
+        catchAssignment.setCatchRecord(savedCatchRecord);
+        catchAssignment.setBet(bet);
+
+        catchAssignmentRepository.save(catchAssignment);
+
+        return savedCatchRecord;
+    }
+
+    private boolean isFishAllowedForBet(Bet bet, FishSpecies fishSpecies) {
+        return bet.getFishCategory() == FishCategory.ALL
+                || bet.getFishCategory() == fishSpecies.getCategory();
     }
 }

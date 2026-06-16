@@ -1,5 +1,10 @@
 package de.mainwetten.bet;
 
+import de.mainwetten.catchentry.CatchEntryWindowService;
+import de.mainwetten.catchentry.CatchOverviewService;
+import de.mainwetten.fish.FishCategory;
+import de.mainwetten.scoring.LeaderboardEntry;
+import de.mainwetten.scoring.ScoringService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -8,10 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import de.mainwetten.catchentry.CatchEntryRepository;
-import de.mainwetten.scoring.ScoringService;
-import de.mainwetten.catchentry.CatchOverviewService;
-import de.mainwetten.catchentry.CatchEntryWindowService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/bets")
@@ -19,7 +23,6 @@ public class BetController {
 
     private final BetService betService;
     private final BetParticipantRepository betParticipantRepository;
-    private final CatchEntryRepository catchEntryRepository;
     private final ScoringService scoringService;
     private final CatchOverviewService catchOverviewService;
     private final BetInvitationService betInvitationService;
@@ -28,7 +31,6 @@ public class BetController {
     public BetController(
             BetService betService,
             BetParticipantRepository betParticipantRepository,
-            CatchEntryRepository catchEntryRepository,
             ScoringService scoringService,
             CatchOverviewService catchOverviewService,
             BetInvitationService betInvitationService,
@@ -36,7 +38,6 @@ public class BetController {
     ) {
         this.betService = betService;
         this.betParticipantRepository = betParticipantRepository;
-        this.catchEntryRepository = catchEntryRepository;
         this.scoringService = scoringService;
         this.catchOverviewService = catchOverviewService;
         this.betInvitationService = betInvitationService;
@@ -47,6 +48,7 @@ public class BetController {
     public String showCreateForm(Model model) {
         model.addAttribute("betForm", new BetForm());
         model.addAttribute("scoringModes", ScoringMode.values());
+        model.addAttribute("fishCategories", FishCategory.values());
         return "bets/new";
     }
 
@@ -69,6 +71,7 @@ public class BetController {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("scoringModes", ScoringMode.values());
+            model.addAttribute("fishCategories", FishCategory.values());
             return "bets/new";
         }
 
@@ -92,20 +95,18 @@ public class BetController {
 
         Bet bet = currentUserParticipation.getBet();
 
+        List<LeaderboardEntry> leaderboard = scoringService.calculateLeaderboard(id, bet.getScoringMode());
+
         model.addAttribute("bet", bet);
-        model.addAttribute("participants", betParticipantRepository.findByBetIdOrderByUserUsernameAsc(id));
-        model.addAttribute("catchEntries", catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(id));
-        model.addAttribute("catchGroups", catchOverviewService.getGroupedCatches(id));
-        model.addAttribute("inviteUserForm", new InviteUserForm());
         model.addAttribute("catchEntryAllowed", catchEntryWindowService.canEnterCatch(bet));
         model.addAttribute("catchEntryNotice", catchEntryWindowService.getCatchEntryNotice(bet));
-
-        var leaderboard = scoringService.calculateLeaderboard(id, bet.getScoringMode());
-
+        model.addAttribute("participants", betParticipantRepository.findByBetIdOrderByUserUsernameAsc(id));
+        model.addAttribute("catchGroups", catchOverviewService.getGroupedCatches(id));
+        model.addAttribute("inviteUserForm", new InviteUserForm());
         model.addAttribute("leaderboard", leaderboard);
         model.addAttribute(
                 "showTieBreaker",
-                leaderboard.stream().anyMatch(entry -> entry.isTieBreakerRelevant())
+                leaderboard.stream().anyMatch(LeaderboardEntry::isTieBreakerRelevant)
         );
 
         return "bets/detail";
@@ -116,7 +117,7 @@ public class BetController {
             @PathVariable Long id,
             @ModelAttribute InviteUserForm inviteUserForm,
             Authentication authentication,
-            org.springframework.web.servlet.mvc.support.RedirectAttributes redirectAttributes
+            RedirectAttributes redirectAttributes
     ) {
         try {
             betInvitationService.inviteUser(

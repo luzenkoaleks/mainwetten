@@ -52,6 +52,24 @@
                     <div class="text-danger small mt-1" th:if="${#fields.hasErrors('scoringMode')}" th:errors="*{scoringMode}"></div>
                 </div>
 
+                <div class="mb-4">
+                    <label for="fishCategory" class="form-label">Fischarten</label>
+                    <select id="fishCategory" class="form-select" th:field="*{fishCategory}">
+                        <option th:each="category : ${fishCategories}"
+                                th:value="${category}"
+                                th:text="${category.displayName}">
+                            Kategorie
+                        </option>
+                    </select>
+                    <div class="form-text">
+                        Lege fest, ob in dieser Wette alle Fischarten, nur Süßwasserfische oder nur Salzwasserfische zählen.
+                    </div>
+                    <div class="text-danger small mt-1"
+                         th:if="${#fields.hasErrors('fishCategory')}"
+                         th:errors="*{fishCategory}">
+                    </div>
+                </div>
+
                 <div class="alert alert-info small">
                     <strong>Grundregel:</strong>
                     Jeder Spieler erhält pro gefangener Fischart 1 Punkt, sobald er mindestens einen Fisch dieser Art gefangen hat.

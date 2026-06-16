@@ -5,8 +5,10 @@ import de.mainwetten.bet.BetParticipant;
 import de.mainwetten.bet.BetParticipantRepository;
 import de.mainwetten.bet.ParticipantStatus;
 import de.mainwetten.bet.ScoringMode;
-import de.mainwetten.catchentry.CatchEntry;
-import de.mainwetten.catchentry.CatchEntryRepository;
+import de.mainwetten.catchentry.CatchAssignment;
+import de.mainwetten.catchentry.CatchAssignmentRepository;
+import de.mainwetten.catchentry.CatchRecord;
+import de.mainwetten.fish.FishCategory;
 import de.mainwetten.fish.FishSpecies;
 import de.mainwetten.user.AppUser;
 import org.junit.jupiter.api.Test;
@@ -23,11 +25,11 @@ import static org.mockito.Mockito.when;
 class ScoringServiceTest {
 
     private final BetParticipantRepository betParticipantRepository = mock(BetParticipantRepository.class);
-    private final CatchEntryRepository catchEntryRepository = mock(CatchEntryRepository.class);
+    private final CatchAssignmentRepository catchAssignmentRepository = mock(CatchAssignmentRepository.class);
 
     private final ScoringService scoringService = new ScoringService(
             betParticipantRepository,
-            catchEntryRepository
+            catchAssignmentRepository
     );
 
     @Test
@@ -48,17 +50,17 @@ class ScoringServiceTest {
                         acceptedParticipant(bet, testuser)
                 ));
 
-        when(catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(1L))
+        when(catchAssignmentRepository.findByBetIdWithDetailsOrderByCaughtAtDesc(1L))
                 .thenReturn(List.of(
-                        catchEntry(hans, wels, "85.0"),
-                        catchEntry(hans, aal, "100.0"),
-                        catchEntry(hans, zander, "55.0"),
-                        catchEntry(hans, barsch, "47.0"),
+                        assignment(bet, catchRecord(hans, wels, "85.0")),
+                        assignment(bet, catchRecord(hans, aal, "100.0")),
+                        assignment(bet, catchRecord(hans, zander, "55.0")),
+                        assignment(bet, catchRecord(hans, barsch, "47.0")),
 
-                        catchEntry(testuser, aal, "50.0"),
-                        catchEntry(testuser, aal, "65.0"),
-                        catchEntry(testuser, zander, "65.0"),
-                        catchEntry(testuser, barsch, "46.0")
+                        assignment(bet, catchRecord(testuser, aal, "50.0")),
+                        assignment(bet, catchRecord(testuser, aal, "65.0")),
+                        assignment(bet, catchRecord(testuser, zander, "65.0")),
+                        assignment(bet, catchRecord(testuser, barsch, "46.0"))
                 ));
 
         List<LeaderboardEntry> leaderboard = scoringService.calculateLeaderboard(
@@ -102,17 +104,17 @@ class ScoringServiceTest {
                         acceptedParticipant(bet, testuser)
                 ));
 
-        when(catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(1L))
+        when(catchAssignmentRepository.findByBetIdWithDetailsOrderByCaughtAtDesc(1L))
                 .thenReturn(List.of(
-                        catchEntry(hans, wels, "85.0"),
-                        catchEntry(hans, aal, "100.0"),
-                        catchEntry(hans, zander, "55.0"),
-                        catchEntry(hans, barsch, "47.0"),
+                        assignment(bet, catchRecord(hans, wels, "85.0")),
+                        assignment(bet, catchRecord(hans, aal, "100.0")),
+                        assignment(bet, catchRecord(hans, zander, "55.0")),
+                        assignment(bet, catchRecord(hans, barsch, "47.0")),
 
-                        catchEntry(testuser, aal, "50.0"),
-                        catchEntry(testuser, aal, "65.0"),
-                        catchEntry(testuser, zander, "65.0"),
-                        catchEntry(testuser, barsch, "46.0")
+                        assignment(bet, catchRecord(testuser, aal, "50.0")),
+                        assignment(bet, catchRecord(testuser, aal, "65.0")),
+                        assignment(bet, catchRecord(testuser, zander, "65.0")),
+                        assignment(bet, catchRecord(testuser, barsch, "46.0"))
                 ));
 
         List<LeaderboardEntry> leaderboard = scoringService.calculateLeaderboard(
@@ -152,13 +154,13 @@ class ScoringServiceTest {
                         acceptedParticipant(bet, testuser)
                 ));
 
-        when(catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(1L))
+        when(catchAssignmentRepository.findByBetIdWithDetailsOrderByCaughtAtDesc(1L))
                 .thenReturn(List.of(
-                        catchEntry(hans, aal, "100.0"),
-                        catchEntry(hans, barsch, "50.0"),
+                        assignment(bet, catchRecord(hans, aal, "100.0")),
+                        assignment(bet, catchRecord(hans, barsch, "50.0")),
 
-                        catchEntry(testuser, aal, "90.0"),
-                        catchEntry(testuser, barsch, "60.0")
+                        assignment(bet, catchRecord(testuser, aal, "90.0")),
+                        assignment(bet, catchRecord(testuser, barsch, "60.0"))
                 ));
 
         List<LeaderboardEntry> leaderboard = scoringService.calculateLeaderboard(
@@ -194,15 +196,15 @@ class ScoringServiceTest {
                         acceptedParticipant(bet, testuser)
                 ));
 
-        when(catchEntryRepository.findByBetIdOrderByCaughtAtDescCreatedAtDesc(1L))
+        when(catchAssignmentRepository.findByBetIdWithDetailsOrderByCaughtAtDesc(1L))
                 .thenReturn(List.of(
-                        catchEntry(hans, aal, "100.0"),
-                        catchEntry(hans, barsch, "50.0"),
-                        catchEntry(hans, wels, "80.0"),
+                        assignment(bet, catchRecord(hans, aal, "100.0")),
+                        assignment(bet, catchRecord(hans, barsch, "50.0")),
+                        assignment(bet, catchRecord(hans, wels, "80.0")),
 
-                        catchEntry(testuser, aal, "90.0"),
-                        catchEntry(testuser, barsch, "60.0"),
-                        catchEntry(testuser, hecht, "70.0")
+                        assignment(bet, catchRecord(testuser, aal, "90.0")),
+                        assignment(bet, catchRecord(testuser, barsch, "60.0")),
+                        assignment(bet, catchRecord(testuser, hecht, "70.0"))
                 ));
 
         List<LeaderboardEntry> leaderboard = scoringService.calculateLeaderboard(
@@ -236,7 +238,7 @@ class ScoringServiceTest {
         FishSpecies fishSpecies = new FishSpecies();
         ReflectionTestUtils.setField(fishSpecies, "id", id);
         ReflectionTestUtils.setField(fishSpecies, "name", name);
-        ReflectionTestUtils.setField(fishSpecies, "basePoints", 0);
+        ReflectionTestUtils.setField(fishSpecies, "category", FishCategory.FRESHWATER);
         ReflectionTestUtils.setField(fishSpecies, "active", true);
         return fishSpecies;
     }
@@ -249,13 +251,20 @@ class ScoringServiceTest {
         return participant;
     }
 
-    private static CatchEntry catchEntry(AppUser user, FishSpecies fishSpecies, String lengthCm) {
-        CatchEntry catchEntry = new CatchEntry();
-        catchEntry.setUser(user);
-        catchEntry.setFishSpecies(fishSpecies);
-        catchEntry.setLengthCm(new BigDecimal(lengthCm));
-        catchEntry.setCaughtAt(OffsetDateTime.now());
-        return catchEntry;
+    private static CatchRecord catchRecord(AppUser user, FishSpecies fishSpecies, String lengthCm) {
+        CatchRecord catchRecord = new CatchRecord();
+        catchRecord.setUser(user);
+        catchRecord.setFishSpecies(fishSpecies);
+        catchRecord.setLengthCm(new BigDecimal(lengthCm));
+        catchRecord.setCaughtAt(OffsetDateTime.now());
+        return catchRecord;
+    }
+
+    private static CatchAssignment assignment(Bet bet, CatchRecord catchRecord) {
+        CatchAssignment assignment = new CatchAssignment();
+        assignment.setBet(bet);
+        assignment.setCatchRecord(catchRecord);
+        return assignment;
     }
 
     private static LeaderboardEntry entryFor(List<LeaderboardEntry> leaderboard, String username) {

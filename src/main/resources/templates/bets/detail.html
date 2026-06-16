@@ -232,8 +232,14 @@
                 <div class="card-body">
                     <h2 class="h5">Bewertung</h2>
 
-                    <p class="mb-0" th:text="${bet.scoringMode.displayName}">
-                        Bewertungsmodus
+                    <p class="mb-2">
+                        <strong>Modus:</strong>
+                        <span th:text="${bet.scoringMode.displayName}">Bewertungsmodus</span>
+                    </p>
+
+                    <p class="mb-0">
+                        <strong>Fischarten:</strong>
+                        <span th:text="${bet.fishCategory.displayName}">Alle Fischarten</span>
                     </p>
                 </div>
             </div>
