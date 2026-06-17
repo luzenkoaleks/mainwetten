@@ -472,7 +472,7 @@ a.app-card:hover {
     color: var(--mw-primary);
 }
 
-.section-kicker {
+..section-kicker {
     color: var(--mw-primary);
     font-weight: 800;
     letter-spacing: 0.06em;
@@ -480,205 +480,6 @@ a.app-card:hover {
     font-size: 0.75rem;
 }
 
-.leaderboard-card {
-    padding: 1.25rem;
-}
-
-.leaderboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-}
-
-.leaderboard-mode-badge {
-    border: 1px solid var(--mw-border);
-    border-radius: 999px;
-    padding: 0.45rem 0.8rem;
-    background: var(--mw-primary-soft);
-    color: var(--mw-primary-dark);
-    font-weight: 700;
-    font-size: 0.85rem;
-    white-space: nowrap;
-}
-
-.leaderboard-table {
-    margin-bottom: 0;
-}
-
-.leaderboard-table thead th {
-    border-bottom: 1px solid var(--mw-border);
-    color: var(--mw-muted);
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-}
-
-.leaderboard-table tbody tr {
-    border-color: var(--mw-border);
-}
-
-.leaderboard-table tbody td {
-    padding-top: 0.9rem;
-    padding-bottom: 0.9rem;
-}
-
-.leaderboard-row-winner {
-    background: linear-gradient(90deg, rgba(74, 147, 230, 0.14), rgba(255, 255, 255, 0));
-}
-
-.rank-pill {
-    width: 2.15rem;
-    height: 2.15rem;
-    display: inline-grid;
-    place-items: center;
-    border-radius: 999px;
-    border: 1px solid var(--mw-border);
-    background: #ffffff;
-    color: var(--mw-primary-dark);
-    font-weight: 800;
-}
-
-.rank-pill-first {
-    border-color: #d99a00;
-    background: linear-gradient(160deg, #ffd76a, #c98200);
-    color: rgb(9, 34, 49);
-    box-shadow: 0 0.6rem 1.4rem rgba(217, 154, 0, 0.28);
-}
-
-.leaderboard-user {
-    display: grid;
-    gap: 0.15rem;
-}
-
-.leaderboard-user span {
-    color: var(--mw-primary);
-    font-size: 0.82rem;
-    font-weight: 700;
-}
-
-.points-pill {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.35rem;
-    border-radius: 999px;
-    padding: 0.45rem 0.75rem;
-    background: var(--mw-primary-dark);
-    color: #ffffff;
-    font-weight: 800;
-}
-
-.points-pill small {
-    opacity: 0.78;
-    font-weight: 700;
-}
-
-.score-mini-pill {
-    display: inline-flex;
-    justify-content: center;
-    min-width: 2.2rem;
-    border-radius: 999px;
-    padding: 0.3rem 0.55rem;
-    background: var(--mw-bg);
-    color: var(--mw-primary-dark);
-    font-weight: 800;
-}
-
-.mobile-rank-card {
-    border: 1px solid var(--mw-border);
-    border-radius: 1.25rem;
-    padding: 1rem;
-    background: #ffffff;
-}
-
-.mobile-rank-card + .mobile-rank-card {
-    margin-top: 0.85rem;
-}
-
-.mobile-rank-card-winner {
-    background: linear-gradient(160deg, rgba(74, 147, 230, 0.16), #ffffff 58%);
-    border-color: rgba(17, 119, 179, 0.35);
-}
-
-.mobile-rank-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.mobile-rank-name {
-    color: var(--mw-primary-dark);
-    font-size: 1.05rem;
-    font-weight: 800;
-}
-
-.mobile-rank-subtitle {
-    color: var(--mw-muted);
-    font-size: 0.85rem;
-}
-
-.mobile-points {
-    text-align: right;
-}
-
-.mobile-points strong,
-.mobile-points span {
-    display: block;
-}
-
-.mobile-points strong {
-    color: var(--mw-primary-dark);
-    font-size: 1.6rem;
-    line-height: 1;
-}
-
-.mobile-points span {
-    color: var(--mw-muted);
-    font-size: 0.8rem;
-    font-weight: 700;
-}
-
-.leaderboard-stat-grid {
-    margin-top: 0.5rem;
-}
-
-.leaderboard-note {
-    border-top: 1px solid var(--mw-border);
-    padding-top: 1rem;
-    color: var(--mw-muted);
-    font-size: 0.9rem;
-}
-
-.leaderboard-empty {
-    border: 1px dashed var(--mw-border);
-    border-radius: 1rem;
-    padding: 1rem;
-    color: var(--mw-muted);
-    background: var(--mw-bg);
-}
-
-@media (max-width: 767.98px) {
-    .leaderboard-card {
-        padding: 1rem;
-    }
-
-    .leaderboard-header {
-        display: grid;
-    }
-
-    .leaderboard-mode-badge {
-        width: fit-content;
-        white-space: normal;
-    }
-}
-
-/*
-Test
- */
 .leaderboard-card {
     padding: 1.25rem;
     border: 0;
@@ -695,6 +496,14 @@ Test
     color: #ffffff;
 }
 
+.leaderboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
 .leaderboard-table {
     --bs-table-bg: transparent;
     --bs-table-color: #ffffff;
@@ -705,6 +514,10 @@ Test
 .leaderboard-table thead th {
     border-bottom-color: rgba(255, 255, 255, 0.18);
     color: rgba(255, 255, 255, 0.62);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .leaderboard-table tbody tr {
@@ -712,6 +525,8 @@ Test
 }
 
 .leaderboard-table tbody td {
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
     color: #ffffff;
 }
 
@@ -720,16 +535,26 @@ Test
 }
 
 .rank-pill {
-    border-color: rgba(255, 255, 255, 0.22);
+    width: 2.15rem;
+    height: 2.15rem;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
+    font-weight: 800;
 }
 
 .rank-pill-first {
     border-color: #f4c542;
     background: linear-gradient(160deg, #ffe58a, #e0a91b);
-    color: rgb(9, 34, 49);
-    box-shadow: none;
+    color: var(--mw-primary-dark);
+}
+
+.leaderboard-user {
+    display: grid;
+    gap: 0.15rem;
 }
 
 .leaderboard-user strong {
@@ -738,123 +563,138 @@ Test
 
 .leaderboard-user span {
     color: rgba(255, 255, 255, 0.68);
+    font-size: 0.82rem;
+    font-weight: 700;
 }
 
 .points-pill {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    border-radius: 999px;
+    padding: 0.45rem 0.75rem;
     background: #ffffff;
     color: var(--mw-primary-dark);
+    font-weight: 800;
+}
+
+.points-pill small {
+    opacity: 0.78;
+    font-weight: 700;
 }
 
 .score-mini-pill {
+    display: inline-flex;
+    justify-content: center;
+    min-width: 2.2rem;
+    border-radius: 999px;
+    padding: 0.3rem 0.55rem;
     background: rgba(255, 255, 255, 0.13);
     color: #ffffff;
+    font-weight: 800;
 }
 
 .mobile-rank-card {
-    border-color: rgba(255, 255, 255, 0.16);
-    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 1.25rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.mobile-rank-card + .mobile-rank-card {
+    margin-top: 0.85rem;
 }
 
 .mobile-rank-card-winner {
-    border-color: rgba(244, 197, 66, 0.72);
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(244, 197, 66, 0.8);
+}
+
+.mobile-rank-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .mobile-rank-name {
     color: #ffffff;
+    font-size: 1.12rem;
+    font-weight: 900;
 }
 
 .mobile-rank-subtitle {
-    color: rgba(255, 255, 255, 0.62);
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.mobile-points {
+    text-align: right;
+}
+
+.mobile-points strong,
+.mobile-points span {
+    display: block;
 }
 
 .mobile-points strong {
     color: #ffffff;
+    font-size: 1.8rem;
+    line-height: 1;
+    font-weight: 900;
 }
 
 .mobile-points span {
-    color: rgba(255, 255, 255, 0.62);
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.86rem;
+    font-weight: 800;
+}
+
+.leaderboard-stat-grid {
+    margin-top: 0.5rem;
 }
 
 .leaderboard-card .stat-box {
-    border-color: rgba(255, 255, 255, 0.14);
-    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.14);
 }
 
 .leaderboard-card .stat-box-label {
-    color: rgba(255, 255, 255, 0.62);
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.82rem;
+    font-weight: 700;
 }
 
 .leaderboard-card .stat-box-value {
     color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 900;
 }
 
 .leaderboard-note {
-    border-top-color: rgba(255, 255, 255, 0.14);
-    color: rgba(255, 255, 255, 0.68);
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    padding-top: 1rem;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.95rem;
+    line-height: 1.45;
 }
 
 .leaderboard-empty {
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.08);
+    border: 1px dashed rgba(255, 255, 255, 0.2);
+    border-radius: 1rem;
+    padding: 1rem;
     color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.08);
 }
-/*
-Test Ende
- */
+
 @media (max-width: 767.98px) {
-    .leaderboard-card .stat-box {
-        background: rgba(255, 255, 255, 0.14);
-        border-color: rgba(255, 255, 255, 0.2);
+    .leaderboard-card {
+        padding: 1rem;
     }
 
-    .leaderboard-card .stat-box-label {
-        color: rgba(255, 255, 255, 0.78);
-        font-size: 0.82rem;
-        font-weight: 700;
-    }
-
-    .leaderboard-card .stat-box-value {
-        color: #ffffff;
-        font-size: 1.15rem;
-        font-weight: 900;
-    }
-
-    .mobile-rank-card {
-        background: rgba(255, 255, 255, 0.12);
-        border-color: rgba(255, 255, 255, 0.22);
-    }
-
-    .mobile-rank-card-winner {
-        background: rgba(255, 255, 255, 0.16);
-        border-color: rgba(244, 197, 66, 0.8);
-    }
-
-    .mobile-rank-name {
-        font-size: 1.12rem;
-        font-weight: 900;
-    }
-
-    .mobile-rank-subtitle {
-        font-size: 0.9rem;
-        font-weight: 700;
-        color: rgba(255, 255, 255, 0.78);
-    }
-
-    .mobile-points strong {
-        font-size: 1.8rem;
-        font-weight: 900;
-    }
-
-    .mobile-points span {
-        font-size: 0.86rem;
-        font-weight: 800;
-        color: rgba(255, 255, 255, 0.76);
-    }
-
-    .leaderboard-note {
-        font-size: 0.95rem;
-        line-height: 1.45;
-        color: rgba(255, 255, 255, 0.78);
+    .leaderboard-header {
+        display: grid;
     }
 }
