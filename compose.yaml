@@ -3,9 +3,9 @@ services:
     image: postgres:16
     container_name: mainwetten-postgres
     environment:
-      POSTGRES_DB: mainwetten
-      POSTGRES_USER: mainwetten
-      POSTGRES_PASSWORD: mainwetten
+      POSTGRES_DB: ${DB_NAME:-mainwetten}
+      POSTGRES_USER: ${DB_USER:-mainwetten}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-mainwetten}
     ports:
       - "5432:5432"
     volumes:
