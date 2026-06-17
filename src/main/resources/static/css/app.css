@@ -472,7 +472,7 @@ a.app-card:hover {
     color: var(--mw-primary);
 }
 
-..section-kicker {
+.section-kicker {
     color: var(--mw-primary);
     font-weight: 800;
     letter-spacing: 0.06em;
