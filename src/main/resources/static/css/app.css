@@ -454,3 +454,16 @@ a.app-card:hover {
         max-width: none;
     }
 }
+
+.auth-card {
+    padding: 1.5rem;
+}
+
+.auth-card .form-control {
+    min-height: 2.75rem;
+}
+
+.auth-card a {
+    font-weight: 700;
+    color: var(--mw-primary);
+}
