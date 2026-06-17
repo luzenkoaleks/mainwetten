@@ -1,41 +1,130 @@
 <!doctype html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Startseite')}"></head>
-
 <body>
-
 <header th:replace="~{fragments/layout :: navbar('home', false)}"></header>
 
 <main class="container app-page">
-    <div class="row align-items-center">
-        <div class="col-lg-7">
-            <h1 class="display-5 fw-bold">Angelwetten mit Freunden verwalten</h1>
-            <p class="lead mt-3">
-                Erstelle Wetten, lade andere Angler ein, trage deine Fänge ein
-                und vergleiche dich über ein punktebasiertes Bewertungssystem.
+    <section class="home-hero app-card">
+        <div class="home-hero-content">
+            <p class="home-kicker">Angelwetten einfach organisieren</p>
+
+            <h1 class="home-title">
+                Mainwetten bringt Ordnung in eure Angel-Challenges.
+            </h1>
+
+            <p class="home-lead">
+                Erstelle Wetten, lade andere Angler ein, trage Fänge ein und lass die Rangliste automatisch berechnen.
+                Süßwasser, Salzwasser, mehrere Wetten gleichzeitig – alles an einem Ort.
             </p>
 
-            <div class="d-flex gap-2 mt-4">
-                <a class="btn btn-primary btn-lg" href="/login">Einloggen</a>
-                <a class="btn btn-outline-secondary btn-lg" href="/register">Registrieren</a>
+            <div class="home-actions">
+                <a class="btn btn-primary btn-lg" th:href="@{/register}">
+                    Kostenlos registrieren
+                </a>
+
+                <a class="btn btn-outline-secondary btn-lg" th:href="@{/login}">
+                    Einloggen
+                </a>
+            </div>
+
+            <div class="home-trust-row">
+                <span>Mobile-first</span>
+                <span>Automatische Auswertung</span>
+                <span>Für Süßwasser &amp; Salzwasser</span>
             </div>
         </div>
 
-        <div class="col-lg-5 mt-5 mt-lg-0">
-            <div class="card app-card">
-                <div class="card-body">
-                    <h2 class="h5">MVP-Funktionen</h2>
-                    <ul class="mb-0">
-                        <li>Accounts für User</li>
-                        <li>Wetten mit Start- und Enddatum</li>
-                        <li>Fischarten wie Barsch, Karpfen und Hecht</li>
-                        <li>Fänge mit Länge in Zentimetern</li>
-                        <li>Rangliste mit zwei Bewertungsmodi</li>
-                    </ul>
+        <div class="home-hero-panel">
+            <div class="home-score-card">
+                <div class="home-score-header">
+                    <span>Beispiel-Wette</span>
+                    <strong>Sommer-Challenge</strong>
+                </div>
+
+                <div class="home-score-row">
+                    <span>1. Alex</span>
+                    <strong>12 Punkte</strong>
+                </div>
+
+                <div class="home-score-row">
+                    <span>2. Ben</span>
+                    <strong>10 Punkte</strong>
+                </div>
+
+                <div class="home-score-row">
+                    <span>3. Chris</span>
+                    <strong>8 Punkte</strong>
+                </div>
+
+                <div class="home-catch-preview">
+                    <span>Fangübersicht</span>
+                    <strong>Zander · 64 cm · größter dieser Art</strong>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
+
+    <section class="home-section">
+        <div class="home-section-heading">
+            <p class="home-kicker">Funktionen</p>
+            <h2>Was Mainwetten aktuell kann</h2>
+        </div>
+
+        <div class="home-feature-grid">
+            <article class="app-card home-feature-card">
+                <div class="home-feature-icon">01</div>
+                <h3>Wetten erstellen</h3>
+                <p>
+                    Lege Zeitraum, Bewertungsmodus und Fischkategorie fest. Danach kannst du Teilnehmer einladen.
+                </p>
+            </article>
+
+            <article class="app-card home-feature-card">
+                <div class="home-feature-icon">02</div>
+                <h3>Fänge eintragen</h3>
+                <p>
+                    Trage Fänge entweder direkt innerhalb einer Wette ein oder ordne einen Fang mehreren passenden Wetten gleichzeitig zu.
+                </p>
+            </article>
+
+            <article class="app-card home-feature-card">
+                <div class="home-feature-icon">03</div>
+                <h3>Rangliste automatisch</h3>
+                <p>
+                    Punkte für gefangene Arten, größte Fische, optional meiste Fänge und Artenbonus werden automatisch berechnet.
+                </p>
+            </article>
+        </div>
+    </section>
+
+    <section class="home-section home-split app-card">
+        <div>
+            <p class="home-kicker">Für unterwegs gedacht</p>
+            <h2>Auf dem Smartphone nutzbar, direkt am Wasser.</h2>
+            <p>
+                Dashboard, Wett-Detailseite und Fangformular sind bewusst mobilfreundlich aufgebaut.
+                So kann ein Fang schnell eingetragen werden, ohne lange Tabellen auf kleinen Displays bedienen zu müssen.
+            </p>
+        </div>
+
+        <div class="home-highlight-list">
+            <div>
+                <strong>Globale Fang-Eingabe</strong>
+                <span>Ein Fang, mehrere Wetten.</span>
+            </div>
+
+            <div>
+                <strong>Nachtragefrist</strong>
+                <span>Fänge können bis zu 48 Stunden nach Wettende ergänzt werden.</span>
+            </div>
+
+            <div>
+                <strong>Einladungen</strong>
+                <span>Teilnehmer können Wetten beitreten oder ablehnen.</span>
+            </div>
+        </div>
+    </section>
 </main>
 </body>
 </html>

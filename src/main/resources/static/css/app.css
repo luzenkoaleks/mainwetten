@@ -1,12 +1,13 @@
 :root {
-    --mw-bg: #f5f7f2;
+    --mw-bg: #f4f8fb;
     --mw-surface: #ffffff;
-    --mw-border: #dde5d8;
-    --mw-text: #1f2a1f;
-    --mw-muted: #6c7568;
-    --mw-primary: #2f6f3e;
-    --mw-primary-dark: #245833;
-    --mw-primary-soft: #e5f1e7;
+    --mw-border: #d8e5ee;
+    --mw-text: rgb(9, 34, 49);
+    --mw-muted: #60717c;
+    --mw-primary: rgb(17, 119, 179);
+    --mw-primary-dark: rgb(9, 34, 49);
+    --mw-primary-soft: #e7f3fc;
+    --mw-accent: rgb(74, 147, 230);
 }
 
 html {
@@ -245,4 +246,211 @@ a.app-card:hover {
 
 #invite-user {
     scroll-margin-top: 5rem;
+}
+
+.home-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+    gap: 2rem;
+    padding: 2rem;
+    overflow: hidden;
+}
+
+.home-kicker {
+    margin-bottom: 0.75rem;
+    color: var(--mw-primary);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+}
+
+.home-title {
+    max-width: 760px;
+    margin-bottom: 1rem;
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+}
+
+.home-lead {
+    max-width: 680px;
+    color: var(--mw-muted);
+    font-size: 1.08rem;
+}
+
+.home-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+.home-trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+}
+
+.home-trust-row span {
+    border: 1px solid var(--mw-border);
+    border-radius: 999px;
+    padding: 0.35rem 0.75rem;
+    background: var(--mw-primary-soft);
+    color: var(--mw-primary-dark);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.home-hero-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-score-card {
+    width: 100%;
+    max-width: 340px;
+    border-radius: 1.5rem;
+    padding: 1.25rem;
+    background: linear-gradient(160deg, var(--mw-primary), var(--mw-primary-dark));
+    color: #ffffff;
+    box-shadow: 0 1rem 2.5rem rgba(31, 42, 31, 0.22);
+}
+
+.home-score-header {
+    display: grid;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.home-score-header span,
+.home-catch-preview span {
+    opacity: 0.78;
+    font-size: 0.85rem;
+}
+
+.home-score-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 0.8rem 0;
+}
+
+.home-catch-preview {
+    margin-top: 0.75rem;
+    border-radius: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.14);
+    display: grid;
+    gap: 0.25rem;
+}
+
+.home-section {
+    margin-top: 2rem;
+}
+
+.home-section-heading {
+    margin-bottom: 1rem;
+}
+
+.home-section-heading h2,
+.home-split h2 {
+    letter-spacing: -0.03em;
+}
+
+.home-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.home-feature-card {
+    padding: 1.25rem;
+}
+
+.home-feature-card h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.home-feature-card p {
+    margin-bottom: 0;
+    color: var(--mw-muted);
+}
+
+.home-feature-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    margin-bottom: 1rem;
+    background: var(--mw-primary-soft);
+    color: var(--mw-primary-dark);
+    font-weight: 800;
+}
+
+.home-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.home-split p {
+    color: var(--mw-muted);
+}
+
+.home-highlight-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.home-highlight-list div {
+    border: 1px solid var(--mw-border);
+    border-radius: 1rem;
+    padding: 1rem;
+    background: var(--mw-bg);
+}
+
+.home-highlight-list strong,
+.home-highlight-list span {
+    display: block;
+}
+
+.home-highlight-list span {
+    margin-top: 0.25rem;
+    color: var(--mw-muted);
+    font-size: 0.95rem;
+}
+
+@media (max-width: 767.98px) {
+    .home-hero,
+    .home-split {
+        grid-template-columns: 1fr;
+        padding: 1.25rem;
+    }
+
+    .home-feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .home-actions .btn {
+        width: 100%;
+    }
+
+    .home-title {
+        font-size: 2.35rem;
+    }
+
+    .home-hero-panel {
+        justify-content: stretch;
+    }
+
+    .home-score-card {
+        max-width: none;
+    }
 }
