@@ -31,8 +31,11 @@ a:hover {
     position: sticky;
     top: 0;
     z-index: 1020;
-    background: rgba(255, 255, 255, 0.96);
-    border-bottom: 1px solid var(--mw-border);
+    background:
+            radial-gradient(circle at top left, rgba(74, 147, 230, 0.28), transparent 34%),
+            linear-gradient(160deg, #0b3146, #1177b3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 0.45rem 1.2rem rgba(9, 34, 49, 0.16);
     backdrop-filter: blur(8px);
 }
 
@@ -50,26 +53,28 @@ a:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.6rem;
-    color: var(--mw-text);
+    color: #ffffff;
     text-decoration: none;
-    font-weight: 800;
+    font-weight: 900;
     letter-spacing: -0.03em;
 }
 
-.app-brand:hover {
-    color: var(--mw-text);
+.app-brand:hover,
+.app-brand:focus {
+    color: #ffffff;
 }
 
 .app-brand-mark {
     width: 2.25rem;
     height: 2.25rem;
-    border-radius: 999px;
+    border-radius: 0.8rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background: var(--mw-primary);
-    color: #fff;
-    font-weight: 800;
+    background: linear-gradient(160deg, #e7f3fc, #b7dcf4);
+    color: var(--mw-primary-dark);
+    font-weight: 950;
+    box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.18);
 }
 
 .app-nav-actions {
@@ -78,6 +83,111 @@ a:hover {
     gap: 0.5rem;
     flex-wrap: wrap;
     justify-content: flex-end;
+}
+
+.app-header .btn {
+    border-radius: 999px;
+    font-weight: 850;
+    letter-spacing: 0.01em;
+}
+
+.app-header .btn-sm {
+    padding: 0.42rem 0.78rem;
+}
+
+.app-header .btn-primary {
+    background: linear-gradient(160deg, #e7f3fc, #b7dcf4);
+    border-color: #b7dcf4;
+    color: var(--mw-primary-dark);
+}
+
+.app-header .btn-primary:hover,
+.app-header .btn-primary:focus,
+.app-header .btn-primary.active {
+    background: linear-gradient(160deg, #d8ecfa, #9dcced);
+    border-color: #9dcced;
+    color: var(--mw-primary-dark);
+}
+
+.app-header .btn-outline-primary,
+.app-header .btn-outline-secondary {
+    border-color: rgba(255, 255, 255, 0.42);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.app-header .btn-outline-primary:hover,
+.app-header .btn-outline-primary:focus,
+.app-header .btn-outline-primary.active,
+.app-header .btn-outline-secondary:hover,
+.app-header .btn-outline-secondary:focus,
+.app-header .btn-outline-secondary.active {
+    border-color: rgba(255, 255, 255, 0.72);
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+}
+
+.app-header .btn-outline-danger {
+    border-color: rgba(255, 255, 255, 0.28);
+    color: rgba(255, 255, 255, 0.82);
+    background: transparent;
+}
+
+.app-header .btn-outline-danger:hover,
+.app-header .btn-outline-danger:focus {
+    border-color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+@media (max-width: 575.98px) {
+    .app-header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .app-nav-actions {
+        width: 100%;
+    }
+
+    .app-nav-actions .btn,
+    .app-nav-actions form {
+        flex: 1 1 auto;
+    }
+
+    .app-nav-actions form .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .app-header {
+        border-bottom-left-radius: 1.25rem;
+        border-bottom-right-radius: 1.25rem;
+        overflow: hidden;
+        box-shadow: 0 0.45rem 1rem rgba(9, 34, 49, 0.14);
+    }
+
+    .app-header-inner {
+        padding-top: 0.65rem;
+        padding-bottom: 0.65rem;
+        gap: 0.75rem;
+    }
+
+    .app-brand {
+        font-size: 1rem;
+    }
+
+    .app-brand-mark {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.7rem;
+    }
+
+    .app-header .btn-sm {
+        padding: 0.36rem 0.62rem;
+        font-size: 0.84rem;
+    }
 }
 
 .app-page {
