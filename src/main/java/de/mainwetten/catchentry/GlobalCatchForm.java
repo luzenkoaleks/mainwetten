@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.validation.constraints.DecimalMax;
+
 public class GlobalCatchForm {
 
     @NotNull(message = "Bitte wähle eine Fischart aus.")
@@ -16,7 +18,8 @@ public class GlobalCatchForm {
 
     @NotNull(message = "Bitte gib die Länge ein.")
     @DecimalMin(value = "0.1", message = "Die Länge muss größer als 0 sein.")
-    @Digits(integer = 3, fraction = 1, message = "Bitte gib maximal eine Nachkommastelle ein.")
+    @DecimalMax(value = "999.9", message = "Die Länge darf maximal 999,9 cm betragen.")
+    @Digits(integer = 3, fraction = 1, message = "Bitte gib maximal drei Vorkommastellen und eine Nachkommastelle ein")
     private BigDecimal lengthCm;
 
     @NotEmpty(message = "Bitte wähle mindestens eine Wette aus.")

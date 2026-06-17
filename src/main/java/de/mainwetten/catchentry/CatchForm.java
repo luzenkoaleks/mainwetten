@@ -1,5 +1,6 @@
 package de.mainwetten.catchentry;
 
+import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotNull;
@@ -11,9 +12,10 @@ public class CatchForm {
     @NotNull(message = "Bitte wähle eine Fischart aus.")
     private Long fishSpeciesId;
 
-    @NotNull(message = "Bitte gib die Länge an.")
-    @DecimalMin(value = "1.0", message = "Die Länge muss mindestens 1 cm betragen.")
-    @Digits(integer = 3, fraction = 1, message = "Bitte gib maximal eine Nachkommastelle ein.")
+    @NotNull(message = "Bitte gib die Länge ein.")
+    @DecimalMin(value = "0.1", message = "Die Länge muss größer als 0 sein.")
+    @DecimalMax(value = "999.9", message = "Die Länge darf maximal 999,9 cm betragen.")
+    @Digits(integer = 3, fraction = 1, message = "Bitte gib maximal drei Vorkommastellen und eine Nachkommastelle ein.")
     private BigDecimal lengthCm;
 
     public Long getFishSpeciesId() {

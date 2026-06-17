@@ -115,10 +115,21 @@ public class BetController {
     @PostMapping("/{id}/participants")
     public String inviteUser(
             @PathVariable Long id,
-            @ModelAttribute InviteUserForm inviteUserForm,
+            @Valid @ModelAttribute InviteUserForm inviteUserForm,
+            BindingResult bindingResult,
             Authentication authentication,
             RedirectAttributes redirectAttributes
     ) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute(
+                    "inviteError",
+                    bindingResult.getFieldError("username") != null
+                            ? bindingResult.getFieldError("username").getDefaultMessage()
+                            : "Bitte prüfe deine Eingabe."
+            );
+
+            return "redirect:/bets/" + id;
+        }
         try {
             betInvitationService.inviteUser(
                     id,

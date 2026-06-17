@@ -15,7 +15,7 @@ public class BetForm {
     @Size(max = 100, message = "Der Titel darf maximal 100 Zeichen lang sein.")
     private String title;
 
-    @Size(max = 2000, message = "Die Beschreibung darf maximal 2000 Zeichen lang sein.")
+    @Size(max = 1000, message = "Die Beschreibung darf maximal 1000 Zeichen lang sein.")
     private String description;
 
     @NotNull(message = "Bitte gib ein Startdatum an.")
@@ -44,7 +44,7 @@ public class BetForm {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = title == null ? null : title.trim();
     }
 
     public String getDescription() {
@@ -52,7 +52,7 @@ public class BetForm {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description == null ? null : description.trim();
     }
 
     public LocalDate getStartDate() {
