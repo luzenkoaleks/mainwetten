@@ -242,3 +242,7 @@ a.app-card:hover {
         padding: 0.85rem;
     }
 }
+
+#invite-user {
+    scroll-margin-top: 5rem;
+}

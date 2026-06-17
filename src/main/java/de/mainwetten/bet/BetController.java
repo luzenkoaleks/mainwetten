@@ -128,7 +128,7 @@ public class BetController {
                             : "Bitte prüfe deine Eingabe."
             );
 
-            return "redirect:/bets/" + id;
+            return "redirect:/bets/" + id + "#invite-user";
         }
         try {
             betInvitationService.inviteUser(
@@ -142,6 +142,6 @@ public class BetController {
             redirectAttributes.addFlashAttribute("inviteError", exception.getMessage());
         }
 
-        return "redirect:/bets/" + id;
+        return "redirect:/bets/" + id + "#invite-user";
     }
 }
