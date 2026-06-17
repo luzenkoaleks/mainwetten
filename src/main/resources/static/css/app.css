@@ -115,6 +115,10 @@ a:hover {
     --bs-btn-border-color: var(--mw-primary);
     --bs-btn-hover-bg: var(--mw-primary);
     --bs-btn-hover-border-color: var(--mw-primary);
+    --bs-btn-hover-color: #ffffff;
+    --bs-btn-active-bg: var(--mw-primary-dark);
+    --bs-btn-active-border-color: var(--mw-primary-dark);
+    --bs-btn-active-color: #ffffff;
 }
 
 .badge-soft {

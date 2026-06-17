@@ -2,7 +2,7 @@
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Startseite')}"></head>
 <body>
-<header th:replace="~{fragments/layout :: navbar('home', false)}"></header>
+<header th:replace="~{fragments/layout :: navbar('home', ${authenticated})}"></header>
 
 <main class="container app-page">
     <section class="home-hero app-card">

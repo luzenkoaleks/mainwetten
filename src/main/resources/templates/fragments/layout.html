@@ -22,13 +22,13 @@
 
         <div class="d-flex flex-wrap align-items-center justify-content-end gap-2"
              th:if="${authenticated}">
-            <a class="btn btn-sm btn-outline-secondary"
+            <a class="btn btn-sm btn-primary"
                th:href="@{/dashboard}"
                th:classappend="${activePage == 'dashboard'} ? ' active' : ''">
                 Dashboard
             </a>
 
-            <a class="btn btn-sm btn-outline-secondary"
+            <a class="btn btn-sm btn-outline-primary"
                th:href="@{/catches/new}"
                th:classappend="${activePage == 'catchEntry'} ? ' active' : ''">
                 Fang eintragen
