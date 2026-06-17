@@ -141,4 +141,4 @@ Geplante oder mögliche Erweiterungen:
 
 ## Lizenz
 
-Noch keine Lizenz festgelegt.
+Dieses Projekt steht unter der Apache License 2.0.

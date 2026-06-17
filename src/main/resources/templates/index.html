@@ -18,13 +18,23 @@
                 Süßwasser, Salzwasser, mehrere Wetten gleichzeitig – alles an einem Ort.
             </p>
 
-            <div class="home-actions">
+            <div class="home-actions" th:if="${!authenticated}">
                 <a class="btn btn-primary btn-lg" th:href="@{/register}">
                     Kostenlos registrieren
                 </a>
 
                 <a class="btn btn-outline-secondary btn-lg" th:href="@{/login}">
                     Einloggen
+                </a>
+            </div>
+
+            <div class="home-actions" th:if="${authenticated}">
+                <a class="btn btn-primary btn-lg" th:href="@{/dashboard}">
+                    Zum Dashboard
+                </a>
+
+                <a class="btn btn-outline-primary btn-lg" th:href="@{/catches/new}">
+                    Fang eintragen
                 </a>
             </div>
 
