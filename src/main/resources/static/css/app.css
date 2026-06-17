@@ -698,3 +698,163 @@ a.app-card:hover {
         display: grid;
     }
 }
+
+.bet-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 1.25rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    background:
+            radial-gradient(circle at top right, rgba(74, 147, 230, 0.3), transparent 34%),
+            linear-gradient(160deg, var(--mw-primary-dark), #0d4f78);
+    color: #ffffff;
+    box-shadow: 0 1rem 2.5rem rgba(9, 34, 49, 0.2);
+}
+
+.bet-hero .section-kicker {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.bet-hero-content {
+    min-width: 0;
+}
+
+.bet-hero-title {
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    font-size: clamp(1.7rem, 4vw, 2.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+}
+
+.bet-hero-date {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    color: rgba(255, 255, 255, 0.72);
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.bet-meta-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+}
+
+.bet-meta-pill {
+    display: grid;
+    gap: 0.1rem;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 1rem;
+    padding: 0.65rem 0.85rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.bet-meta-pill strong {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.bet-meta-pill span {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.bet-hero-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 0.65rem;
+    min-width: fit-content;
+}
+
+.bet-hero-actions .btn-primary {
+    background: linear-gradient(160deg, #e7f3fc, #b7dcf4);
+    border-color: #b7dcf4;
+    color: var(--mw-primary-dark);
+    font-weight: 900;
+    letter-spacing: 0.01em;
+}
+
+.bet-hero-actions .btn-primary:hover,
+.bet-hero-actions .btn-primary:focus {
+    background: linear-gradient(160deg, #d8ecfa, #9dcced);
+    border-color: #9dcced;
+    color: var(--mw-primary-dark);
+}
+
+.bet-hero-actions .btn-outline-primary {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: #ffffff;
+}
+
+.bet-entry-notice {
+    max-width: 260px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+.bet-soft-card {
+    border: 1px solid rgba(17, 119, 179, 0.18);
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    background:
+            radial-gradient(circle at top right, rgba(74, 147, 230, 0.12), transparent 38%),
+            linear-gradient(160deg, #edf6fc, #dceef8);
+    box-shadow: 0 0.65rem 1.6rem rgba(9, 34, 49, 0.08);
+}
+
+.bet-section-header {
+    margin-bottom: 0.85rem;
+}
+
+.bet-soft-card h2 {
+    color: var(--mw-primary-dark);
+}
+
+@media (max-width: 767.98px) {
+    .bet-hero {
+        display: grid;
+        padding: 1.2rem;
+        border-radius: 1.25rem;
+    }
+
+    .bet-hero-actions {
+        align-items: stretch;
+    }
+
+    .bet-hero-actions .btn {
+        width: 100%;
+    }
+
+    .bet-entry-notice {
+        max-width: none;
+        text-align: left;
+    }
+
+    .bet-meta-pill {
+        width: 100%;
+    }
+}
+
+.app-header .btn {
+    font-weight: 800;
+    letter-spacing: 0.01em;
+}
+
+.app-header .btn-sm {
+    padding: 0.42rem 0.75rem;
+}
+
+.btn {
+    font-weight: 700;
+}

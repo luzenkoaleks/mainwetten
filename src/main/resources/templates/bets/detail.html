@@ -7,65 +7,70 @@
 <header th:replace="~{fragments/layout :: navbar('bets', true)}"></header>
 
 <main class="container app-page">
-    <div class="d-flex justify-content-between align-items-start gap-3 mb-4">
-        <div>
-            <h1 class="h3 mb-2" th:text="${bet.title}">Titel der Wette</h1>
+    <section class="bet-hero mb-4">
+        <div class="bet-hero-content">
+            <p class="section-kicker mb-2">Wette</p>
 
-            <p class="text-muted mb-2">
+            <h1 class="bet-hero-title" th:text="${bet.title}">Titel der Wette</h1>
+
+            <div class="bet-hero-date">
                 <span th:text="${#temporals.format(bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
-                –
+                <span>–</span>
                 <span th:text="${#temporals.format(bet.endDate, 'dd.MM.yyyy')}">07.01.2026</span>
-            </p>
-            <p class="mb-2">
-                <strong>Modus:</strong>
-                <span th:text="${bet.scoringMode.displayName}">Bewertungsmodus</span>
-            </p>
+            </div>
 
-            <p class="mb-0">
-                <strong>Fischarten:</strong>
-                <span th:text="${bet.fishCategory.displayName}">Alle Fischarten</span>
-            </p>
+            <div class="bet-meta-pills">
+                <span class="bet-meta-pill">
+                    <strong>Modus</strong>
+                    <span th:text="${bet.scoringMode.displayName}">Bewertungsmodus</span>
+                </span>
+
+                <span class="bet-meta-pill">
+                    <strong>Fischarten</strong>
+                    <span th:text="${bet.fishCategory.displayName}">Alle Fischarten</span>
+                </span>
+            </div>
         </div>
 
-        <div class="text-end">
+        <div class="bet-hero-actions">
             <a class="btn btn-primary"
                th:if="${catchEntryAllowed}"
                th:href="@{/bets/{id}/catches/new(id=${bet.id})}">
                 Fang eintragen
             </a>
 
-            <button class="btn btn-outline-secondary"
+            <button class="btn btn-outline-primary"
                     th:unless="${catchEntryAllowed}"
                     type="button"
                     disabled>
                 Fang eintragen
             </button>
 
-            <div class="small text-muted mt-2"
+            <div class="bet-entry-notice"
                  th:if="${catchEntryNotice != null && !catchEntryNotice.isBlank()}"
                  th:text="${catchEntryNotice}">
                 Hinweis zur Fang-Eintragung
             </div>
         </div>
-
-    </div>
+    </section>
 
     <div class="row g-4">
         <div class="col-lg-8">
-            <div class="card app-card mb-4">
-                <div class="card-body">
-                    <h2 class="h5">Beschreibung</h2>
-
-                    <p class="mb-0" th:if="${bet.description != null && !bet.description.isBlank()}"
-                       th:text="${bet.description}">
-                        Beschreibung
-                    </p>
-
-                    <p class="text-muted mb-0" th:unless="${bet.description != null && !bet.description.isBlank()}">
-                        Für diese Wette wurde keine Beschreibung hinterlegt.
-                    </p>
+            <section class="bet-soft-card mb-4">
+                <div class="bet-section-header">
+                    <p class="section-kicker mb-1">Details</p>
+                    <h2 class="h5 mb-0">Beschreibung</h2>
                 </div>
-            </div>
+
+                <p class="mb-0" th:if="${bet.description != null && !bet.description.isBlank()}"
+                   th:text="${bet.description}">
+                    Beschreibung
+                </p>
+
+                <p class="text-muted mb-0" th:unless="${bet.description != null && !bet.description.isBlank()}">
+                    Für diese Wette wurde keine Beschreibung hinterlegt.
+                </p>
+            </section>
 
             <section class="app-card leaderboard-card mb-4">
                 <div class="leaderboard-header">
