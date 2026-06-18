@@ -1516,6 +1516,33 @@ a.app-card:hover {
 
 }
 
+.dashboard-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.3rem 0.58rem;
+    font-size: 0.82rem;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.dashboard-status-active {
+    background: linear-gradient(160deg, #1177b3, #0d5f91);
+    color: #ffffff;
+    box-shadow: 0 0.35rem 0.8rem rgba(17, 119, 179, 0.22);
+}
+
+.dashboard-status-upcoming {
+    background: #fff3c4;
+    color: #6f4b08;
+}
+
+.dashboard-status-expired {
+    background: #edf1f4;
+    color: #42525d;
+}
+
 .dashboard-section-header {
     display: flex;
     justify-content: space-between;
@@ -1667,5 +1694,159 @@ a.app-card:hover {
 
     .dashboard-invite-title {
         font-size: 1.1rem;
+    }
+}
+
+.form-page-hero {
+    border: 1px solid rgba(17, 119, 179, 0.16);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    background:
+            radial-gradient(circle at top right, rgba(74, 147, 230, 0.18), transparent 36%),
+            linear-gradient(160deg, #ffffff, #e7f3fc);
+    box-shadow: 0 0.75rem 1.8rem rgba(9, 34, 49, 0.08);
+}
+
+.form-page-title {
+    color: var(--mw-primary-dark);
+    font-size: clamp(1.8rem, 4vw, 2.45rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    font-weight: 900;
+}
+
+.form-page-lead {
+    color: var(--mw-muted);
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.bet-form-card {
+    border: 1px solid rgba(17, 119, 179, 0.16);
+    border-radius: 1.25rem;
+    padding: 1.35rem;
+    background: #ffffff;
+    box-shadow: 0 0.75rem 1.8rem rgba(9, 34, 49, 0.08);
+}
+
+.form-section-title {
+    margin-bottom: 1rem;
+}
+
+.form-section-title h2 {
+    color: var(--mw-primary-dark);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+}
+
+.bet-form-card .form-label {
+    color: var(--mw-primary-dark);
+    font-weight: 850;
+}
+
+.bet-form-card .form-control,
+.bet-form-card .form-select {
+    min-height: 2.85rem;
+    border: 2px solid rgba(17, 119, 179, 0.42);
+    border-radius: 0.85rem;
+    background-color: #f8fbfd;
+    color: var(--mw-primary-dark);
+    font-weight: 650;
+}
+
+.bet-form-card textarea.form-control {
+    min-height: 7rem;
+}
+
+.bet-form-card .form-control:focus,
+.bet-form-card .form-select:focus {
+    border-color: var(--mw-primary);
+    background-color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(17, 119, 179, 0.16);
+}
+
+.bet-form-card .form-text {
+    color: var(--mw-muted);
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.rules-card {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.15rem;
+    padding: 1rem;
+    background:
+            radial-gradient(circle at top right, rgba(126, 197, 240, 0.22), transparent 38%),
+            linear-gradient(160deg, #12384d, #0f658f);
+    color: #ffffff;
+}
+
+.rules-card .section-kicker {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.rules-card ul {
+    margin: 0.35rem 0 0;
+    padding-left: 1.15rem;
+}
+
+.rules-card li {
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 0.94rem;
+    line-height: 1.45;
+    font-weight: 600;
+}
+
+.rules-list {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.rules-list div {
+    display: grid;
+    gap: 0.18rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 0.95rem;
+    padding: 0.75rem 0.85rem;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.rules-list strong {
+    color: #ffffff;
+    font-size: 0.96rem;
+    font-weight: 900;
+}
+
+.rules-list span {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.94rem;
+    line-height: 1.45;
+    font-weight: 600;
+}
+
+.bet-form-submit {
+    width: 100%;
+    border-radius: 999px;
+    padding: 0.75rem 1rem;
+    font-weight: 900;
+}
+
+@media (max-width: 575.98px) {
+    .form-page-hero {
+        padding: 1.15rem;
+        border-radius: 1.25rem;
+    }
+
+    .bet-form-card {
+        padding: 1rem;
+    }
+
+    .form-page-title {
+        font-size: 1.85rem;
+    }
+
+    .rules-card {
+        padding: 0.9rem;
     }
 }

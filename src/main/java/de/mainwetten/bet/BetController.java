@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -46,9 +47,13 @@ public class BetController {
 
     @GetMapping("/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("betForm", new BetForm());
+        BetForm betForm = new BetForm();
+        betForm.setStartDate(LocalDate.now());
+
+        model.addAttribute("betForm", betForm);
         model.addAttribute("scoringModes", ScoringMode.values());
         model.addAttribute("fishCategories", FishCategory.values());
+
         return "bets/new";
     }
 

@@ -6,90 +6,181 @@
 
 <header th:replace="~{fragments/layout :: navbar('new-bet', true)}"></header>
 
-<main class="container app-page">
+<main class="container app-page new-bet-page">
     <div class="row justify-content-center">
-        <div class="col-lg-7">
-            <h1 class="h3 mb-4">Neue Angelwette erstellen</h1>
+        <div class="col-lg-8 col-xl-7">
 
-            <form th:action="@{/bets}" th:object="${betForm}" method="post" class="card card-body app-card">
+            <section class="form-page-hero mb-4">
+                <p class="section-kicker mb-2">Neue Wette</p>
+
+                <h1 class="form-page-title mb-2">
+                    Neue Angelwette erstellen
+                </h1>
+
+                <p class="form-page-lead mb-0">
+                    Lege Zeitraum, Fischarten und Bewertungsmodus fest. Teilnehmer kannst du anschließend auf der Wett-Detailseite einladen.
+                </p>
+            </section>
+
+            <form th:action="@{/bets}"
+                  th:object="${betForm}"
+                  method="post"
+                  class="bet-form-card">
+
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
-                <div class="mb-3">
-                    <label for="title" class="form-label">Titel</label>
-                    <input id="title" type="text" class="form-control" th:field="*{title}">
-                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                <div class="form-section-title">
+                    <p class="section-kicker mb-1">Grunddaten</p>
+                    <h2 class="h5 mb-0">Worum geht es?</h2>
                 </div>
 
                 <div class="mb-3">
+                    <label for="title" class="form-label">Titel</label>
+                    <input id="title"
+                           type="text"
+                           class="form-control"
+                           th:field="*{title}"
+                           placeholder="z. B. Sommerwette am Vereinssee">
+
+                    <div class="text-danger small mt-1"
+                         th:if="${#fields.hasErrors('title')}"
+                         th:errors="*{title}">
+                    </div>
+                </div>
+
+                <div class="mb-4">
                     <label for="description" class="form-label">Beschreibung</label>
-                    <textarea id="description" class="form-control" rows="4" th:field="*{description}"></textarea>
-                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+                    <textarea id="description"
+                              class="form-control"
+                              rows="4"
+                              th:field="*{description}"
+                              placeholder="Optionale Beschreibung, Regeln, Wetteinsatz, etc."></textarea>
+
+                    <div class="text-danger small mt-1"
+                         th:if="${#fields.hasErrors('description')}"
+                         th:errors="*{description}">
+                    </div>
+                </div>
+
+                <div class="form-section-title">
+                    <p class="section-kicker mb-1">Zeitraum</p>
+                    <h2 class="h5 mb-0">Wann läuft die Wette?</h2>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="startDate" class="form-label">Startdatum</label>
-                        <input id="startDate" type="date" class="form-control" th:field="*{startDate}">
-                        <div class="text-danger small mt-1" th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></div>
+                        <input id="startDate"
+                               type="date"
+                               class="form-control"
+                               th:field="*{startDate}">
+
+                        <div class="text-danger small mt-1"
+                             th:if="${#fields.hasErrors('startDate')}"
+                             th:errors="*{startDate}">
+                        </div>
                     </div>
 
-                    <div class="col-md-6 mb-3">
+                    <div class="col-md-6 mb-4">
                         <label for="endDate" class="form-label">Enddatum</label>
-                        <input id="endDate" type="date" class="form-control" th:field="*{endDate}">
-                        <div class="text-danger small mt-1" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
+                        <input id="endDate"
+                               type="date"
+                               class="form-control"
+                               th:field="*{endDate}">
+
+                        <div class="text-danger small mt-1"
+                             th:if="${#fields.hasErrors('endDate')}"
+                             th:errors="*{endDate}">
+                        </div>
                     </div>
                 </div>
 
-                <div class="mb-4">
-                    <label for="scoringMode" class="form-label">Bewertungsmodus</label>
-                    <select id="scoringMode" class="form-select" th:field="*{scoringMode}">
+                <div class="form-section-title">
+                    <p class="section-kicker mb-1">Wertung</p>
+                    <h2 class="h5 mb-0">Wie wird gezählt?</h2>
+                </div>
+
+                <div class="mb-3">
+                    <label for="scoringMode" class="form-label">Bewertungsmodus auswählen:</label>
+                    <select id="scoringMode"
+                            class="form-select"
+                            th:field="*{scoringMode}">
                         <option th:each="mode : ${scoringModes}"
                                 th:value="${mode}"
                                 th:text="${mode.displayName}">
                             Bewertungsmodus
                         </option>
                     </select>
-                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('scoringMode')}" th:errors="*{scoringMode}"></div>
+
+                    <div class="text-danger small mt-1"
+                         th:if="${#fields.hasErrors('scoringMode')}"
+                         th:errors="*{scoringMode}">
+                    </div>
                 </div>
 
                 <div class="mb-4">
-                    <label for="fishCategory" class="form-label">Fischarten</label>
-                    <select id="fishCategory" class="form-select" th:field="*{fishCategory}">
+                    <label for="fishCategory" class="form-label">Fischarten auswählen:</label>
+                    <select id="fishCategory"
+                            class="form-select"
+                            th:field="*{fishCategory}">
                         <option th:each="category : ${fishCategories}"
                                 th:value="${category}"
                                 th:text="${category.displayName}">
                             Kategorie
                         </option>
                     </select>
+
                     <div class="form-text">
-                        Lege fest, ob in dieser Wette alle Fischarten, nur Süßwasserfische oder nur Salzwasserfische zählen.
+                        Lege fest, ob alle Fischarten, nur Süßwasserfische oder nur Salzwasserfische zählen.
                     </div>
+
                     <div class="text-danger small mt-1"
                          th:if="${#fields.hasErrors('fishCategory')}"
                          th:errors="*{fishCategory}">
                     </div>
                 </div>
 
-                <div class="alert alert-info small">
-                    <strong>Grundregel:</strong>
-                    Jeder Spieler erhält pro gefangener Fischart 1 Punkt, sobald er mindestens einen Fisch dieser Art gefangen hat.
-                    <br><br>
+                <section class="rules-card mb-4">
+                    <p class="section-kicker mb-2">Bewertungslogik</p>
 
-                    <strong>Alle Fänge zählen:</strong>
-                    Pro Fischart gibt es zusätzlich Punkte für den größten Fisch und für die meisten Fänge.
-                    Einen Artenbonus gibt es nur, wenn ein Spieler mehr verschiedene Fischarten gefangen hat als alle anderen.
-                    <br><br>
+                    <div class="rules-list">
+                        <div>
+                            <strong>Grundregel</strong>
+                            <span>Jeder Spieler erhält pro gefangener Fischart 1 Punkt.</span>
+                        </div>
 
-                    <strong>Bester Fang pro Fischart zählt:</strong>
-                    Pro Fischart gibt es zusätzlich einen Punkt für den größten Fisch.
-                    Der Punkt für die meisten Fänge entfällt.
-                    Einen Artenbonus gibt es auch hier nur bei einem alleinigen Artenvielfalt-Sieger.
-                    <br><br>
+                        <div>
+                            <strong>Modus: Alle Fänge zählen</strong>
+                            <span>Zusätzliche Punkte für</span>
+                            <ul>
+                                <li>den größten Fisch einer Art</li>
+                                <li>die meisten Fänge pro Art</li>
+                                <li>Artenbonus für die meisten gefangenen Arten</li>
+                            </ul>
+                        </div>
 
-                    Bei Gleichstand beim größten Fisch oder bei den meisten Fängen erhalten alle betroffenen Spieler den jeweiligen Punkt.
-                </div>
+                        <div>
+                            <strong>Modus: Bester Fang pro Fischart zählt</strong>
+                            <span>Der Punkt für die meisten Fänge entfällt.</span>
+                        </div>
 
-                <button type="submit" class="btn btn-primary">Wette erstellen</button>
+                        <div>
+                            <strong>Gleichstände</strong>
+                            <span>Bei Gleichstand z.B. beim größten Fisch einer Art erhalten alle betroffenen Spieler den jeweiligen Punkt.</span>
+                        </div>
+
+                        <div>
+                            <strong>Gesamtpunkte-Gleichstand</strong>
+                            <span>Führen 2 Angler mit der selben Gesamtpunktzahl kommt es zum <strong>Tiebreaker</strong>.</span>
+                            <span><strong>Tiebreaker</strong>:</span>
+                            <span>Die Gesamtlänge der größten Fänge innerhalb der Arten die beide Angler gefangen haben</span>
+                        </div>
+                    </div>
+                </section>
+
+                <button type="submit" class="btn btn-primary bet-form-submit">
+                    Wette erstellen
+                </button>
             </form>
         </div>
     </div>

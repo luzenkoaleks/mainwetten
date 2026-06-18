@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 import de.mainwetten.fish.FishCategory;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class BetForm {
 
@@ -20,10 +22,12 @@ public class BetForm {
 
     @NotNull(message = "Bitte gib ein Startdatum an.")
     @FutureOrPresent(message = "Das Startdatum darf nicht in der Vergangenheit liegen.")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate startDate;
 
     @NotNull(message = "Bitte gib ein Enddatum an.")
     @FutureOrPresent(message = "Das Enddatum darf nicht in der Vergangenheit liegen.")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate endDate;
 
     @NotNull(message = "Bitte wähle einen Bewertungsmodus aus.")
@@ -33,8 +37,6 @@ public class BetForm {
     private FishCategory fishCategory;
 
     public BetForm() {
-        this.startDate = LocalDate.now();
-        this.endDate = LocalDate.now().plusWeeks(1);
         this.scoringMode = ScoringMode.TOTAL_POINTS;
         this.fishCategory = FishCategory.ALL;
     }
