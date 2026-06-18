@@ -4,31 +4,39 @@
 <body>
 <header th:replace="~{fragments/layout :: navbar('login', false)}"></header>
 
-<main class="container app-page">
+<main class="container app-page auth-page">
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-5">
-            <div class="app-card auth-card">
-                <p class="home-kicker">Willkommen zurück</p>
 
-                <h1 class="h3 mb-3">Einloggen</h1>
+            <section class="auth-panel">
+                <div class="auth-panel-header">
+                    <p class="section-kicker mb-2">Willkommen zurück</p>
 
-                <p class="text-muted mb-4">
-                    Melde dich an, um deine Wetten, Einladungen und Fänge zu verwalten.
-                </p>
+                    <h1 class="auth-title mb-2">
+                        Einloggen
+                    </h1>
 
-                <div class="alert alert-danger" th:if="${param.error}">
+                    <p class="auth-lead mb-0">
+                        Melde dich an, um deine Wetten, Einladungen und Fänge zu verwalten.
+                    </p>
+                </div>
+
+                <div class="alert alert-danger auth-alert"
+                     th:if="${param.error}">
                     Benutzername oder Passwort ist falsch.
                 </div>
 
-                <div class="alert alert-success" th:if="${param.logout}">
+                <div class="alert alert-success auth-alert"
+                     th:if="${param.logout}">
                     Du wurdest erfolgreich ausgeloggt.
                 </div>
 
-                <form th:action="@{/login}" method="post">
+                <form th:action="@{/login}" method="post" class="auth-form">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                     <div class="mb-3">
                         <label for="username" class="form-label">Benutzername</label>
+
                         <input id="username"
                                name="username"
                                class="form-control"
@@ -40,6 +48,7 @@
 
                     <div class="mb-4">
                         <label for="password" class="form-label">Passwort</label>
+
                         <input id="password"
                                name="password"
                                class="form-control"
@@ -48,18 +57,17 @@
                                required>
                     </div>
 
-                    <button class="btn btn-primary w-100" type="submit">
+                    <button class="btn btn-primary auth-submit" type="submit">
                         Einloggen
                     </button>
                 </form>
 
-                <hr class="my-4">
-
-                <p class="mb-0 text-muted">
-                    Noch kein Konto?
+                <div class="auth-switch">
+                    <span>Noch kein Konto?</span>
                     <a th:href="@{/register}">Jetzt registrieren</a>
-                </p>
-            </div>
+                </div>
+            </section>
+
         </div>
     </div>
 </main>

@@ -1,45 +1,106 @@
 <!doctype html>
 <html lang="de" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/layout :: head('Dashboard')}"></head>
+<head th:replace="~{fragments/layout :: head('Registrieren')}"></head>
 
 <body>
 
-<header th:replace="~{fragments/layout :: navbar('dashboard', false)}"></header>
+<header th:replace="~{fragments/layout :: navbar('register', false)}"></header>
 
-<main class="container app-page">
+<main class="container app-page auth-page">
     <div class="row justify-content-center">
-        <div class="col-md-7 col-lg-5">
-            <h1 class="h3 mb-4">Account erstellen</h1>
+        <div class="col-12 col-md-8 col-lg-5">
 
-            <form th:action="@{/register}" th:object="${registrationForm}" method="post" class="card card-body app-card">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <section class="auth-panel">
+                <div class="auth-panel-header">
+                    <p class="section-kicker mb-2">Neu dabei?</p>
 
-                <div class="mb-3">
-                    <label for="username" class="form-label">Benutzername</label>
-                    <input id="username" type="text" class="form-control" th:field="*{username}">
-                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+                    <h1 class="auth-title mb-2">
+                        Account erstellen
+                    </h1>
+
+                    <p class="auth-lead mb-0">
+                        Erstelle dein Konto, um Angelwetten zu starten, Einladungen anzunehmen und Fänge einzutragen.
+                    </p>
                 </div>
 
-                <div class="mb-3">
-                    <label for="email" class="form-label">E-Mail-Adresse</label>
-                    <input id="email" type="email" class="form-control" th:field="*{email}">
-                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                </div>
+                <form th:action="@{/register}"
+                      th:object="${registrationForm}"
+                      method="post"
+                      class="auth-form">
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">Passwort</label>
-                    <input id="password" type="password" class="form-control" th:field="*{password}">
-                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-                </div>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
-                <div class="mb-4">
-                    <label for="confirmPassword" class="form-label">Passwort wiederholen</label>
-                    <input id="confirmPassword" type="password" class="form-control" th:field="*{confirmPassword}">
-                    <div class="text-danger small mt-1" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></div>
-                </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Benutzername</label>
 
-                <button type="submit" class="btn btn-primary">Registrieren</button>
-            </form>
+                        <input id="username"
+                               type="text"
+                               class="form-control"
+                               th:field="*{username}"
+                               autocomplete="username">
+
+                        <div class="text-danger small mt-1"
+                             th:if="${#fields.hasErrors('username')}"
+                             th:errors="*{username}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-Mail-Adresse</label>
+
+                        <input id="email"
+                               type="email"
+                               class="form-control"
+                               th:field="*{email}"
+                               autocomplete="email">
+
+                        <div class="text-danger small mt-1"
+                             th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Passwort</label>
+
+                        <input id="password"
+                               type="password"
+                               class="form-control"
+                               th:field="*{password}"
+                               autocomplete="new-password">
+
+                        <div class="text-danger small mt-1"
+                             th:if="${#fields.hasErrors('password')}"
+                             th:errors="*{password}">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="confirmPassword" class="form-label">Passwort wiederholen</label>
+
+                        <input id="confirmPassword"
+                               type="password"
+                               class="form-control"
+                               th:field="*{confirmPassword}"
+                               autocomplete="new-password">
+
+                        <div class="text-danger small mt-1"
+                             th:if="${#fields.hasErrors('confirmPassword')}"
+                             th:errors="*{confirmPassword}">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary auth-submit">
+                        Registrieren
+                    </button>
+                </form>
+
+                <div class="auth-switch">
+                    <span>Schon ein Konto?</span>
+                    <a th:href="@{/login}">Einloggen</a>
+                </div>
+            </section>
+
         </div>
     </div>
 </main>
