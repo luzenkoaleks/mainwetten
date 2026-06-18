@@ -1428,7 +1428,6 @@ a.app-card:hover {
     color: #ffffff;
     font-weight: 900;
 }
-
 .dashboard-hero {
     display: flex;
     justify-content: space-between;
@@ -1468,18 +1467,6 @@ a.app-card:hover {
     font-weight: 900;
 }
 
-@media (max-width: 575.98px) {
-    .dashboard-hero {
-        display: grid;
-        padding: 1.15rem;
-        border-radius: 1.25rem;
-    }
-
-    .dashboard-main-action {
-        width: 100%;
-    }
-}
-
 .dashboard-bet-card {
     position: relative;
     overflow: hidden;
@@ -1513,7 +1500,34 @@ a.app-card:hover {
     position: relative;
     display: flex;
     flex-direction: column;
+    padding: 1.15rem;
+}
 
+.dashboard-bet-card h4 {
+    color: var(--mw-primary-dark);
+    font-size: 1.2rem;
+    line-height: 1.25;
+    font-weight: 950;
+    letter-spacing: -0.01em;
+}
+
+.dashboard-bet-card p {
+    color: var(--mw-muted);
+    font-size: 0.98rem;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+.dashboard-bet-card .small {
+    color: var(--mw-muted);
+    font-size: 0.96rem;
+    line-height: 1.55;
+    font-weight: 600;
+}
+
+.dashboard-bet-card .small strong {
+    color: var(--mw-primary-dark);
+    font-weight: 850;
 }
 
 .dashboard-status {
@@ -1554,6 +1568,38 @@ a.app-card:hover {
     color: var(--mw-primary-dark);
     font-weight: 900;
     letter-spacing: -0.02em;
+}
+
+@media (max-width: 575.98px) {
+    .dashboard-hero {
+        display: grid;
+        padding: 1.15rem;
+        border-radius: 1.25rem;
+    }
+
+    .dashboard-main-action {
+        width: 100%;
+    }
+
+    .dashboard-bet-card .card-body {
+        padding: 1.05rem;
+    }
+
+    .dashboard-bet-card h4 {
+        font-size: 1.2rem;
+    }
+
+    .dashboard-bet-card p {
+        font-size: 0.96rem;
+    }
+
+    .dashboard-bet-card .small {
+        font-size: 0.95rem;
+    }
+
+    .dashboard-status {
+        font-size: 0.8rem;
+    }
 }
 
 .dashboard-invite-card {
