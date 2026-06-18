@@ -31,44 +31,86 @@
         </a>
     </section>
 
-    <section class="mb-4" th:if="${!#lists.isEmpty(invitations)}">
-        <h2 class="h5 mb-3">Einladungen</h2>
+    <section class="dashboard-invitations mb-4" th:if="${!#lists.isEmpty(invitations)}">
+        <div class="dashboard-section-header mb-3">
+            <div>
+                <p class="section-kicker mb-1">Offene Aktionen</p>
+                <h2 class="h5 mb-0">Einladungen</h2>
+            </div>
+        </div>
 
         <div class="row g-3">
             <div class="col-12 col-md-6 col-xl-4" th:each="invitation : ${invitations}">
-                <div class="card app-card h-100">
-                    <div class="card-body">
-                        <h3 class="h6 mb-2" th:text="${invitation.bet.title}">Titel</h3>
+                <article class="dashboard-invite-card h-100">
+                    <div class="dashboard-invite-top">
+                        <div>
+                            <p class="section-kicker mb-1">Einladung</p>
 
-                        <p class="small text-muted mb-3"
-                           th:if="${invitation.bet.description != null && !invitation.bet.description.isBlank()}"
-                           th:text="${invitation.bet.description}">
-                            Beschreibung
-                        </p>
-
-                        <div class="small text-muted mb-3">
-                            <strong>Zeitraum:</strong>
-                            <span th:text="${#temporals.format(invitation.bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
-                            –
-                            <span th:text="${#temporals.format(invitation.bet.endDate, 'dd.MM.yyyy')}">07.01.2026</span>
+                            <h3 class="dashboard-invite-title"
+                                th:text="${invitation.bet.title}">
+                                Titel
+                            </h3>
                         </div>
 
-                        <div class="d-grid gap-2">
-                            <form th:action="@{/invitations/{id}/accept(id=${invitation.id})}" method="post" class="mb-0">
-                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                                <button class="btn btn-primary w-100" type="submit">Annehmen</button>
-                            </form>
+                        <span class="dashboard-invite-label">
+                        wartet
+                    </span>
+                    </div>
 
-                            <form th:action="@{/invitations/{id}/decline(id=${invitation.id})}"
-                                  method="post"
-                                  class="mb-0"
-                                  onsubmit="return confirm('Möchtest du diese Einladung wirklich ablehnen? Du nimmst dann nicht an dieser Wette teil.');">
-                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                                <button class="btn btn-outline-danger w-100" type="submit">Ablehnen</button>
-                            </form>
+                    <p class="dashboard-invite-description"
+                       th:if="${invitation.bet.description != null && !invitation.bet.description.isBlank()}"
+                       th:text="${invitation.bet.description}">
+                        Beschreibung
+                    </p>
+
+                    <div class="dashboard-invite-meta-grid">
+                        <div class="dashboard-invite-meta">
+                            <span>Zeitraum</span>
+                            <strong>
+                                <span th:text="${#temporals.format(invitation.bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
+                                –
+                                <span th:text="${#temporals.format(invitation.bet.endDate, 'dd.MM.yyyy')}">07.01.2026</span>
+                            </strong>
+                        </div>
+
+                        <div class="dashboard-invite-meta">
+                            <span>Modus</span>
+                            <strong th:text="${invitation.bet.scoringMode.displayName}">
+                                Bewertungsmodus
+                            </strong>
+                        </div>
+
+                        <div class="dashboard-invite-meta">
+                            <span>Fischarten</span>
+                            <strong th:text="${invitation.bet.fishCategory.displayName}">
+                                Alle Fischarten
+                            </strong>
                         </div>
                     </div>
-                </div>
+
+                    <div class="dashboard-invite-actions">
+                        <form th:action="@{/invitations/{id}/accept(id=${invitation.id})}"
+                              method="post"
+                              class="mb-0">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                            <button class="btn btn-primary w-100" type="submit">
+                                Annehmen
+                            </button>
+                        </form>
+
+                        <form th:action="@{/invitations/{id}/decline(id=${invitation.id})}"
+                              method="post"
+                              class="mb-0"
+                              onsubmit="return confirm('Möchtest du diese Einladung wirklich ablehnen? Du nimmst dann nicht an dieser Wette teil.');">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                            <button class="btn btn-outline-light w-100" type="submit">
+                                Ablehnen
+                            </button>
+                        </form>
+                    </div>
+                </article>
             </div>
         </div>
     </section>
