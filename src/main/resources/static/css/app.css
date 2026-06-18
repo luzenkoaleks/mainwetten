@@ -296,8 +296,8 @@ a.app-card {
 .app-card[href]:hover,
 a.app-card:hover {
     transform: translateY(-1px);
-    border-color: rgba(47, 111, 62, 0.35);
-    box-shadow: 0 0.75rem 1.75rem rgba(31, 42, 31, 0.09);
+    border-color: rgba(17, 119, 179, 0.32);
+    box-shadow: 0 0.75rem 1.75rem rgba(9, 34, 49, 0.1);
 }
 
 .stat-grid {
@@ -1088,7 +1088,7 @@ a.app-card:hover {
     padding: 0.32rem 0.58rem;
     background: linear-gradient(160deg, #e7f3fc, #b7dcf4);
     color: var(--mw-primary-dark);
-    font-size: 0.75rem;
+    font-size: 0.9rem;
     font-weight: 900;
     white-space: nowrap;
 }
@@ -1096,7 +1096,7 @@ a.app-card:hover {
 .best-catch-badge-small {
     margin-top: 0;
     padding: 0.22rem 0.48rem;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
 }
 
 .catch-details {
@@ -1107,8 +1107,8 @@ a.app-card:hover {
 
 .catch-details summary {
     cursor: pointer;
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 0.86rem;
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 0.95rem;
     font-weight: 850;
 }
 
@@ -1131,6 +1131,16 @@ a.app-card:hover {
     flex-wrap: wrap;
     align-items: center;
     gap: 0.35rem;
+}
+
+@media (max-width: 575.98px) {
+    .catch-entry-list {
+        font-size: 0.93rem;
+    }
+
+    .catch-entry-list li {
+        gap: 0.35rem;
+    }
 }
 
 .catch-entry-length {
@@ -1375,4 +1385,43 @@ a.app-card:hover {
         align-items: flex-start;
         flex-direction: column;
     }
+}
+
+@media (min-width: 992px) {
+    .detail-sidebar-card {
+        position: sticky;
+        top: 5.5rem;
+    }
+}
+
+.catch-entry-list {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.catch-entry-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.catch-entry-date {
+    color: rgba(255, 255, 255, 0.88);
+    font-weight: 750;
+}
+
+.catch-entry-separator {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.catch-entry-length {
+    color: #ffffff;
+    font-weight: 900;
 }

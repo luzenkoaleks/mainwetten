@@ -233,7 +233,7 @@
                                 <h3 class="catch-species-name" th:text="${speciesGroup.fishSpeciesName}">
                                     Fischart
                                 </h3>
-                                <div class="catch-species-meta">Fischart</div>
+
                             </div>
                         </div>
 
@@ -245,13 +245,14 @@
                                             Benutzer
                                         </strong>
 
-                                        <div class="catch-row-species">
-                                            <span th:text="${speciesGroup.fishSpeciesName}">Fischart</span>
-                                        </div>
 
                                         <div class="catch-count">
                                             <span th:text="${userGroup.catchCount}">1</span>
                                             Fang/Fänge
+                                        </div>
+
+                                        <div class="catch-row-species">
+                                            <span th:text="${speciesGroup.fishSpeciesName}">Fischart</span>
                                         </div>
                                     </div>
 
@@ -281,6 +282,8 @@
                                                 Fischart
                                             </span>
 
+                                            <span class="catch-entry-date" th:text="${#temporals.format(entry.caughtDate, 'dd.MM.yyyy')}"> 01.01.2026 </span>
+
                                             <span class="catch-entry-separator">–</span>
 
                                             <strong class="catch-entry-length">
@@ -303,7 +306,7 @@
         </div>
 
         <div class="col-lg-4">
-            <aside class="participant-card" id="invite-user">
+            <aside class="participant-card detail-sidebar-card" id="invite-user">
                 <div class="participant-card-header">
                     <p class="section-kicker mb-1">Wette</p>
                     <h2 class="h5 mb-0">Teilnehmer</h2>
