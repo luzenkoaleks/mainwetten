@@ -6,7 +6,7 @@
 
 <header th:replace="~{fragments/layout :: navbar('dashboard', true)}"></header>
 
-<main class="container py-5">
+<main class="container app-page dashboard-page">
 
     <div class="alert alert-success"
          th:if="${catchSuccess}"
@@ -14,16 +14,22 @@
         Fang wurde eingetragen.
     </div>
 
-    <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+    <section class="dashboard-hero mb-4">
         <div>
-            <h1 class="h3 mb-1">Dashboard</h1>
-            <p class="text-muted mb-0">
-                Eingeloggt als <strong th:text="${username}">Benutzer</strong>.
+            <p class="section-kicker mb-2">Übersicht</p>
+
+            <h1 class="dashboard-title mb-2">Dashboard</h1>
+
+            <p class="dashboard-lead mb-0">
+                Eingeloggt als
+                <strong th:text="${username}">Benutzer</strong>.
             </p>
         </div>
 
-        <a class="btn btn-primary" href="/bets/new">Neue Wette</a>
-    </div>
+        <a class="btn btn-primary dashboard-main-action" href="/bets/new">
+            Neue Wette
+        </a>
+    </section>
 
     <section class="mb-4" th:if="${!#lists.isEmpty(invitations)}">
         <h2 class="h5 mb-3">Einladungen</h2>
@@ -87,12 +93,12 @@
 
             <div class="row g-3">
                 <div class="col-12 col-md-6 col-xl-4" th:each="card : ${activeBets}">
-                    <a class="card app-card h-100 text-decoration-none text-reset"
+                    <a class="card app-card dashboard-bet-card dashboard-bet-card-active h-100 text-decoration-none text-reset"
                        th:href="@{/bets/{id}(id=${card.bet.id})}">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                                 <h4 class="h6 mb-0" th:text="${card.bet.title}">Titel</h4>
-                                <span class="badge text-bg-success" th:text="${card.statusLabel}">Aktiv</span>
+                                <span class="dashboard-status dashboard-status-active" th:text="${card.statusLabel}">Aktiv</span>
                             </div>
 
                             <p class="small text-muted mb-3"
@@ -128,12 +134,12 @@
 
             <div class="row g-3">
                 <div class="col-12 col-md-6 col-xl-4" th:each="card : ${upcomingBets}">
-                    <a class="card app-card h-100 text-decoration-none text-reset"
+                    <a class="card app-card dashboard-bet-card dashboard-bet-card-upcoming h-100 text-decoration-none text-reset"
                        th:href="@{/bets/{id}(id=${card.bet.id})}">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                                 <h4 class="h6 mb-0" th:text="${card.bet.title}">Titel</h4>
-                                <span class="badge text-bg-warning" th:text="${card.statusLabel}">Kommend</span>
+                                <span class="dashboard-status dashboard-status-upcoming" th:text="${card.statusLabel}">Kommend</span>
                             </div>
 
                             <p class="small text-muted mb-3"
@@ -169,12 +175,12 @@
 
             <div class="row g-3">
                 <div class="col-12 col-md-6 col-xl-4" th:each="card : ${expiredBets}">
-                    <a class="card app-card h-100 text-decoration-none text-reset"
+                    <a class="card app-card dashboard-bet-card dashboard-bet-card-expired h-100 text-decoration-none text-reset"
                        th:href="@{/bets/{id}(id=${card.bet.id})}">
                         <div class="card-body">
                             <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
                                 <h4 class="h6 mb-0" th:text="${card.bet.title}">Titel</h4>
-                                <span class="badge text-bg-secondary" th:text="${card.statusLabel}">Abgelaufen</span>
+                                <span class="dashboard-status dashboard-status-expired" th:text="${card.statusLabel}">Abgelaufen</span>
                             </div>
 
                             <p class="small text-muted mb-3"

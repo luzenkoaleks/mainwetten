@@ -336,18 +336,6 @@ a.app-card:hover {
     padding: 1rem;
 }
 
-.catch-user-row {
-    border-top: 1px solid var(--mw-border);
-    padding-top: 0.85rem;
-    margin-top: 0.85rem;
-}
-
-.catch-user-row:first-of-type {
-    border-top: 0;
-    padding-top: 0;
-    margin-top: 0;
-}
-
 @media (max-width: 575.98px) {
     .stat-grid {
         grid-template-columns: 1fr 1fr;
@@ -1440,3 +1428,92 @@ a.app-card:hover {
     color: #ffffff;
     font-weight: 900;
 }
+
+.dashboard-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.25rem;
+    border: 1px solid rgba(17, 119, 179, 0.16);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    background:
+            radial-gradient(circle at top right, rgba(74, 147, 230, 0.18), transparent 36%),
+            linear-gradient(160deg, #ffffff, #e7f3fc);
+    box-shadow: 0 0.75rem 1.8rem rgba(9, 34, 49, 0.08);
+}
+
+.dashboard-title {
+    color: var(--mw-primary-dark);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.04em;
+    font-weight: 900;
+}
+
+.dashboard-lead {
+    color: var(--mw-muted);
+    font-size: 1rem;
+}
+
+.dashboard-lead strong {
+    color: var(--mw-primary-dark);
+    font-weight: 900;
+}
+
+.dashboard-main-action {
+    min-width: fit-content;
+    border-radius: 999px;
+    padding-inline: 1rem;
+    font-weight: 900;
+}
+
+@media (max-width: 575.98px) {
+    .dashboard-hero {
+        display: grid;
+        padding: 1.15rem;
+        border-radius: 1.25rem;
+    }
+
+    .dashboard-main-action {
+        width: 100%;
+    }
+}
+
+.dashboard-bet-card {
+    position: relative;
+    overflow: hidden;
+    border-color: rgba(17, 119, 179, 0.16);
+    background:
+            radial-gradient(circle at top right, rgba(74, 147, 230, 0.08), transparent 34%),
+            #ffffff;
+}
+
+.dashboard-bet-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0.28rem;
+    background: var(--mw-primary);
+}
+
+.dashboard-bet-card-active::before {
+    background: #1177b3;
+}
+
+.dashboard-bet-card-upcoming::before {
+    background: #d6a829;
+}
+
+.dashboard-bet-card-expired::before {
+    background: #60717c;
+}
+
+.dashboard-bet-card .card-body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+}
+
+di
