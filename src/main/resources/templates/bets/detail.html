@@ -303,42 +303,67 @@
         </div>
 
         <div class="col-lg-4">
-
-            <div class="card app-card" id="invite-user">
-                <div class="card-body">
-                    <h2 class="h5 mb-3">Teilnehmer</h2>
-
-                    <div class="alert alert-success small" th:if="${inviteSuccess}" th:text="${inviteSuccess}">
-                        Benutzer wurde eingeladen.
-                    </div>
-
-                    <div class="alert alert-danger small" th:if="${inviteError}" th:text="${inviteError}">
-                        Fehler beim Einladen.
-                    </div>
-
-                    <form th:action="@{/bets/{id}/participants(id=${bet.id})}" method="post" class="mb-3">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-
-                        <label for="inviteUsername" class="form-label small">Benutzer einladen</label>
-                        <div class="input-group input-group-sm">
-                            <input id="inviteUsername"
-                                   name="username"
-                                   type="text"
-                                   class="form-control"
-                                   placeholder="Benutzername">
-                            <button class="btn btn-outline-primary" type="submit">Einladen</button>
-                        </div>
-                    </form>
-
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item px-0 d-flex justify-content-between align-items-center"
-                            th:each="participant : ${participants}">
-                            <span th:text="${participant.user.username}">Benutzer</span>
-                            <span class="badge text-bg-secondary" th:text="${participant.status}">ACCEPTED</span>
-                        </li>
-                    </ul>
+            <aside class="participant-card" id="invite-user">
+                <div class="participant-card-header">
+                    <p class="section-kicker mb-1">Wette</p>
+                    <h2 class="h5 mb-0">Teilnehmer</h2>
                 </div>
-            </div>
+
+                <div class="participant-alert participant-alert-success"
+                     th:if="${inviteSuccess}"
+                     th:text="${inviteSuccess}">
+                    Benutzer wurde eingeladen.
+                </div>
+
+                <div class="participant-alert participant-alert-danger"
+                     th:if="${inviteError}"
+                     th:text="${inviteError}">
+                    Fehler beim Einladen.
+                </div>
+
+                <form th:action="@{/bets/{id}/participants(id=${bet.id})}"
+                      method="post"
+                      class="participant-invite-form">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+                    <label for="inviteUsername" class="participant-label">Benutzer einladen</label>
+
+                    <div class="participant-input-group">
+                        <input id="inviteUsername"
+                               name="username"
+                               type="text"
+                               class="form-control"
+                               placeholder="Benutzername">
+
+                        <button class="btn btn-primary" type="submit">
+                            Einladen
+                        </button>
+                    </div>
+                </form>
+
+                <div class="participant-list">
+                    <div class="participant-row" th:each="participant : ${participants}">
+                        <div>
+                            <strong class="participant-name" th:text="${participant.user.username}">
+                                Benutzer
+                            </strong>
+
+                            <div class="participant-subtitle">Teilnehmerstatus</div>
+                        </div>
+
+                        <span class="participant-status"
+                              th:classappend="${participant.status.name() == 'ACCEPTED'} ? ' participant-status-accepted' :
+                                      (${participant.status.name() == 'INVITED'} ? ' participant-status-invited' :
+                                      ' participant-status-declined')"
+                              th:switch="${participant.status.name()}">
+                    <span th:case="'ACCEPTED'">nimmt teil</span>
+                    <span th:case="'INVITED'">eingeladen</span>
+                    <span th:case="'DECLINED'">abgelehnt</span>
+                    <span th:case="*" th:text="${participant.status}">Status</span>
+                </span>
+                    </div>
+                </div>
+            </aside>
         </div>
     </div>
 </main>

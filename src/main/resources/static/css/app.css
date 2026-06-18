@@ -1224,3 +1224,155 @@ a.app-card:hover {
     background: rgba(255, 255, 255, 0.18);
     color: #ffffff;
 }
+
+.participant-card {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    background:
+            radial-gradient(circle at top right, rgba(126, 197, 240, 0.22), transparent 38%),
+            linear-gradient(160deg, #12384d, #0f658f);
+    color: #ffffff;
+    box-shadow: 0 0.75rem 1.8rem rgba(9, 34, 49, 0.14);
+    scroll-margin-top: 5rem;
+}
+
+.participant-card .section-kicker {
+    color: rgba(255, 255, 255, 0.84);
+}
+
+.participant-card-header {
+    margin-bottom: 1rem;
+}
+
+.participant-card-header h2 {
+    color: #ffffff;
+}
+
+.participant-alert {
+    border-radius: 1rem;
+    padding: 0.7rem 0.85rem;
+    margin-bottom: 0.85rem;
+    font-size: 0.9rem;
+    font-weight: 750;
+}
+
+.participant-alert-success {
+    border: 1px solid rgba(183, 220, 244, 0.5);
+    background: rgba(231, 243, 252, 0.16);
+    color: #ffffff;
+}
+
+.participant-alert-danger {
+    border: 1px solid rgba(255, 190, 190, 0.5);
+    background: rgba(255, 80, 80, 0.14);
+    color: #ffffff;
+}
+
+.participant-invite-form {
+    margin-bottom: 1rem;
+}
+
+.participant-label {
+    display: block;
+    margin-bottom: 0.45rem;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.9rem;
+    font-weight: 850;
+}
+
+.participant-input-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.participant-input-group .form-control {
+    min-width: 0;
+    border-color: rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.94);
+    color: var(--mw-primary-dark);
+    font-weight: 700;
+}
+
+.participant-input-group .form-control::placeholder {
+    color: rgba(9, 34, 49, 0.52);
+}
+
+.participant-input-group .btn-primary {
+    background: linear-gradient(160deg, #e7f3fc, #b7dcf4);
+    border-color: #b7dcf4;
+    color: var(--mw-primary-dark);
+    font-weight: 900;
+}
+
+.participant-list {
+    display: grid;
+    gap: 0.7rem;
+}
+
+.participant-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1rem;
+    padding: 0.85rem;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.participant-name {
+    color: #ffffff;
+    font-weight: 900;
+}
+
+.participant-subtitle {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.participant-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.32rem 0.58rem;
+    font-size: 0.75rem;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.participant-status-accepted {
+    background: linear-gradient(160deg, #e7f3fc, #b7dcf4);
+    color: var(--mw-primary-dark);
+}
+
+.participant-status-invited {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+}
+
+.participant-status-declined {
+    background: rgba(255, 120, 120, 0.18);
+    color: #ffffff;
+}
+
+@media (max-width: 575.98px) {
+    .participant-card {
+        padding: 1rem;
+    }
+
+    .participant-input-group {
+        display: grid;
+    }
+
+    .participant-input-group .btn {
+        width: 100%;
+    }
+
+    .participant-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
