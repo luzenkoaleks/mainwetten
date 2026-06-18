@@ -657,9 +657,14 @@ a.app-card:hover {
 }
 
 .rank-pill-first {
-    border-color: #f4c542;
-    background: linear-gradient(160deg, #ffe58a, #e0a91b);
-    color: var(--mw-primary-dark);
+    border-color: #d6a829;
+    background:
+            radial-gradient(circle at 32% 24%, rgba(255, 255, 255, 0.65), transparent 22%),
+            linear-gradient(145deg, #fff1a8 0%, #d6a829 42%, #9b6b12 100%);
+    color: #092231;
+    box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.55),
+            0 0.35rem 0.9rem rgba(155, 107, 18, 0.28);
 }
 
 .leaderboard-user {
@@ -717,7 +722,7 @@ a.app-card:hover {
 
 .mobile-rank-card-winner {
     background: rgba(255, 255, 255, 0.16);
-    border-color: rgba(244, 197, 66, 0.8);
+    border-color: rgba(214, 168, 41, 0.85);
 }
 
 .mobile-rank-top {
@@ -914,21 +919,31 @@ a.app-card:hover {
 }
 
 .bet-soft-card {
-    border: 1px solid rgba(17, 119, 179, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 1.25rem;
     padding: 1.25rem;
     background:
-            radial-gradient(circle at top right, rgba(74, 147, 230, 0.12), transparent 38%),
-            linear-gradient(160deg, #edf6fc, #dceef8);
-    box-shadow: 0 0.65rem 1.6rem rgba(9, 34, 49, 0.08);
+            radial-gradient(circle at top right, rgba(126, 197, 240, 0.18), transparent 38%),
+            linear-gradient(160deg, #12384d, #0d4f78);
+    color: #ffffff;
+    box-shadow: 0 0.75rem 1.8rem rgba(9, 34, 49, 0.14);
 }
 
-.bet-section-header {
-    margin-bottom: 0.85rem;
+.bet-soft-card .section-kicker {
+    color: rgba(255, 255, 255, 0.78);
 }
 
 .bet-soft-card h2 {
-    color: var(--mw-primary-dark);
+    color: #ffffff;
+}
+
+.bet-soft-card p {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+}
+
+.bet-soft-card .text-muted {
+    color: rgba(255, 255, 255, 0.72) !important;
 }
 
 @media (max-width: 767.98px) {
