@@ -315,7 +315,7 @@ a.app-card:hover {
 
 .stat-box-label {
     display: block;
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     color: var(--mw-muted);
 }
 
@@ -967,4 +967,260 @@ a.app-card:hover {
 
 .btn {
     font-weight: 700;
+}
+
+.catch-overview-card {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.25rem;
+    padding: 1.25rem;
+    background:
+            radial-gradient(circle at top right, rgba(126, 197, 240, 0.3), transparent 38%),
+            linear-gradient(160deg, #104861, #1680b7);
+    color: #ffffff;
+    box-shadow: 0 0.75rem 1.8rem rgba(9, 34, 49, 0.14);
+}
+
+.catch-overview-card .section-kicker {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.catch-overview-header {
+    margin-bottom: 1rem;
+}
+
+.catch-overview-header h2 {
+    color: #ffffff;
+}
+
+.catch-empty {
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.catch-species-list {
+    display: grid;
+    gap: 0.95rem;
+}
+
+.catch-species-card {
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 1.15rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.catch-species-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+}
+
+.catch-species-name {
+    margin-bottom: 0.1rem;
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+.catch-species-meta {
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.catch-user-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.catch-user-row {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1rem;
+    padding: 0.9rem;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.catch-user-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.catch-user-name {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+.catch-count {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.86rem;
+    font-weight: 700;
+}
+
+.catch-best-box {
+    text-align: right;
+}
+
+.catch-best-label {
+    color: rgba(255, 255, 255, 0.66);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.catch-best-length {
+    display: block;
+    color: #ffffff;
+    font-size: 1.15rem;
+    font-weight: 950;
+}
+
+.best-catch-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.35rem;
+    border-radius: 999px;
+    padding: 0.32rem 0.58rem;
+    background: linear-gradient(160deg, #e7f3fc, #b7dcf4);
+    color: var(--mw-primary-dark);
+    font-size: 0.75rem;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.best-catch-badge-small {
+    margin-top: 0;
+    padding: 0.22rem 0.48rem;
+    font-size: 0.7rem;
+}
+
+.catch-details {
+    margin-top: 0.8rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.catch-details summary {
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.86rem;
+    font-weight: 850;
+}
+
+.catch-details[open] summary {
+    margin-bottom: 0.65rem;
+}
+
+.catch-entry-list {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.86rem;
+}
+
+.catch-entry-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.catch-entry-length {
+    color: #ffffff;
+}
+
+.catch-entry-date,
+.catch-entry-separator {
+    color: rgba(255, 255, 255, 0.68);
+}
+
+@media (max-width: 575.98px) {
+    .catch-overview-card {
+        padding: 1rem;
+    }
+
+    .catch-species-card {
+        padding: 0.9rem;
+    }
+
+    .catch-user-main {
+        display: grid;
+    }
+
+    .catch-best-box {
+        text-align: left;
+    }
+
+    .catch-best-length {
+        font-size: 1.25rem;
+    }
+}
+
+.catch-row-species {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    border-radius: 999px;
+    padding: 0.22rem 0.52rem;
+    background: rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.82rem;
+    font-weight: 850;
+}
+
+.catch-entry-species {
+    display: inline-flex;
+    border-radius: 999px;
+    padding: 0.18rem 0.45rem;
+    background: rgba(255, 255, 255, 0.13);
+    color: rgba(255, 255, 255, 0.86);
+    font-weight: 850;
+}
+
+.catch-overview-card .section-kicker {
+    color: rgba(255, 255, 255, 0.84);
+}
+
+.catch-empty {
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.catch-species-meta {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.catch-count {
+    color: rgba(255, 255, 255, 0.84);
+}
+
+.catch-best-label {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.catch-details summary {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.catch-entry-list {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.catch-entry-date,
+.catch-entry-separator {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.catch-row-species,
+.catch-entry-species {
+    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
 }
