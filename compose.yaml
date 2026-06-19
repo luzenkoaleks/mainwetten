@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: ${DB_USER:-mainwetten}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-mainwetten}
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - mainwetten-postgres-data:/var/lib/postgresql/data
 
