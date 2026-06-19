@@ -24,6 +24,7 @@ public class GlobalCatchEntryService {
     private final FishSpeciesRepository fishSpeciesRepository;
     private final CatchEntryWindowService catchEntryWindowService;
 
+
     public GlobalCatchEntryService(
             CatchRecordRepository catchRecordRepository,
             CatchAssignmentRepository catchAssignmentRepository,
@@ -61,8 +62,11 @@ public class GlobalCatchEntryService {
             throw new IllegalArgumentException("Bitte wähle mindestens eine Wette aus.");
         }
 
-        FishSpecies fishSpecies = fishSpeciesRepository.findById(form.getFishSpeciesId())
-                .orElseThrow(() -> new IllegalArgumentException("Fischart nicht gefunden."));
+        FishSpecies fishSpecies = fishSpeciesRepository
+                .findByIdAndActiveTrue(form.getFishSpeciesId())
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Fischart nicht gefunden oder nicht mehr verfügbar."
+                ));
 
         List<Long> distinctBetIds = form.getBetIds()
                 .stream()

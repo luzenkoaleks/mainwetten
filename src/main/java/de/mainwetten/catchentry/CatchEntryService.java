@@ -19,17 +19,20 @@ public class CatchEntryService {
     private final CatchAssignmentRepository catchAssignmentRepository;
     private final BetParticipantRepository betParticipantRepository;
     private final FishSpeciesRepository fishSpeciesRepository;
+    private final CatchEntryWindowService catchEntryWindowService;
 
     public CatchEntryService(
             CatchRecordRepository catchRecordRepository,
             CatchAssignmentRepository catchAssignmentRepository,
             BetParticipantRepository betParticipantRepository,
-            FishSpeciesRepository fishSpeciesRepository
+            FishSpeciesRepository fishSpeciesRepository,
+            CatchEntryWindowService catchEntryWindowService
     ) {
         this.catchRecordRepository = catchRecordRepository;
         this.catchAssignmentRepository = catchAssignmentRepository;
         this.betParticipantRepository = betParticipantRepository;
         this.fishSpeciesRepository = fishSpeciesRepository;
+        this.catchEntryWindowService = catchEntryWindowService;
     }
 
     @Transactional
@@ -42,10 +45,20 @@ public class CatchEntryService {
                 )
                 .orElseThrow(() -> new IllegalArgumentException("Wette nicht gefunden oder kein Zugriff."));
 
-        FishSpecies fishSpecies = fishSpeciesRepository.findById(form.getFishSpeciesId())
-                .orElseThrow(() -> new IllegalArgumentException("Fischart nicht gefunden."));
 
         Bet bet = participation.getBet();
+
+        if (!catchEntryWindowService.canEnterCatch(bet)) {
+            throw new IllegalArgumentException(
+                    catchEntryWindowService.getCatchEntryNotice(bet)
+            );
+        }
+
+        FishSpecies fishSpecies = fishSpeciesRepository
+                .findByIdAndActiveTrue(form.getFishSpeciesId())
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Fischart nicht gefunden oder nicht mehr verfügbar."
+                ));
 
         if (!isFishAllowedForBet(bet, fishSpecies)) {
             throw new IllegalArgumentException("Diese Fischart ist für die ausgewählte Wette nicht erlaubt.");

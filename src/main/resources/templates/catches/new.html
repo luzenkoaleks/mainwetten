@@ -34,6 +34,14 @@
                   method="post"
                   class="bet-form-card catch-form-card">
 
+                <div class="alert alert-danger"
+                     th:if="${#fields.hasGlobalErrors()}">
+                    <div th:each="error : ${#fields.globalErrors()}"
+                         th:text="${error}">
+                        Fang konnte nicht gespeichert werden.
+                    </div>
+                </div>
+
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                 <div class="form-section-title">
@@ -46,7 +54,8 @@
 
                     <select id="fishSpeciesId"
                             class="form-select"
-                            th:field="*{fishSpeciesId}">
+                            th:field="*{fishSpeciesId}"
+                            required>
                         <option value="">Bitte auswählen</option>
 
                         <optgroup label="Süßwasser"
@@ -80,10 +89,12 @@
                     <input id="lengthCm"
                            type="number"
                            step="0.1"
-                           min="1"
+                           min="0.1"
+                           max="999.9"
                            inputmode="decimal"
                            class="form-control"
-                           th:field="*{lengthCm}">
+                           th:field="*{lengthCm}"
+                           required>
 
                     <div class="text-danger small mt-1"
                          th:if="${#fields.hasErrors('lengthCm')}"

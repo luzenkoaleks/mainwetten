@@ -90,7 +90,24 @@ public class CatchEntryController {
             return "catches/new";
         }
 
-        catchEntryService.createCatchEntry(betId, authentication.getName(), form);
+        try {
+            catchEntryService.createCatchEntry(
+                    betId,
+                    authentication.getName(),
+                    form
+            );
+        } catch (IllegalArgumentException exception) {
+            bindingResult.reject(
+                    "catchEntryError",
+                    exception.getMessage()
+            );
+
+            model.addAttribute("bet", bet);
+            addFishSpeciesAttributes(model, bet);
+
+            return "catches/new";
+        }
+
         return "redirect:/bets/" + betId;
     }
 
@@ -125,13 +142,14 @@ public class CatchEntryController {
             return;
         }
 
-        Optional<FishSpecies> selectedFishSpecies = fishSpeciesRepository.findById(form.getFishSpeciesId());
+        Optional<FishSpecies> selectedFishSpecies =
+                fishSpeciesRepository.findByIdAndActiveTrue(form.getFishSpeciesId());
 
         if (selectedFishSpecies.isEmpty()) {
             bindingResult.rejectValue(
                     "fishSpeciesId",
                     "fishSpecies.notFound",
-                    "Diese Fischart wurde nicht gefunden."
+                    "Diese Fischart wurde nicht gefunden oder ist nicht mehr verfügbar."
             );
             return;
         }
