@@ -24,8 +24,8 @@ public class BetService {
 
     @Transactional
     public Bet createBet(BetForm form, String username) {
-        AppUser creator = appUserRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("User nicht gefunden: " + username));
+        AppUser creator = appUserRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new IllegalArgumentException("User nicht gefunden"));
 
         Bet bet = new Bet();
         bet.setTitle(form.getTitle().trim());

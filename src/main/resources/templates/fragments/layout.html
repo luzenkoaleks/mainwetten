@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<html lang="de"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head(pageTitle)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,7 +46,7 @@
 
         <div id="appMobileNav"
              class="app-nav-actions app-nav-actions-auth app-nav-collapsible"
-             th:if="${authenticated}">
+             sec:authorize="isAuthenticated()">
 
             <a class="btn btn-sm app-nav-link"
                th:href="@{/dashboard}"
@@ -73,7 +75,7 @@
 
         <div id="appMobileNav"
              class="app-nav-actions app-nav-actions-public app-nav-collapsible"
-             th:unless="${authenticated}">
+             sec:authorize="isAnonymous()">
 
             <a class="btn btn-sm app-nav-link"
                th:href="@{/login}"

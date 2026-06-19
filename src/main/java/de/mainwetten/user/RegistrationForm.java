@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import java.util.Locale;
 
 public class RegistrationForm {
 
@@ -41,7 +42,9 @@ public class RegistrationForm {
     }
 
     public void setEmail(String email) {
-        this.email = email == null ? null : email.trim().toLowerCase();
+        this.email = email == null
+                ? null
+                : email.trim().toLowerCase(Locale.ROOT);
     }
 
     public String getPassword() {

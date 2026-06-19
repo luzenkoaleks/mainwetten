@@ -28,6 +28,14 @@
                       method="post"
                       class="auth-form">
 
+                    <div class="alert alert-danger auth-alert"
+                         th:if="${#fields.hasGlobalErrors()}">
+                        <div th:each="error : ${#fields.globalErrors()}"
+                             th:text="${error}">
+                            Registrierung nicht möglich.
+                        </div>
+                    </div>
+
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                     <div class="mb-3">

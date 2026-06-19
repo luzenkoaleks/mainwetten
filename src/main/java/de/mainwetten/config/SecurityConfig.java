@@ -43,8 +43,8 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService userDetailsService(AppUserRepository appUserRepository) {
         return username -> {
-            AppUser appUser = appUserRepository.findByUsername(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+            AppUser appUser = appUserRepository.findByUsernameIgnoreCase(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
             return User.withUsername(appUser.getUsername())
                     .password(appUser.getPasswordHash())

@@ -18,8 +18,8 @@ public class UserRegistrationService {
     @Transactional
     public AppUser register(RegistrationForm form) {
         AppUser user = new AppUser();
-        user.setUsername(form.getUsername().trim());
-        user.setEmail(form.getEmail().trim().toLowerCase());
+        user.setUsername(form.getUsername());
+        user.setEmail(form.getEmail());
         user.setPasswordHash(passwordEncoder.encode(form.getPassword()));
 
         return appUserRepository.save(user);
