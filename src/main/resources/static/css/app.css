@@ -76,117 +76,195 @@ a:hover {
     font-weight: 950;
     box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.18);
 }
-
 .app-nav-actions {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
     justify-content: flex-end;
+    gap: 0.55rem;
+    flex-wrap: wrap;
 }
 
 .app-header .btn {
     border-radius: 999px;
-    font-weight: 850;
+    font-weight: 900;
     letter-spacing: 0.01em;
+    line-height: 1.2;
 }
 
 .app-header .btn-sm {
-    padding: 0.42rem 0.78rem;
+    padding: 0.46rem 0.82rem;
+    font-size: 0.88rem;
 }
 
-.app-header .btn-primary {
-    background: linear-gradient(160deg, #e7f3fc, #b7dcf4);
-    border-color: #b7dcf4;
-    color: var(--mw-primary-dark);
+.app-nav-link {
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.9);
 }
 
-.app-header .btn-primary:hover,
-.app-header .btn-primary:focus,
-.app-header .btn-primary.active {
-    background: linear-gradient(160deg, #d8ecfa, #9dcced);
-    border-color: #9dcced;
-    color: var(--mw-primary-dark);
-}
-
-.app-header .btn-outline-primary,
-.app-header .btn-outline-secondary {
-    border-color: rgba(255, 255, 255, 0.42);
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.app-header .btn-outline-primary:hover,
-.app-header .btn-outline-primary:focus,
-.app-header .btn-outline-primary.active,
-.app-header .btn-outline-secondary:hover,
-.app-header .btn-outline-secondary:focus,
-.app-header .btn-outline-secondary.active {
-    border-color: rgba(255, 255, 255, 0.72);
-    background: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
-}
-
-.app-header .btn-outline-danger {
-    border-color: rgba(255, 255, 255, 0.28);
-    color: rgba(255, 255, 255, 0.82);
-    background: transparent;
-}
-
-.app-header .btn-outline-danger:hover,
-.app-header .btn-outline-danger:focus {
+.app-nav-link:hover,
+.app-nav-link:focus {
     border-color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+}
+
+.app-nav-link.active {
+    border-color: rgba(231, 243, 252, 0.75);
+    background: rgba(231, 243, 252, 0.18);
+    color: #ffffff;
+}
+
+.app-nav-cta {
+    border: 1px solid rgba(231, 243, 252, 0.9);
+    background: #e7f3fc;
+    color: var(--mw-primary-dark);
+    box-shadow: 0 0.25rem 0.65rem rgba(9, 34, 49, 0.12);
+}
+
+.app-nav-cta:hover,
+.app-nav-cta:focus,
+.app-nav-cta.active {
+    border-color: #b7dcf4;
+    background: #d8ecfa;
+    color: var(--mw-primary-dark);
+}
+
+.app-logout-form {
+    margin: 0;
+}
+
+.app-nav-logout {
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.app-nav-logout:hover,
+.app-nav-logout:focus {
+    border-color: rgba(255, 255, 255, 0.48);
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
 }
 
-@media (max-width: 575.98px) {
-    .app-header-inner {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .app-nav-actions {
-        width: 100%;
-    }
-
-    .app-nav-actions .btn,
-    .app-nav-actions form {
-        flex: 1 1 auto;
-    }
-
-    .app-nav-actions form .btn {
-        width: 100%;
-    }
+.app-nav-toggle {
+    display: none;
 }
 
 @media (max-width: 575.98px) {
     .app-header {
-        border-bottom-left-radius: 1.25rem;
-        border-bottom-right-radius: 1.25rem;
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
         overflow: hidden;
-        box-shadow: 0 0.45rem 1rem rgba(9, 34, 49, 0.14);
+        box-shadow: 0 0.35rem 0.9rem rgba(9, 34, 49, 0.14);
     }
 
     .app-header-inner {
-        padding-top: 0.65rem;
-        padding-bottom: 0.65rem;
-        gap: 0.75rem;
+        min-height: auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
     }
 
     .app-brand {
-        font-size: 1rem;
+        min-width: 0;
+        gap: 0.45rem;
+        font-size: 0.95rem;
+        line-height: 1;
     }
 
     .app-brand-mark {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 0.7rem;
+        width: 1.8rem;
+        height: 1.8rem;
+        border-radius: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .app-nav-toggle {
+        width: 2.35rem;
+        height: 2.35rem;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 0.75rem;
+        padding: 0;
+        background: rgba(255, 255, 255, 0.09);
+        color: #ffffff;
+        cursor: pointer;
+    }
+
+    .app-nav-toggle:hover,
+    .app-nav-toggle:focus-visible {
+        border-color: rgba(255, 255, 255, 0.65);
+        background: rgba(255, 255, 255, 0.16);
+    }
+
+    .app-nav-toggle span {
+        width: 1rem;
+        height: 2px;
+        border-radius: 999px;
+        background: currentColor;
+        transition:
+                transform 0.15s ease,
+                opacity 0.15s ease;
+    }
+
+    .app-nav-toggle[aria-expanded="true"] span:first-child {
+        transform: translateY(0.375rem) rotate(45deg);
+    }
+
+    .app-nav-toggle[aria-expanded="true"] span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .app-nav-toggle[aria-expanded="true"] span:last-child {
+        transform: translateY(-0.375rem) rotate(-45deg);
+    }
+
+    .app-nav-collapsible {
+        grid-column: 1 / -1;
+        display: none;
+        width: 100%;
+        padding-top: 0.15rem;
+    }
+
+    .app-nav-collapsible.is-open {
+        display: grid;
+    }
+
+    .app-nav-actions-auth {
+        grid-template-columns: 1fr 1.25fr 0.85fr;
+    }
+
+    .app-nav-actions-public {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .app-nav-actions {
+        gap: 0.4rem;
+    }
+
+    .app-nav-actions .btn,
+    .app-nav-actions form,
+    .app-nav-actions form button {
+        width: 100%;
+    }
+
+    .app-logout-form {
+        grid-column: auto;
+        margin: 0;
     }
 
     .app-header .btn-sm {
-        padding: 0.36rem 0.62rem;
-        font-size: 0.84rem;
+        padding: 0.42rem 0.35rem;
+        font-size: 0.78rem;
+        white-space: nowrap;
     }
 }
 
@@ -254,17 +332,8 @@ a:hover {
         justify-content: center;
     }
 
-    .app-nav-actions {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        width: 100%;
-    }
 
-    .app-nav-actions .btn,
-    .app-nav-actions form,
-    .app-nav-actions form button {
-        width: 100%;
-    }
+
 
     .app-page {
         padding-top: 1.25rem;
@@ -957,15 +1026,6 @@ a.app-card:hover {
     .bet-meta-pill {
         width: 100%;
     }
-}
-
-.app-header .btn {
-    font-weight: 800;
-    letter-spacing: 0.01em;
-}
-
-.app-header .btn-sm {
-    padding: 0.42rem 0.75rem;
 }
 
 .btn {
