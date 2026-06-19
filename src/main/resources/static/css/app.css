@@ -425,6 +425,18 @@ a.app-card:hover {
     gap: 2rem;
     padding: 2rem;
     overflow: hidden;
+    background:
+            radial-gradient(
+                    circle at 86% 18%,
+                    rgba(17, 119, 179, 0.16),
+                    transparent 38%
+            ),
+            linear-gradient(
+                    145deg,
+                    #ffffff 0%,
+                    #eef7fc 48%,
+                    #dceef8 100%
+            );
 }
 
 .home-kicker {
@@ -448,6 +460,7 @@ a.app-card:hover {
     max-width: 680px;
     color: var(--mw-muted);
     font-size: 1.08rem;
+    font-weight: 420;
 }
 
 .home-actions {
@@ -457,22 +470,6 @@ a.app-card:hover {
     margin-top: 1.5rem;
 }
 
-.home-trust-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-top: 1.5rem;
-}
-
-.home-trust-row span {
-    border: 1px solid var(--mw-border);
-    border-radius: 999px;
-    padding: 0.35rem 0.75rem;
-    background: var(--mw-primary-soft);
-    color: var(--mw-primary-dark);
-    font-size: 0.9rem;
-    font-weight: 600;
-}
 
 .home-hero-panel {
     display: flex;
@@ -487,7 +484,9 @@ a.app-card:hover {
     padding: 1.25rem;
     background: linear-gradient(160deg, var(--mw-primary), var(--mw-primary-dark));
     color: #ffffff;
-    box-shadow: 0 1rem 2.5rem rgba(31, 42, 31, 0.22);
+    box-shadow:
+            0 1rem 2.2rem rgba(9, 34, 49, 0.18),
+            0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .home-score-header {
@@ -1132,18 +1131,18 @@ a.app-card:hover {
 
 .leaderboard-card .stat-box {
     border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.14);
+    background: rgba(9, 34, 49, 0.22);;
 }
 
 .leaderboard-card .stat-box-label {
     color: rgba(255, 255, 255, 0.78);
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     font-weight: 700;
 }
 
 .leaderboard-card .stat-box-value {
     color: #ffffff;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
     font-weight: 900;
 }
 
@@ -1384,7 +1383,7 @@ a.app-card:hover {
 .catch-species-name {
     margin-bottom: 0.1rem;
     color: #ffffff;
-    font-size: 1.25rem;
+    font-size: 1.45rem;
     font-weight: 900;
 }
 
@@ -1400,10 +1399,10 @@ a.app-card:hover {
 }
 
 .catch-user-row {
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.24);
     border-radius: 1rem;
     padding: 0.9rem;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(9, 34, 49, 0.22);
 }
 
 .catch-user-main {
@@ -1415,13 +1414,13 @@ a.app-card:hover {
 
 .catch-user-name {
     color: #ffffff;
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 900;
 }
 
 .catch-count {
     color: rgba(255, 255, 255, 0.68);
-    font-size: 0.86rem;
+    font-size: 0.92rem;
     font-weight: 700;
 }
 
@@ -1546,9 +1545,9 @@ a.app-card:hover {
     margin-bottom: 0.25rem;
     border-radius: 999px;
     padding: 0.22rem 0.52rem;
-    background: rgba(255, 255, 255, 0.14);
-    color: rgba(255, 255, 255, 0.86);
-    font-size: 0.82rem;
+    background: #d8ecfa;
+    color: var(--mw-primary-dark);
+    font-size: 0.85rem;
     font-weight: 850;
 }
 
@@ -1556,9 +1555,10 @@ a.app-card:hover {
     display: inline-flex;
     border-radius: 999px;
     padding: 0.18rem 0.45rem;
-    background: rgba(255, 255, 255, 0.13);
-    color: rgba(255, 255, 255, 0.86);
+    background: #d8ecfa;
+    color: var(--mw-primary-dark);
     font-weight: 850;
+    font-size: 0.85rem;
 }
 
 .catch-overview-card .section-kicker {
@@ -1596,8 +1596,8 @@ a.app-card:hover {
 
 .catch-row-species,
 .catch-entry-species {
-    background: rgba(255, 255, 255, 0.18);
-    color: #ffffff;
+    background: #d8ecfa;
+    color: var(--mw-primary-dark);
 }
 
 .participant-card {
@@ -1997,7 +1997,7 @@ a.app-card:hover {
 .dashboard-invite-title {
     margin-bottom: 0;
     color: #ffffff;
-    font-size: 1.14rem;
+    font-size: 1.3rem;
     line-height: 1.25;
     font-weight: 950;
     letter-spacing: -0.02em;
@@ -2041,7 +2041,7 @@ a.app-card:hover {
 
 .dashboard-invite-meta span {
     color: rgba(255, 255, 255, 0.74);
-    font-size: 0.76rem;
+    font-size: 0.88rem;
     font-weight: 850;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -2106,7 +2106,7 @@ a.app-card:hover {
     }
 
     .dashboard-invite-title {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
     }
 }
 
@@ -2545,3 +2545,4 @@ a.app-card:hover {
         font-size: 2rem;
     }
 }
+

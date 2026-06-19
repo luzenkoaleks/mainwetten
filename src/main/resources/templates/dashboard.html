@@ -65,7 +65,7 @@
 
                     <div class="dashboard-invite-meta-grid">
                         <div class="dashboard-invite-meta">
-                            <span>Zeitraum</span>
+                            <span>Zeitraum:</span>
                             <strong>
                                 <span th:text="${#temporals.format(invitation.bet.startDate, 'dd.MM.yyyy')}">01.01.2026</span>
                                 –
@@ -74,14 +74,14 @@
                         </div>
 
                         <div class="dashboard-invite-meta">
-                            <span>Modus</span>
+                            <span>Modus:</span>
                             <strong th:text="${invitation.bet.scoringMode.displayName}">
                                 Bewertungsmodus
                             </strong>
                         </div>
 
                         <div class="dashboard-invite-meta">
-                            <span>Fischarten</span>
+                            <span>Fischarten:</span>
                             <strong th:text="${invitation.bet.fishCategory.displayName}">
                                 Alle Fischarten
                             </strong>
@@ -117,7 +117,7 @@
 
     <section class="mb-4">
         <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
-            <h2 class="h5 mb-0">Meine Wetten</h2>
+            <h2 class="h3 mb-0">Meine Wetten</h2>
         </div>
 
         <div th:if="${#lists.isEmpty(activeBets) && #lists.isEmpty(upcomingBets) && #lists.isEmpty(expiredBets)}"
