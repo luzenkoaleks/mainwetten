@@ -32,7 +32,7 @@ public class BetInvitationService {
         AppUser invitedUser = appUserRepository.findByUsernameIgnoreCase(invitedUsername.trim())
                 .orElseThrow(() -> new IllegalArgumentException("Benutzer wurde nicht gefunden."));
 
-        if (invitedUser.getUsername().equals(inviterUsername)) {
+        if (invitedUser.getId().equals(inviterParticipation.getUser().getId())) {
             throw new IllegalArgumentException("Du kannst dich nicht selbst einladen.");
         }
 
@@ -76,17 +76,14 @@ public class BetInvitationService {
     }
 
     private BetParticipant getOwnInvitation(Long participantId, String username) {
-        BetParticipant participant = betParticipantRepository.findById(participantId)
-                .orElseThrow(() -> new IllegalArgumentException("Einladung nicht gefunden."));
-
-        if (!participant.getUser().getUsername().equals(username)) {
-            throw new IllegalArgumentException("Diese Einladung gehört nicht zu deinem Account.");
-        }
-
-        if (participant.getStatus() != ParticipantStatus.INVITED) {
-            throw new IllegalArgumentException("Diese Einladung ist nicht mehr offen.");
-        }
-
-        return participant;
+        return betParticipantRepository
+                .findByIdAndUserUsernameIgnoreCaseAndStatus(
+                        participantId,
+                        username,
+                        ParticipantStatus.INVITED
+                )
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Einladung nicht gefunden oder nicht mehr verfügbar."
+                ));
     }
 }

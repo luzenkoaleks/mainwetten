@@ -18,6 +18,12 @@ public interface BetParticipantRepository extends JpaRepository<BetParticipant, 
             ParticipantStatus status
     );
 
+    Optional<BetParticipant> findByIdAndUserUsernameIgnoreCaseAndStatus(
+            Long id,
+            String username,
+            ParticipantStatus status
+    );
+
     List<BetParticipant> findByBetIdOrderByUserUsernameAsc(Long betId);
 
     Optional<BetParticipant> findByBetIdAndUserId(Long betId, Long userId);
