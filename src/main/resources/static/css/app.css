@@ -64,18 +64,14 @@ a:hover {
     color: #ffffff;
 }
 
-.app-brand-mark {
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 0.8rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(160deg, #e7f3fc, #b7dcf4);
-    color: var(--mw-primary-dark);
-    font-weight: 950;
-    box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.18);
+.app-brand-logo {
+    display: block;
+    width: auto;
+    height: 2.75rem;
+    object-fit: contain;
 }
+
+
 .app-nav-actions {
     display: flex;
     align-items: center;
@@ -176,12 +172,12 @@ a:hover {
         line-height: 1;
     }
 
-    .app-brand-mark {
-        width: 1.8rem;
-        height: 1.8rem;
-        border-radius: 0.6rem;
-        font-size: 0.9rem;
+    .app-brand-logo {
+        height: 2.2rem;
+        max-width: 10rem;
     }
+
+
 
     .app-nav-toggle {
         width: 2.35rem;
