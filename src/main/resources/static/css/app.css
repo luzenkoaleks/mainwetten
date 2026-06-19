@@ -1586,6 +1586,11 @@ a.app-card:hover {
 }
 
 .dashboard-bet-card .small strong {
+    color: var(--mw-muted);
+    font-weight: 650;
+}
+
+.dashboard-bet-card .small > div > span {
     color: var(--mw-primary-dark);
     font-weight: 850;
 }
