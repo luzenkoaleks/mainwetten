@@ -62,7 +62,8 @@ public class BetController {
             @Valid @ModelAttribute("betForm") BetForm form,
             BindingResult bindingResult,
             Authentication authentication,
-            Model model
+            Model model,
+            RedirectAttributes redirectAttributes
     ) {
         if (form.getStartDate() != null
                 && form.getEndDate() != null
@@ -81,6 +82,12 @@ public class BetController {
         }
 
         betService.createBet(form, authentication.getName());
+
+        redirectAttributes.addFlashAttribute(
+                "betSuccess",
+                "Die Wette wurde erfolgreich erstellt."
+        );
+
         return "redirect:/dashboard";
     }
 

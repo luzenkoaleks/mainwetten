@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy;
 
 @Configuration
 public class SecurityConfig {
@@ -21,6 +22,30 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/images/**").permitAll()
                         .anyRequest().authenticated()
+                )
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives(
+                                        "default-src 'self'; " +
+                                                "base-uri 'self'; " +
+                                                "form-action 'self'; " +
+                                                "frame-ancestors 'none'; " +
+                                                "object-src 'none'; " +
+                                                "script-src 'self'; " +
+                                                "style-src 'self' https://cdn.jsdelivr.net; " +
+                                                "img-src 'self' data:; " +
+                                                "font-src 'self'; " +
+                                                "connect-src 'self'"
+                                )
+                        )
+                        .referrerPolicy(referrer -> referrer
+                                .policy(ReferrerPolicy.SAME_ORIGIN)
+                        )
+                        .permissionsPolicyHeader(permissions -> permissions
+                                .policy(
+                                        "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+                                )
+                        )
                 )
                 .formLogin(form -> form
                         .loginPage("/login")

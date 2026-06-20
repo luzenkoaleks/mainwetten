@@ -25,6 +25,12 @@
         </a>
     </section>
 
+    <div class="alert alert-success"
+         th:if="${betSuccess}"
+         th:text="${betSuccess}">
+        Die Wette wurde erfolgreich erstellt.
+    </div>
+
     <section class="dashboard-invitations mb-4" th:if="${!#lists.isEmpty(invitations)}">
         <div class="dashboard-section-header mb-3">
             <div>
@@ -96,7 +102,7 @@
                         <form th:action="@{/invitations/{id}/decline(id=${invitation.id})}"
                               method="post"
                               class="mb-0"
-                              onsubmit="return confirm('Möchtest du diese Einladung wirklich ablehnen? Du nimmst dann nicht an dieser Wette teil.');">
+                              data-confirm="Möchtest du diese Einladung wirklich ablehnen?">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
                             <button class="btn btn-outline-light w-100" type="submit">

@@ -29,6 +29,11 @@
 
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 
+                <div class="alert alert-danger"
+                     th:if="${#fields.hasAnyErrors()}">
+                    Bitte prüfe die markierten Eingaben. Die Wette wurde noch nicht erstellt.
+                </div>
+
                 <div class="form-section-title">
                     <p class="section-kicker mb-1">Grunddaten</p>
                     <h2 class="h5 mb-0">Worum geht es?</h2>
