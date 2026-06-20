@@ -7,6 +7,13 @@
 <header th:replace="~{fragments/layout :: navbar('bets', true)}"></header>
 
 <main class="container app-page">
+
+    <div class="alert alert-success"
+         th:if="${catchSuccess}"
+         th:text="${catchSuccess}">
+        Fang wurde erfolgreich eingetragen.
+    </div>
+
     <section class="bet-hero mb-4">
         <div class="bet-hero-content">
             <p class="section-kicker mb-2">Wette</p>

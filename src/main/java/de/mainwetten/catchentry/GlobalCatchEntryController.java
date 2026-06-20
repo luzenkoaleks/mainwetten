@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.math.BigDecimal;
 
 @Controller
 @RequestMapping("/catches")
@@ -53,14 +54,31 @@ public class GlobalCatchEntryController {
         }
 
         try {
-            int assignmentCount = globalCatchEntryService.createGlobalCatchEntry(
-                    authentication.getName(),
-                    form
-            );
+            GlobalCatchEntryResult result =
+                    globalCatchEntryService.createGlobalCatchEntry(
+                            authentication.getName(),
+                            form
+                    );
+
+            String betTitles = String.join(", ", result.betTitles());
+
+            String betLabel = result.assignmentCount() == 1
+                    ? "Wette"
+                    : "Wetten";
 
             redirectAttributes.addFlashAttribute(
                     "catchSuccess",
-                    "Fang wurde in " + assignmentCount + " Wette(n) eingetragen."
+                    "Petri! Der Fang „"
+                            + result.fishSpeciesName()
+                            + "“ mit "
+                            + formatLength(result.lengthCm())
+                            + " cm wurde erfolgreich in "
+                            + result.assignmentCount()
+                            + " "
+                            + betLabel
+                            + " eingetragen: "
+                            + betTitles
+                            + "."
             );
 
             return "redirect:/dashboard";
@@ -86,5 +104,11 @@ public class GlobalCatchEntryController {
                 "eligibleBets",
                 globalCatchEntryService.getEligibleBetOptions(username)
         );
+    }
+    private String formatLength(BigDecimal lengthCm) {
+        return lengthCm
+                .stripTrailingZeros()
+                .toPlainString()
+                .replace('.', ',');
     }
 }

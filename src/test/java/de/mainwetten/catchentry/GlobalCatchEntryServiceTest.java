@@ -259,11 +259,6 @@ class GlobalCatchEntryServiceTest {
                 FishCategory.FRESHWATER
         );
 
-        Bet inaccessibleBet = createBet(
-                20L,
-                FishCategory.FRESHWATER
-        );
-
         BetParticipant allowedParticipation =
                 createParticipation(allowedBet, user);
 
@@ -353,13 +348,16 @@ class GlobalCatchEntryServiceTest {
         when(catchRecordRepository.save(any(CatchRecord.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        int assignmentCount =
+        GlobalCatchEntryResult result =
                 globalCatchEntryService.createGlobalCatchEntry(
                         "Alice",
                         form
                 );
 
-        assertEquals(1, assignmentCount);
+        assertEquals(1, result.assignmentCount());
+        assertEquals("Dorsch", result.fishSpeciesName());
+        assertEquals(new BigDecimal("42.5"), result.lengthCm());
+        assertEquals(List.of("Wette 10"), result.betTitles());
 
         verify(betParticipantRepository, times(1))
                 .findByBetIdAndUserUsernameAndStatus(
@@ -432,13 +430,19 @@ class GlobalCatchEntryServiceTest {
         when(catchRecordRepository.save(any(CatchRecord.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        int assignmentCount =
+        GlobalCatchEntryResult result =
                 globalCatchEntryService.createGlobalCatchEntry(
                         "Alice",
                         form
                 );
 
-        assertEquals(2, assignmentCount);
+        assertEquals(2, result.assignmentCount());
+        assertEquals("Hecht", result.fishSpeciesName());
+        assertEquals(new BigDecimal("87.4"), result.lengthCm());
+        assertEquals(
+                List.of("Wette 10", "Wette 20"),
+                result.betTitles()
+        );
 
         ArgumentCaptor<CatchRecord> catchCaptor =
                 ArgumentCaptor.forClass(CatchRecord.class);
@@ -508,6 +512,7 @@ class GlobalCatchEntryServiceTest {
     ) {
         Bet bet = new Bet();
         ReflectionTestUtils.setField(bet, "id", id);
+        bet.setTitle("Wette " + id);
         bet.setFishCategory(fishCategory);
         return bet;
     }

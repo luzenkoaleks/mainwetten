@@ -8,6 +8,12 @@
 
 <main class="container app-page dashboard-page">
 
+    <div class="alert alert-success"
+         th:if="${catchSuccess}"
+         th:text="${catchSuccess}">
+        Fang wurde erfolgreich eingetragen.
+    </div>
+
     <section class="dashboard-hero mb-4">
         <div>
             <p class="section-kicker mb-2">Übersicht</p>

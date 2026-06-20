@@ -57,7 +57,10 @@ public class GlobalCatchEntryService {
     }
 
     @Transactional
-    public int createGlobalCatchEntry(String username, GlobalCatchForm form) {
+    public GlobalCatchEntryResult createGlobalCatchEntry(
+            String username,
+            GlobalCatchForm form
+    ) {
         if (form.getBetIds() == null || form.getBetIds().isEmpty()) {
             throw new IllegalArgumentException("Bitte wähle mindestens eine Wette aus.");
         }
@@ -117,7 +120,13 @@ public class GlobalCatchEntryService {
             catchAssignmentRepository.save(assignment);
         }
 
-        return selectedBets.size();
+        return new GlobalCatchEntryResult(
+                fishSpecies.getName(),
+                savedCatchRecord.getLengthCm(),
+                selectedBets.stream()
+                        .map(Bet::getTitle)
+                        .toList()
+        );
     }
 
     private boolean isFishAllowedForBet(Bet bet, FishSpecies fishSpecies) {
