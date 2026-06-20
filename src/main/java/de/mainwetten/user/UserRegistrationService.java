@@ -21,6 +21,7 @@ public class UserRegistrationService {
         user.setUsername(form.getUsername());
         user.setEmail(form.getEmail());
         user.setPasswordHash(passwordEncoder.encode(form.getPassword()));
+        user.setEmailVerified(false);
 
         return appUserRepository.save(user);
     }
