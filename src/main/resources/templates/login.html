@@ -39,6 +39,12 @@
                     Der Bestätigungslink ist ungültig.
                 </div>
 
+                <div class="alert alert-warning auth-alert"
+                     th:if="${param.rateLimited}">
+                    Zu viele Anmeldeversuche. Bitte warte einige Minuten
+                    und versuche es anschließend erneut.
+                </div>
+
                 <div class="alert alert-danger auth-alert"
                      th:if="${param.error}">
                     Benutzername oder Passwort ist falsch.

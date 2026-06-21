@@ -13,11 +13,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy;
 
+import de.mainwetten.security.ratelimit.LoginRateLimitFilter;
+import de.mainwetten.security.ratelimit.LoginRateLimitSuccessHandler;
+import de.mainwetten.security.ratelimit.PublicFormRateLimiter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @Configuration
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(
+            HttpSecurity http,
+            PublicFormRateLimiter publicFormRateLimiter
+    ) throws Exception {
+        LoginRateLimitFilter loginRateLimitFilter =
+                new LoginRateLimitFilter(publicFormRateLimiter);
+
+        LoginRateLimitSuccessHandler loginSuccessHandler =
+                new LoginRateLimitSuccessHandler(
+                        publicFormRateLimiter
+                );
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -58,8 +73,12 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/dashboard", true)
+                        .successHandler(loginSuccessHandler)
                         .permitAll()
+                )
+                .addFilterBefore(
+                        loginRateLimitFilter,
+                        UsernamePasswordAuthenticationFilter.class
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
