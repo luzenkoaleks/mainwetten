@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import org.springframework.data.jpa.repository.Modifying;
+import java.time.OffsetDateTime;
+
 public interface EmailVerificationTokenRepository
         extends JpaRepository<EmailVerificationToken, Long> {
 
@@ -20,6 +23,15 @@ public interface EmailVerificationTokenRepository
         """)
     Optional<EmailVerificationToken> findByUserIdForUpdate(
             @Param("userId") Long userId
+    );
+
+    @Modifying
+    @Query("""
+        delete from EmailVerificationToken token
+        where token.expiresAt <= :now
+        """)
+    int deleteExpiredTokens(
+            @Param("now") OffsetDateTime now
     );
 
     Optional<EmailVerificationToken> findByTokenHash(String tokenHash);
