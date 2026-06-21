@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 import org.springframework.mail.MailException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/register")
@@ -18,13 +19,16 @@ public class RegistrationController {
 
     private final AppUserRepository appUserRepository;
     private final UserRegistrationService userRegistrationService;
+    private final EmailVerificationResendService emailVerificationResendService;
 
     public RegistrationController(
             AppUserRepository appUserRepository,
-            UserRegistrationService userRegistrationService
+            UserRegistrationService userRegistrationService,
+            EmailVerificationResendService emailVerificationResendService
     ) {
         this.appUserRepository = appUserRepository;
         this.userRegistrationService = userRegistrationService;
+        this.emailVerificationResendService = emailVerificationResendService;
     }
 
     @GetMapping
@@ -100,5 +104,49 @@ public class RegistrationController {
         }
 
         return "redirect:/register/check-email";
+    }
+
+    @GetMapping("/resend-verification")
+    public String showResendVerificationForm(Model model) {
+        if (!model.containsAttribute("resendVerificationForm")) {
+            model.addAttribute(
+                    "resendVerificationForm",
+                    new ResendVerificationForm()
+            );
+        }
+
+        return "registration-resend-verification";
+    }
+
+    @PostMapping("/resend-verification")
+    public String resendVerificationEmail(
+            @Valid @ModelAttribute("resendVerificationForm")
+            ResendVerificationForm form,
+            BindingResult bindingResult,
+            RedirectAttributes redirectAttributes
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "registration-resend-verification";
+        }
+
+        try {
+            emailVerificationResendService.resendIfEligible(
+                    form.getEmail()
+            );
+        } catch (MailException exception) {
+            bindingResult.reject(
+                    "resend.mailError",
+                    "Die E-Mail konnte momentan nicht versendet werden. Bitte versuche es später erneut."
+            );
+
+            return "registration-resend-verification";
+        }
+
+        redirectAttributes.addFlashAttribute(
+                "resendSuccess",
+                "Falls für diese E-Mail-Adresse ein noch nicht bestätigtes Konto existiert, wurde ein neuer Bestätigungslink versendet."
+        );
+
+        return "redirect:/register/resend-verification";
     }
 }

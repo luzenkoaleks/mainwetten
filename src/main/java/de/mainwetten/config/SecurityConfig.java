@@ -82,6 +82,7 @@ public class SecurityConfig {
 
             return User.withUsername(appUser.getUsername())
                     .password(appUser.getPasswordHash())
+                    .disabled(!appUser.isEmailVerified())
                     .roles("USER")
                     .build();
         };

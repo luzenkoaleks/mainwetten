@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/layout :: head('Bestätigungs-E-Mail erneut senden')}"></head>
+
+<body>
+
+<header th:replace="~{fragments/layout :: navbar('register', false)}"></header>
+
+<main class="container app-page auth-page">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-5">
+
+            <section class="auth-panel">
+                <div class="auth-panel-header">
+                    <p class="section-kicker mb-2">
+                        E-Mail-Bestätigung
+                    </p>
+
+                    <h1 class="auth-title mb-2">
+                        Bestätigungslink erneut senden
+                    </h1>
+
+                    <p class="auth-lead mb-0">
+                        Gib die E-Mail-Adresse deines Kontos ein.
+                        Falls das Konto noch nicht bestätigt wurde,
+                        senden wir dir einen neuen Link.
+                    </p>
+                </div>
+
+                <div class="alert alert-success auth-alert"
+                     th:if="${resendSuccess}"
+                     th:text="${resendSuccess}">
+                    Ein neuer Link wurde versendet.
+                </div>
+
+                <form th:action="@{/register/resend-verification}"
+                      th:object="${resendVerificationForm}"
+                      method="post"
+                      class="auth-form">
+
+                    <input type="hidden"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}">
+
+                    <div class="alert alert-danger auth-alert"
+                         th:if="${#fields.hasGlobalErrors()}">
+                        <div th:each="error : ${#fields.globalErrors()}"
+                             th:text="${error}">
+                            Versand nicht möglich.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="email" class="form-label">
+                            E-Mail-Adresse
+                        </label>
+
+                        <input id="email"
+                               type="email"
+                               class="form-control"
+                               th:field="*{email}"
+                               autocomplete="email"
+                               required>
+
+                        <div class="text-danger small mt-1"
+                             th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}">
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-primary auth-submit">
+                        Bestätigungslink senden
+                    </button>
+                </form>
+
+                <div class="auth-switch">
+                    <span>E-Mail bereits bestätigt?</span>
+                    <a th:href="@{/login}">Zum Login</a>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

@@ -38,7 +38,7 @@
                      th:text="${verificationInvalid}">
                     Der Bestätigungslink ist ungültig.
                 </div>
-                
+
                 <div class="alert alert-danger auth-alert"
                      th:if="${param.error}">
                     Benutzername oder Passwort ist falsch.
@@ -84,6 +84,14 @@
                     <span>Noch kein Konto?</span>
                     <a th:href="@{/register}">Jetzt registrieren</a>
                 </div>
+
+                <div class="auth-switch">
+                    <span>Konto noch nicht bestätigt?</span>
+                    <a th:href="@{/register/resend-verification}">
+                        Bestätigungslink erneut senden
+                    </a>
+                </div>
+
             </section>
 
         </div>
