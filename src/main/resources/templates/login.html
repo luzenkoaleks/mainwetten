@@ -21,6 +21,24 @@
                     </p>
                 </div>
 
+                <div class="alert alert-success auth-alert"
+                     th:if="${emailVerified}"
+                     th:text="${emailVerified}">
+                    Deine E-Mail-Adresse wurde bestätigt.
+                </div>
+
+                <div class="alert alert-warning auth-alert"
+                     th:if="${verificationExpired}"
+                     th:text="${verificationExpired}">
+                    Der Bestätigungslink ist abgelaufen.
+                </div>
+
+                <div class="alert alert-danger auth-alert"
+                     th:if="${verificationInvalid}"
+                     th:text="${verificationInvalid}">
+                    Der Bestätigungslink ist ungültig.
+                </div>
+                
                 <div class="alert alert-danger auth-alert"
                      th:if="${param.error}">
                     Benutzername oder Passwort ist falsch.

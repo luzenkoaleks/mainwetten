@@ -10,6 +10,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import org.springframework.mail.MailException;
+
 @Controller
 @RequestMapping("/register")
 public class RegistrationController {
@@ -29,6 +31,11 @@ public class RegistrationController {
     public String showRegistrationForm(Model model) {
         model.addAttribute("registrationForm", new RegistrationForm());
         return "register";
+    }
+
+    @GetMapping("/check-email")
+    public String showCheckEmailPage() {
+        return "registration-check-email";
     }
 
     @PostMapping
@@ -84,8 +91,14 @@ public class RegistrationController {
                     "Der Benutzername oder die E-Mail-Adresse wurde inzwischen bereits registriert."
             );
             return "register";
+        } catch (MailException exception) {
+            bindingResult.reject(
+                    "registration.mailError",
+                    "Die Verifikations-E-Mail konnte momentan nicht versendet werden. Bitte versuche es später erneut."
+            );
+            return "register";
         }
 
-        return "redirect:/login";
+        return "redirect:/register/check-email";
     }
 }
