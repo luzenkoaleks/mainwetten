@@ -18,16 +18,22 @@ public class PublicFormRateLimiter {
     private static final Duration VERIFICATION_RESEND_WINDOW =
             Duration.ofMinutes(15);
 
+    private static final long LOGIN_CAPACITY = 10;
+    private static final Duration LOGIN_WINDOW =
+            Duration.ofMinutes(15);
+
     private static final long MAX_TRACKED_CLIENTS = 10_000;
     private static final Duration CACHE_EXPIRY =
             Duration.ofHours(1);
 
     private final Cache<String, Bucket> registrationBuckets;
     private final Cache<String, Bucket> verificationResendBuckets;
+    private final Cache<String, Bucket> loginBuckets;
 
     public PublicFormRateLimiter() {
         registrationBuckets = createCache();
         verificationResendBuckets = createCache();
+        loginBuckets = createCache();
     }
 
     public boolean tryConsumeRegistration(String clientKey) {
@@ -48,6 +54,21 @@ public class PublicFormRateLimiter {
         );
     }
 
+    public boolean tryConsumeLoginAttempt(String clientKey) {
+        return tryConsume(
+                loginBuckets,
+                normalizeClientKey(clientKey),
+                LOGIN_CAPACITY,
+                LOGIN_WINDOW
+        );
+    }
+
+    public void clearLoginAttempts(String clientKey) {
+        loginBuckets.invalidate(
+                normalizeClientKey(clientKey)
+        );
+    }
+
     private boolean tryConsume(
             Cache<String, Bucket> buckets,
             String clientKey,
@@ -56,7 +77,10 @@ public class PublicFormRateLimiter {
     ) {
         Bucket bucket = buckets.get(
                 clientKey,
-                ignored -> createBucket(capacity, refillWindow)
+                ignored -> createBucket(
+                        capacity,
+                        refillWindow
+                )
         );
 
         return bucket.tryConsume(1);

@@ -103,4 +103,68 @@ class PublicFormRateLimiterTest {
                 limiter.tryConsumeRegistration(" ")
         );
     }
+
+    @Test
+    void loginAllowsTenAttemptsAndRejectsEleventh() {
+        PublicFormRateLimiter limiter =
+                new PublicFormRateLimiter();
+
+        String clientKey = "192.0.2.10";
+
+        for (int attempt = 0; attempt < 10; attempt++) {
+            assertTrue(
+                    limiter.tryConsumeLoginAttempt(clientKey)
+            );
+        }
+
+        assertFalse(
+                limiter.tryConsumeLoginAttempt(clientKey)
+        );
+    }
+
+    @Test
+    void successfulLoginClearsPreviousAttempts() {
+        PublicFormRateLimiter limiter =
+                new PublicFormRateLimiter();
+
+        String clientKey = "192.0.2.10";
+
+        for (int attempt = 0; attempt < 10; attempt++) {
+            assertTrue(
+                    limiter.tryConsumeLoginAttempt(clientKey)
+            );
+        }
+
+        assertFalse(
+                limiter.tryConsumeLoginAttempt(clientKey)
+        );
+
+        limiter.clearLoginAttempts(clientKey);
+
+        assertTrue(
+                limiter.tryConsumeLoginAttempt(clientKey)
+        );
+    }
+
+    @Test
+    void loginUsesIndependentBucket() {
+        PublicFormRateLimiter limiter =
+                new PublicFormRateLimiter();
+
+        String clientKey = "192.0.2.10";
+
+        for (int attempt = 0; attempt < 5; attempt++) {
+            assertTrue(
+                    limiter.tryConsumeRegistration(clientKey)
+            );
+        }
+
+        assertFalse(
+                limiter.tryConsumeRegistration(clientKey)
+        );
+
+        assertTrue(
+                limiter.tryConsumeLoginAttempt(clientKey)
+        );
+    }
 }
