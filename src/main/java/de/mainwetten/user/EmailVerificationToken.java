@@ -64,7 +64,4 @@ public class EmailVerificationToken {
         return createdAt;
     }
 
-    public boolean isExpired() {
-        return OffsetDateTime.now().isAfter(expiresAt);
-    }
 }
