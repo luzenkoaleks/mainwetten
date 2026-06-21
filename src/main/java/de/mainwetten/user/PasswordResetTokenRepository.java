@@ -27,6 +27,16 @@ public interface PasswordResetTokenRepository
             String tokenHash
     );
 
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("""
+        select token
+        from PasswordResetToken token
+        where token.tokenHash = :tokenHash
+        """)
+    Optional<PasswordResetToken> findByTokenHashForUpdate(
+            @Param("tokenHash") String tokenHash
+    );
+
     Optional<PasswordResetToken> findByUserId(
             Long userId
     );
