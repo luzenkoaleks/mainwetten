@@ -45,6 +45,24 @@
                     und versuche es anschließend erneut.
                 </div>
 
+                <div class="alert alert-success auth-alert"
+                     th:if="${passwordResetSuccess}"
+                     th:text="${passwordResetSuccess}">
+                    Dein Passwort wurde geändert.
+                </div>
+
+                <div class="alert alert-warning auth-alert"
+                     th:if="${passwordResetExpired}"
+                     th:text="${passwordResetExpired}">
+                    Der Reset-Link ist abgelaufen.
+                </div>
+
+                <div class="alert alert-danger auth-alert"
+                     th:if="${passwordResetInvalid}"
+                     th:text="${passwordResetInvalid}">
+                    Der Reset-Link ist ungültig.
+                </div>
+
                 <div class="alert alert-danger auth-alert"
                      th:if="${param.error}">
                     Benutzername oder Passwort ist falsch.
@@ -95,6 +113,13 @@
                     <span>Konto noch nicht bestätigt?</span>
                     <a th:href="@{/register/resend-verification}">
                         Bestätigungslink erneut senden
+                    </a>
+                </div>
+
+                <div class="auth-switch">
+                    <span>Passwort vergessen?</span>
+                    <a th:href="@{/forgot-password}">
+                        Passwort zurücksetzen
                     </a>
                 </div>
 
