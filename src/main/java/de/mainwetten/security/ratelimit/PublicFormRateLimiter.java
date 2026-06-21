@@ -18,6 +18,10 @@ public class PublicFormRateLimiter {
     private static final Duration VERIFICATION_RESEND_WINDOW =
             Duration.ofMinutes(15);
 
+    private static final long PASSWORD_RESET_CAPACITY = 5;
+    private static final Duration PASSWORD_RESET_WINDOW =
+            Duration.ofMinutes(15);
+
     private static final long LOGIN_CAPACITY = 10;
     private static final Duration LOGIN_WINDOW =
             Duration.ofMinutes(15);
@@ -28,11 +32,13 @@ public class PublicFormRateLimiter {
 
     private final Cache<String, Bucket> registrationBuckets;
     private final Cache<String, Bucket> verificationResendBuckets;
+    private final Cache<String, Bucket> passwordResetBuckets;
     private final Cache<String, Bucket> loginBuckets;
 
     public PublicFormRateLimiter() {
         registrationBuckets = createCache();
         verificationResendBuckets = createCache();
+        passwordResetBuckets = createCache();
         loginBuckets = createCache();
     }
 
@@ -51,6 +57,17 @@ public class PublicFormRateLimiter {
                 normalizeClientKey(clientKey),
                 VERIFICATION_RESEND_CAPACITY,
                 VERIFICATION_RESEND_WINDOW
+        );
+    }
+
+    public boolean tryConsumePasswordResetRequest(
+            String clientKey
+    ) {
+        return tryConsume(
+                passwordResetBuckets,
+                normalizeClientKey(clientKey),
+                PASSWORD_RESET_CAPACITY,
+                PASSWORD_RESET_WINDOW
         );
     }
 

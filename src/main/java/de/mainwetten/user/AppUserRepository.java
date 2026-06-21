@@ -20,7 +20,7 @@ public interface AppUserRepository extends JpaRepository<AppUser, Long> {
     Optional<AppUser> findByIdForUpdate(
             @Param("userId") Long userId
     );
-    
+
     Optional<AppUser> findByUsernameIgnoreCase(String username);
 
     Optional<AppUser> findByEmailIgnoreCase(String email);
