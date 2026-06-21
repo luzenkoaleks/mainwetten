@@ -35,13 +35,14 @@ class EmailVerificationResendServiceTest {
                 "alice@example.test"
         )).thenReturn(Optional.of(user));
 
-        when(emailVerificationService.createOrReplaceToken(user))
-                .thenReturn("new-token");
+        when(emailVerificationService
+                .createReplacementTokenIfAllowed(user))
+                .thenReturn(Optional.of("new-token"));
 
         resendService.resendIfEligible("alice@example.test");
 
         verify(emailVerificationService)
-                .createOrReplaceToken(user);
+                .createReplacementTokenIfAllowed(user);
 
         verify(emailVerificationMailService)
                 .sendVerificationEmail(user, "new-token");
@@ -79,6 +80,27 @@ class EmailVerificationResendServiceTest {
                 .createOrReplaceToken(
                         org.mockito.ArgumentMatchers.any()
                 );
+
+        verify(emailVerificationMailService, never())
+                .sendVerificationEmail(
+                        org.mockito.ArgumentMatchers.any(),
+                        org.mockito.ArgumentMatchers.anyString()
+                );
+    }
+
+    @Test
+    void resendIfEligible_doesNotSendMailDuringCooldown() {
+        AppUser user = createUser(false);
+
+        when(appUserRepository.findByEmailIgnoreCase(
+                "alice@example.test"
+        )).thenReturn(Optional.of(user));
+
+        when(emailVerificationService
+                .createReplacementTokenIfAllowed(user))
+                .thenReturn(Optional.empty());
+
+        resendService.resendIfEligible("alice@example.test");
 
         verify(emailVerificationMailService, never())
                 .sendVerificationEmail(

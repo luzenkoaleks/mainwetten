@@ -22,6 +22,9 @@ public class EmailVerificationToken {
     @Column(name = "expires_at", nullable = false)
     private OffsetDateTime expiresAt;
 
+    @Column(name = "last_sent_at", nullable = false)
+    private OffsetDateTime lastSentAt;
+
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
@@ -29,6 +32,10 @@ public class EmailVerificationToken {
     void onCreate() {
         if (createdAt == null) {
             createdAt = OffsetDateTime.now();
+        }
+
+        if (lastSentAt == null) {
+            lastSentAt = createdAt;
         }
     }
 
@@ -58,6 +65,14 @@ public class EmailVerificationToken {
 
     public void setExpiresAt(OffsetDateTime expiresAt) {
         this.expiresAt = expiresAt;
+    }
+
+    public OffsetDateTime getLastSentAt() {
+        return lastSentAt;
+    }
+
+    public void setLastSentAt(OffsetDateTime lastSentAt) {
+        this.lastSentAt = lastSentAt;
     }
 
     public OffsetDateTime getCreatedAt() {

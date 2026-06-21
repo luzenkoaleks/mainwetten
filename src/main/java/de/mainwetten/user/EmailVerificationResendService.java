@@ -28,14 +28,16 @@ public class EmailVerificationResendService {
 
         appUserRepository.findByEmailIgnoreCase(email.trim())
                 .filter(user -> !user.isEmailVerified())
-                .ifPresent(user -> {
-                    String rawToken =
-                            emailVerificationService.createOrReplaceToken(user);
-
-                    emailVerificationMailService.sendVerificationEmail(
-                            user,
-                            rawToken
-                    );
-                });
+                .ifPresent(user ->
+                        emailVerificationService
+                                .createReplacementTokenIfAllowed(user)
+                                .ifPresent(rawToken ->
+                                        emailVerificationMailService
+                                                .sendVerificationEmail(
+                                                        user,
+                                                        rawToken
+                                                )
+                                )
+                );
     }
 }

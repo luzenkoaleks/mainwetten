@@ -1,5 +1,6 @@
 package de.mainwetten.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,13 +13,14 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.Base64;
 import java.util.HexFormat;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
 
 @Service
 public class EmailVerificationService {
 
     private static final int TOKEN_BYTE_LENGTH = 32;
     private static final Duration TOKEN_VALIDITY = Duration.ofHours(24);
+    private static final Duration RESEND_COOLDOWN = Duration.ofMinutes(2);
 
     private final EmailVerificationTokenRepository tokenRepository;
     private final AppUserRepository appUserRepository;
@@ -53,28 +55,43 @@ public class EmailVerificationService {
 
     @Transactional
     public String createOrReplaceToken(AppUser user) {
-        if (user.getId() == null) {
-            throw new IllegalArgumentException(
-                    "Für einen noch nicht gespeicherten Benutzer kann kein Verifikationstoken erstellt werden."
-            );
-        }
+        validateStoredUser(user);
 
-        String rawToken = generateRawToken();
-        String tokenHash = hashToken(rawToken);
+        OffsetDateTime now = OffsetDateTime.now(clock);
 
         EmailVerificationToken verificationToken = tokenRepository
                 .findByUserId(user.getId())
                 .orElseGet(EmailVerificationToken::new);
 
-        verificationToken.setUser(user);
-        verificationToken.setTokenHash(tokenHash);
-        verificationToken.setExpiresAt(
-                OffsetDateTime.now(clock).plus(TOKEN_VALIDITY)
+        return issueToken(user, verificationToken, now);
+    }
+
+    @Transactional
+    public Optional<String> createReplacementTokenIfAllowed(
+            AppUser user
+    ) {
+        validateStoredUser(user);
+
+        OffsetDateTime now = OffsetDateTime.now(clock);
+
+        EmailVerificationToken verificationToken = tokenRepository
+                .findByUserIdForUpdate(user.getId())
+                .orElse(null);
+
+        if (verificationToken != null
+                && verificationToken.getLastSentAt()
+                .plus(RESEND_COOLDOWN)
+                .isAfter(now)) {
+            return Optional.empty();
+        }
+
+        if (verificationToken == null) {
+            verificationToken = new EmailVerificationToken();
+        }
+
+        return Optional.of(
+                issueToken(user, verificationToken, now)
         );
-
-        tokenRepository.save(verificationToken);
-
-        return rawToken;
     }
 
     @Transactional
@@ -107,6 +124,32 @@ public class EmailVerificationService {
         tokenRepository.delete(verificationToken);
 
         return EmailVerificationResult.VERIFIED;
+    }
+
+    private String issueToken(
+            AppUser user,
+            EmailVerificationToken verificationToken,
+            OffsetDateTime now
+    ) {
+        String rawToken = generateRawToken();
+        String tokenHash = hashToken(rawToken);
+
+        verificationToken.setUser(user);
+        verificationToken.setTokenHash(tokenHash);
+        verificationToken.setExpiresAt(now.plus(TOKEN_VALIDITY));
+        verificationToken.setLastSentAt(now);
+
+        tokenRepository.save(verificationToken);
+
+        return rawToken;
+    }
+
+    private void validateStoredUser(AppUser user) {
+        if (user == null || user.getId() == null) {
+            throw new IllegalArgumentException(
+                    "Für einen noch nicht gespeicherten Benutzer kann kein Verifikationstoken erstellt werden."
+            );
+        }
     }
 
     String hashToken(String rawToken) {

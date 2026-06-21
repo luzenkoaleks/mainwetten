@@ -86,6 +86,11 @@ class EmailVerificationServiceTest {
         );
 
         assertEquals(
+                OffsetDateTime.now(clock),
+                savedToken.getLastSentAt()
+        );
+
+        assertEquals(
                 service.hashToken(rawToken),
                 savedToken.getTokenHash()
         );
@@ -103,6 +108,9 @@ class EmailVerificationServiceTest {
         existingToken.setExpiresAt(
                 OffsetDateTime.now(clock).plusHours(1)
         );
+        existingToken.setLastSentAt(
+                OffsetDateTime.now(clock).minusHours(1)
+        );
 
         when(tokenRepository.findByUserId(1L))
                 .thenReturn(Optional.of(existingToken));
@@ -119,6 +127,11 @@ class EmailVerificationServiceTest {
         assertEquals(
                 OffsetDateTime.now(clock).plusHours(24),
                 existingToken.getExpiresAt()
+        );
+
+        assertEquals(
+                OffsetDateTime.now(clock),
+                existingToken.getLastSentAt()
         );
     }
 
@@ -262,6 +275,76 @@ class EmailVerificationServiceTest {
         );
 
         verify(tokenRepository).delete(token);
+    }
+
+    @Test
+    void createReplacementTokenIfAllowed_rejectsRequestWithinCooldown() {
+        AppUser user = createUser(1L, false);
+
+        EmailVerificationToken existingToken =
+                new EmailVerificationToken();
+
+        existingToken.setUser(user);
+        existingToken.setTokenHash("a".repeat(64));
+        existingToken.setExpiresAt(
+                OffsetDateTime.now(clock).plusHours(23)
+        );
+        existingToken.setLastSentAt(
+                OffsetDateTime.now(clock).minusSeconds(30)
+        );
+
+        when(tokenRepository.findByUserIdForUpdate(1L))
+                .thenReturn(Optional.of(existingToken));
+
+        Optional<String> result =
+                service.createReplacementTokenIfAllowed(user);
+
+        assertTrue(result.isEmpty());
+
+        verify(tokenRepository, never())
+                .save(any(EmailVerificationToken.class));
+    }
+
+    @Test
+    void createReplacementTokenIfAllowed_replacesTokenAfterCooldown() {
+        AppUser user = createUser(1L, false);
+
+        EmailVerificationToken existingToken =
+                new EmailVerificationToken();
+
+        existingToken.setUser(user);
+        existingToken.setTokenHash("a".repeat(64));
+        existingToken.setExpiresAt(
+                OffsetDateTime.now(clock).plusHours(1)
+        );
+        existingToken.setLastSentAt(
+                OffsetDateTime.now(clock).minusMinutes(3)
+        );
+
+        when(tokenRepository.findByUserIdForUpdate(1L))
+                .thenReturn(Optional.of(existingToken));
+
+        Optional<String> result =
+                service.createReplacementTokenIfAllowed(user);
+
+        assertTrue(result.isPresent());
+
+        assertEquals(
+                service.hashToken(result.orElseThrow()),
+                existingToken.getTokenHash()
+        );
+
+        assertEquals(
+                OffsetDateTime.now(clock),
+                existingToken.getLastSentAt()
+        );
+
+        assertEquals(
+                OffsetDateTime.now(clock).plusHours(24),
+                existingToken.getExpiresAt()
+        );
+
+        verify(tokenRepository).save(existingToken);
     }
 
     private AppUser createUser(
