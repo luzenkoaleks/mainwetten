@@ -71,7 +71,7 @@ public class SecurityConfig {
                                                 "frame-ancestors 'none'; " +
                                                 "object-src 'none'; " +
                                                 "script-src 'self'; " +
-                                                "style-src 'self' https://cdn.jsdelivr.net; " +
+                                                "style-src 'self'; " +
                                                 "img-src 'self' data:; " +
                                                 "font-src 'self'; " +
                                                 "connect-src 'self'"
