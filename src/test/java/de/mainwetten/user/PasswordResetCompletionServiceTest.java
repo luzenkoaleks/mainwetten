@@ -25,6 +25,7 @@ class PasswordResetCompletionServiceTest {
     private Clock clock;
     private PasswordResetCompletionService service;
     private PersistentLoginService persistentLoginService;
+    private ActiveSessionService activeSessionService;
 
     @BeforeEach
     void setUp() {
@@ -40,6 +41,9 @@ class PasswordResetCompletionServiceTest {
         persistentLoginService =
                 mock(PersistentLoginService.class);
 
+        activeSessionService =
+                mock(ActiveSessionService.class);
+
         clock = Clock.fixed(
                 Instant.parse("2026-06-21T10:00:00Z"),
                 ZoneId.of("Europe/Berlin")
@@ -50,7 +54,8 @@ class PasswordResetCompletionServiceTest {
                 appUserRepository,
                 passwordEncoder,
                 clock,
-                persistentLoginService
+                persistentLoginService,
+                activeSessionService
         );
     }
 
@@ -92,6 +97,11 @@ class PasswordResetCompletionServiceTest {
                 PasswordResetTokenStatus.EXPIRED,
                 service.inspectToken(rawToken)
         );
+
+        verify(activeSessionService, never())
+                .expireSessionsForUser(
+                        org.mockito.ArgumentMatchers.anyString()
+                );
     }
 
     @Test
@@ -135,6 +145,8 @@ class PasswordResetCompletionServiceTest {
         verify(persistentLoginService)
                 .invalidateForUser("Alice");
         verify(tokenRepository).delete(token);
+        verify(activeSessionService)
+                .expireSessionsForUser("Alice");
     }
 
     @Test
@@ -172,6 +184,11 @@ class PasswordResetCompletionServiceTest {
         verify(appUserRepository, never())
                 .save(
                         org.mockito.ArgumentMatchers.any()
+                );
+
+        verify(activeSessionService, never())
+                .expireSessionsForUser(
+                        org.mockito.ArgumentMatchers.anyString()
                 );
     }
 

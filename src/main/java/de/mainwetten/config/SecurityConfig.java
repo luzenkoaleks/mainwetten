@@ -20,6 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import org.springframework.security.web.authentication.RememberMeServices;
 
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy;
+
 @Configuration
 public class SecurityConfig {
 
@@ -27,7 +30,8 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(
             HttpSecurity http,
             PublicFormRateLimiter publicFormRateLimiter,
-            RememberMeServices rememberMeServices
+            RememberMeServices rememberMeServices,
+            SessionRegistry sessionRegistry
     ) throws Exception {
         LoginRateLimitFilter loginRateLimitFilter =
                 new LoginRateLimitFilter(publicFormRateLimiter);
@@ -83,6 +87,15 @@ public class SecurityConfig {
                 )
                 .rememberMe(remember -> remember
                         .rememberMeServices(rememberMeServices)
+                )
+                .sessionManagement(session -> session
+                        .maximumSessions(-1)
+                        .sessionRegistry(sessionRegistry)
+                        .expiredSessionStrategy(
+                                new SimpleRedirectSessionInformationExpiredStrategy(
+                                        "/login?sessionExpired=true"
+                                )
+                        )
                 )
                 .addFilterBefore(
                         loginRateLimitFilter,

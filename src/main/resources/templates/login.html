@@ -63,6 +63,12 @@
                     Der Reset-Link ist ungültig.
                 </div>
 
+                <div class="alert alert-warning auth-alert"
+                     th:if="${param.sessionExpired}">
+                    Deine Sitzung wurde aus Sicherheitsgründen beendet.
+                    Bitte melde dich erneut an.
+                </div>
+
                 <div class="alert alert-danger auth-alert"
                      th:if="${param.error}">
                     Benutzername oder Passwort ist falsch.
