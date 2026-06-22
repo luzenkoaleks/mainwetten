@@ -1,14 +1,17 @@
 package de.mainwetten.security.ratelimit;
 
+import de.mainwetten.user.LoginIdentifierService;
 import jakarta.servlet.FilterChain;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class LoginRateLimitFilterTest {
 
@@ -18,10 +21,21 @@ class LoginRateLimitFilterTest {
         PublicFormRateLimiter limiter =
                 new PublicFormRateLimiter();
 
-        LoginRateLimitFilter filter =
-                new LoginRateLimitFilter(limiter);
+        LoginIdentifierService loginIdentifierService =
+                mock(LoginIdentifierService.class);
 
-        FilterChain filterChain = mock(FilterChain.class);
+        when(loginIdentifierService
+                .normalizeForRateLimit(anyString()))
+                .thenReturn("alice");
+
+        LoginRateLimitFilter filter =
+                new LoginRateLimitFilter(
+                        limiter,
+                        loginIdentifierService
+                );
+
+        FilterChain filterChain =
+                mock(FilterChain.class);
 
         for (int attempt = 0; attempt < 10; attempt++) {
             MockHttpServletRequest request =
@@ -79,10 +93,17 @@ class LoginRateLimitFilterTest {
         PublicFormRateLimiter limiter =
                 new PublicFormRateLimiter();
 
-        LoginRateLimitFilter filter =
-                new LoginRateLimitFilter(limiter);
+        LoginIdentifierService loginIdentifierService =
+                mock(LoginIdentifierService.class);
 
-        FilterChain filterChain = mock(FilterChain.class);
+        LoginRateLimitFilter filter =
+                new LoginRateLimitFilter(
+                        limiter,
+                        loginIdentifierService
+                );
+
+        FilterChain filterChain =
+                mock(FilterChain.class);
 
         MockHttpServletRequest request =
                 new MockHttpServletRequest(
@@ -95,14 +116,19 @@ class LoginRateLimitFilterTest {
         MockHttpServletResponse response =
                 new MockHttpServletResponse();
 
-        filter.doFilter(request, response, filterChain);
+        filter.doFilter(
+                request,
+                response,
+                filterChain
+        );
 
-        verify(filterChain).doFilter(request, response);
+        verify(filterChain)
+                .doFilter(request, response);
     }
 
     private MockHttpServletRequest createLoginRequest(
             String remoteAddress,
-            String username
+            String loginIdentifier
     ) {
         MockHttpServletRequest request =
                 new MockHttpServletRequest(
@@ -112,8 +138,14 @@ class LoginRateLimitFilterTest {
 
         request.setServletPath("/login");
         request.setRemoteAddr(remoteAddress);
-        request.addParameter("username", username);
-        request.addParameter("password", "wrong-password");
+        request.addParameter(
+                "username",
+                loginIdentifier
+        );
+        request.addParameter(
+                "password",
+                "wrong-password"
+        );
 
         return request;
     }
