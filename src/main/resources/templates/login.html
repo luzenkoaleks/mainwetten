@@ -75,6 +75,11 @@
                     Bitte melde dich erneut an.
                 </div>
 
+                <div class="alert alert-success auth-alert"
+                     th:if="${param.accountDeleted}">
+                    Dein Konto wurde vollständig gelöscht.
+                </div>
+
                 <div class="alert alert-danger auth-alert"
                      th:if="${param.error}">
                     Benutzername oder Passwort ist falsch.
