@@ -69,6 +69,12 @@
                     Bitte melde dich erneut an.
                 </div>
 
+                <div class="alert alert-success auth-alert"
+                     th:if="${param.passwordChanged}">
+                    Dein Passwort wurde erfolgreich geändert.
+                    Bitte melde dich erneut an.
+                </div>
+
                 <div class="alert alert-danger auth-alert"
                      th:if="${param.error}">
                     Benutzername oder Passwort ist falsch.
