@@ -24,6 +24,7 @@ class PasswordResetCompletionServiceTest {
     private PasswordEncoder passwordEncoder;
     private Clock clock;
     private PasswordResetCompletionService service;
+    private PersistentLoginService persistentLoginService;
 
     @BeforeEach
     void setUp() {
@@ -36,6 +37,9 @@ class PasswordResetCompletionServiceTest {
         passwordEncoder =
                 mock(PasswordEncoder.class);
 
+        persistentLoginService =
+                mock(PersistentLoginService.class);
+
         clock = Clock.fixed(
                 Instant.parse("2026-06-21T10:00:00Z"),
                 ZoneId.of("Europe/Berlin")
@@ -45,7 +49,8 @@ class PasswordResetCompletionServiceTest {
                 tokenRepository,
                 appUserRepository,
                 passwordEncoder,
-                clock
+                clock,
+                persistentLoginService
         );
     }
 
@@ -93,6 +98,7 @@ class PasswordResetCompletionServiceTest {
     void resetPasswordChangesPasswordAndDeletesToken() {
         String rawToken = "valid-token";
         AppUser user = new AppUser();
+        user.setUsername("Alice");
 
         PasswordResetToken token =
                 createToken(
@@ -126,6 +132,8 @@ class PasswordResetCompletionServiceTest {
         );
 
         verify(appUserRepository).save(user);
+        verify(persistentLoginService)
+                .invalidateForUser("Alice");
         verify(tokenRepository).delete(token);
     }
 
@@ -156,6 +164,11 @@ class PasswordResetCompletionServiceTest {
 
         verify(tokenRepository).delete(token);
 
+        verify(persistentLoginService, never())
+                .invalidateForUser(
+                        org.mockito.ArgumentMatchers.anyString()
+                );
+
         verify(appUserRepository, never())
                 .save(
                         org.mockito.ArgumentMatchers.any()
@@ -184,6 +197,10 @@ class PasswordResetCompletionServiceTest {
         verify(appUserRepository, never())
                 .save(
                         org.mockito.ArgumentMatchers.any()
+                );
+        verify(persistentLoginService, never())
+                .invalidateForUser(
+                        org.mockito.ArgumentMatchers.anyString()
                 );
     }
 

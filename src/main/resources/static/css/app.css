@@ -2542,3 +2542,16 @@ a.app-card:hover {
     }
 }
 
+#remember-me.form-check-input {
+    border: 2px solid #788980;
+}
+
+#remember-me.form-check-input:focus {
+    border-color: #276443;
+    box-shadow: 0 0 0 0.2rem rgba(39, 100, 67, 0.18);
+}
+
+#remember-me.form-check-input:checked {
+    background-color: #276443;
+    border-color: #276443;
+}

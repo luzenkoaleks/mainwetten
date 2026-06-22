@@ -21,17 +21,20 @@ public class PasswordResetCompletionService {
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final Clock clock;
+    private final PersistentLoginService persistentLoginService;
 
     public PasswordResetCompletionService(
             PasswordResetTokenRepository tokenRepository,
             AppUserRepository appUserRepository,
             PasswordEncoder passwordEncoder,
-            Clock clock
+            Clock clock,
+            PersistentLoginService persistentLoginService
     ) {
         this.tokenRepository = tokenRepository;
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder;
         this.clock = clock;
+        this.persistentLoginService = persistentLoginService;
     }
 
     @Transactional(readOnly = true)
@@ -93,6 +96,11 @@ public class PasswordResetCompletionService {
         );
 
         appUserRepository.save(user);
+
+        persistentLoginService.invalidateForUser(
+                user.getUsername()
+        );
+
         tokenRepository.delete(token);
 
         return PasswordResetResult.RESET;
