@@ -1,5 +1,5 @@
 :root {
-    --mw-bg: #f4f8fb;
+    --mw-bg: #eef0f2;
     --mw-surface: #ffffff;
     --mw-border: #d8e5ee;
     --mw-text: rgb(9, 34, 49);
@@ -1913,11 +1913,13 @@ a.app-card:hover {
 .dashboard-status-upcoming {
     background: #fff3c4;
     color: #6f4b08;
+    border: 1px solid;
 }
 
 .dashboard-status-expired {
     background: #edf1f4;
     color: #42525d;
+    border: 1px solid;
 }
 
 .dashboard-section-header {
