@@ -18,13 +18,16 @@ import de.mainwetten.security.ratelimit.LoginRateLimitSuccessHandler;
 import de.mainwetten.security.ratelimit.PublicFormRateLimiter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.security.web.authentication.RememberMeServices;
+
 @Configuration
 public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            PublicFormRateLimiter publicFormRateLimiter
+            PublicFormRateLimiter publicFormRateLimiter,
+            RememberMeServices rememberMeServices
     ) throws Exception {
         LoginRateLimitFilter loginRateLimitFilter =
                 new LoginRateLimitFilter(publicFormRateLimiter);
@@ -77,6 +80,9 @@ public class SecurityConfig {
                         .loginPage("/login")
                         .successHandler(loginSuccessHandler)
                         .permitAll()
+                )
+                .rememberMe(remember -> remember
+                        .rememberMeServices(rememberMeServices)
                 )
                 .addFilterBefore(
                         loginRateLimitFilter,

@@ -19,12 +19,15 @@ public class RememberMeConfig {
             Math.toIntExact(Duration.ofDays(30).toSeconds());
 
     @Bean
+    @SuppressWarnings({"deprecation", "removal"})
     public PersistentTokenRepository persistentTokenRepository(
             DataSource dataSource
     ) {
         JdbcTokenRepositoryImpl repository =
                 new JdbcTokenRepositoryImpl();
 
+        // Spring Security 7.1 currently provides no non-deprecated
+        // configuration alternative for JdbcTokenRepositoryImpl.
         repository.setDataSource(dataSource);
 
         return repository;
@@ -52,6 +55,11 @@ public class RememberMeConfig {
                 TOKEN_VALIDITY_SECONDS
         );
         services.setUseSecureCookie(secureCookie);
+        services.setAlwaysRemember(false);
+
+        services.setCookieCustomizer(cookie ->
+                cookie.setAttribute("SameSite", "Lax")
+        );
 
         return services;
     }
