@@ -21,6 +21,10 @@ public class BetParticipant {
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "invited_by_id")
+    private AppUser invitedBy;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private ParticipantStatus status;
@@ -53,6 +57,14 @@ public class BetParticipant {
 
     public void setUser(AppUser user) {
         this.user = user;
+    }
+
+    public AppUser getInvitedBy() {
+        return invitedBy;
+    }
+
+    public void setInvitedBy(AppUser invitedBy) {
+        this.invitedBy = invitedBy;
     }
 
     public ParticipantStatus getStatus() {
