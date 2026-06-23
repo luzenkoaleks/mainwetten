@@ -18,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.List;
 
+import de.mainwetten.security.usage.UsageLimitExceededException;
+
 @Controller
 @RequestMapping("/bets")
 public class BetController {
@@ -81,7 +83,28 @@ public class BetController {
             return "bets/new";
         }
 
-        betService.createBet(form, authentication.getName());
+        try {
+            betService.createBet(
+                    form,
+                    authentication.getName()
+            );
+        } catch (UsageLimitExceededException exception) {
+            bindingResult.reject(
+                    "usageLimitExceeded",
+                    exception.getMessage()
+            );
+
+            model.addAttribute(
+                    "scoringModes",
+                    ScoringMode.values()
+            );
+            model.addAttribute(
+                    "fishCategories",
+                    FishCategory.values()
+            );
+
+            return "bets/new";
+        }
 
         redirectAttributes.addFlashAttribute(
                 "betSuccess",

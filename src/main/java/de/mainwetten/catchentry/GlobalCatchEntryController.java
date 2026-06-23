@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.math.BigDecimal;
 
+import de.mainwetten.security.usage.UsageLimitExceededException;
+
+
 @Controller
 @RequestMapping("/catches")
 public class GlobalCatchEntryController {
@@ -82,7 +85,10 @@ public class GlobalCatchEntryController {
             );
 
             return "redirect:/dashboard";
-        } catch (IllegalArgumentException exception) {
+        } catch (
+                IllegalArgumentException
+                | UsageLimitExceededException exception
+        ) {
             bindingResult.reject("globalCatchError", exception.getMessage());
             addFormAttributes(model, authentication.getName());
             return "catches/global-new";

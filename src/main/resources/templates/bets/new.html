@@ -31,7 +31,18 @@
 
                 <div class="alert alert-danger"
                      th:if="${#fields.hasAnyErrors()}">
-                    Bitte prüfe die markierten Eingaben. Die Wette wurde noch nicht erstellt.
+
+                    <div th:if="${#fields.hasGlobalErrors()}">
+                        <div th:each="error : ${#fields.globalErrors()}"
+                             th:text="${error}">
+                            Die Wette konnte nicht erstellt werden.
+                        </div>
+                    </div>
+
+                    <div th:unless="${#fields.hasGlobalErrors()}">
+                        Bitte prüfe die markierten Eingaben.
+                        Die Wette wurde noch nicht erstellt.
+                    </div>
                 </div>
 
                 <div class="form-section-title">

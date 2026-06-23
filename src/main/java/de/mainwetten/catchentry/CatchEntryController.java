@@ -23,6 +23,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.math.BigDecimal;
 
+import de.mainwetten.security.usage.UsageLimitExceededException;
+
+
 @Controller
 @RequestMapping("/bets/{betId}/catches")
 public class CatchEntryController {
@@ -103,7 +106,10 @@ public class CatchEntryController {
                     authentication.getName(),
                     form
             );
-        } catch (IllegalArgumentException exception) {
+        } catch (
+                IllegalArgumentException
+                | UsageLimitExceededException exception
+        ) {
             bindingResult.reject(
                     "catchEntryError",
                     exception.getMessage()
