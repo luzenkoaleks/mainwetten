@@ -56,6 +56,8 @@ public class SecurityConfig {
                                 "/verify-email",
                                 "/forgot-password",
                                 "/reset-password",
+                                "/impressum",
+                                "/datenschutz",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**"

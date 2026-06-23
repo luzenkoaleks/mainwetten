@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Datenschutz')}"></head>
+
+<body>
+
+<header th:replace="~{fragments/layout :: navbar('legal', false)}"></header>
+
+<main class="container app-page">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-9">
+
+            <section class="form-page-hero mb-4">
+                <p class="section-kicker mb-2">
+                    Rechtliche Informationen
+                </p>
+
+                <h1 class="form-page-title mb-2">
+                    Datenschutzerklärung
+                </h1>
+
+                <p class="form-page-lead mb-0">
+                    Informationen zur Verarbeitung personenbezogener
+                    Daten bei Mainwetten.
+                </p>
+            </section>
+
+            <article class="bg-white border rounded-4 shadow-sm p-4 p-md-5">
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">1. Verantwortlicher</h2>
+
+                    <address class="mb-3">
+                        <strong th:text="${legal.fullName}">
+                            Vorname Nachname
+                        </strong>
+                        <br>
+
+                        <span th:text="${legal.street}">
+                            Straße und Hausnummer
+                        </span>
+                        <br>
+
+                        <span th:text="${legal.postalCode}">
+                            00000
+                        </span>
+                        <span th:text="${legal.city}">
+                            Ort
+                        </span>
+                        <br>
+
+                        <span th:text="${legal.country}">
+                            Deutschland
+                        </span>
+                    </address>
+
+                    <p class="mb-0">
+                        E-Mail:
+                        <a th:href="'mailto:' + ${legal.email}"
+                           th:text="${legal.email}">
+                            kontakt@mainwetten.de
+                        </a>
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        2. Allgemeine Informationen
+                    </h2>
+
+                    <p>
+                        Mainwetten ist eine Webanwendung zur
+                        Organisation von Angelwetten. Nutzer können
+                        Benutzerkonten erstellen, Wetten organisieren,
+                        Einladungen verwalten und Fänge erfassen.
+                    </p>
+
+                    <p class="mb-0">
+                        Personenbezogene Daten werden verarbeitet,
+                        soweit dies für den Betrieb, die Sicherheit
+                        und die Bereitstellung dieser Funktionen
+                        erforderlich ist.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        3. Hosting und Serverprotokolle
+                    </h2>
+
+                    <p class="text-danger fw-semibold">
+                        Vor dem öffentlichen Deployment ergänzen:
+                        Name und Anschrift des Hostinganbieters sowie
+                        die Speicherdauer der Serverprotokolle.
+                    </p>
+
+                    <p>
+                        Beim Aufruf der Website können insbesondere
+                        IP-Adresse, Zeitpunkt des Zugriffs, aufgerufene
+                        Ressource, HTTP-Statuscode, Browser,
+                        Betriebssystem und Referrer verarbeitet werden.
+                    </p>
+
+                    <p class="mb-0">
+                        Die Verarbeitung erfolgt auf Grundlage von
+                        Art. 6 Abs. 1 Buchstabe f DSGVO. Das
+                        berechtigte Interesse besteht im sicheren und
+                        zuverlässigen Betrieb der Anwendung.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        4. Registrierung und Benutzerkonto
+                    </h2>
+
+                    <p>
+                        Für Registrierung und Kontoführung werden
+                        insbesondere Benutzername, E-Mail-Adresse,
+                        Passwort-Hash, E-Mail-Bestätigungsstatus und
+                        Zeitpunkt der Kontoerstellung verarbeitet.
+                    </p>
+
+                    <p>
+                        Passwörter werden nicht im Klartext
+                        gespeichert.
+                    </p>
+
+                    <p class="mb-0">
+                        Rechtsgrundlage ist Art. 6 Abs. 1 Buchstabe b
+                        DSGVO. Die Kontodaten werden grundsätzlich bis
+                        zur Löschung des Benutzerkontos gespeichert.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        5. E-Mail-Verifikation und Passwort-Reset
+                    </h2>
+
+                    <p>
+                        Zur Bestätigung einer E-Mail-Adresse und zur
+                        Zurücksetzung eines Passworts werden
+                        zeitlich begrenzte Sicherheitstokens
+                        verarbeitet.
+                    </p>
+
+                    <p class="mb-0">
+                        Rechtsgrundlage ist Art. 6 Abs. 1 Buchstabe b
+                        DSGVO sowie für Sicherheitsmaßnahmen
+                        Art. 6 Abs. 1 Buchstabe f DSGVO. Abgelaufene
+                        oder verwendete Tokens werden automatisiert
+                        bereinigt.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        6. Wetten, Einladungen und Fänge
+                    </h2>
+
+                    <p>
+                        Bei der Nutzung werden insbesondere Wetten,
+                        Einladungen, Teilnehmerstatus, Fischarten,
+                        Fanglängen, Fangzeitpunkte und Zuordnungen von
+                        Fängen zu Wetten verarbeitet.
+                    </p>
+
+                    <p>
+                        Diese Daten sind innerhalb der jeweiligen
+                        Wette für die beteiligten Nutzer sichtbar.
+                    </p>
+
+                    <p class="mb-0">
+                        Rechtsgrundlage ist Art. 6 Abs. 1 Buchstabe b
+                        DSGVO.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">7. E-Mail-Versand</h2>
+
+                    <p class="text-danger fw-semibold">
+                        Vor dem öffentlichen Deployment ergänzen:
+                        Name, Anschrift und gegebenenfalls
+                        Drittlandinformationen des eingesetzten
+                        E-Mail-Dienstleisters.
+                    </p>
+
+                    <p class="mb-0">
+                        Für System-E-Mails werden insbesondere die
+                        Empfängeradresse und der Inhalt der jeweiligen
+                        Nachricht verarbeitet. Rechtsgrundlage ist
+                        Art. 6 Abs. 1 Buchstabe b DSGVO.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        8. Technisch notwendige Cookies
+                    </h2>
+
+                    <p>
+                        Mainwetten verwendet ein technisch notwendiges
+                        Sitzungscookie zur Anmeldung und Absicherung
+                        der Benutzersitzung.
+                    </p>
+
+                    <p>
+                        Wenn die freiwillige Funktion
+                        „Angemeldet bleiben“ aktiviert wird, setzt
+                        Mainwetten zusätzlich das Cookie
+                        <code>mainwetten-remember-me</code>.
+                        Dieses ist grundsätzlich bis zu 30 Tage
+                        gültig und kann vorher ungültig werden,
+                        insbesondere durch Abmeldung, Passwortänderung,
+                        Passwort-Reset oder Kontolöschung.
+                    </p>
+
+                    <p class="mb-0">
+                        Mainwetten verwendet derzeit keine Analyse-,
+                        Werbe- oder Tracking-Cookies.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        9. Schutz vor Missbrauch
+                    </h2>
+
+                    <p>
+                        Login-, Registrierungs- und
+                        Passwort-Reset-Versuche werden technisch
+                        begrenzt. Dabei können IP-Adresse,
+                        Loginbezeichner, Zeitpunkt und Anzahl der
+                        Versuche vorübergehend im Arbeitsspeicher
+                        verarbeitet werden.
+                    </p>
+
+                    <p class="mb-0">
+                        Rechtsgrundlage ist Art. 6 Abs. 1 Buchstabe f
+                        DSGVO. Das berechtigte Interesse besteht im
+                        Schutz der Anwendung und der Benutzerkonten.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        10. Empfänger von Daten
+                    </h2>
+
+                    <p>
+                        Personenbezogene Daten werden nur
+                        weitergegeben, soweit dies für den Betrieb
+                        erforderlich oder gesetzlich vorgeschrieben
+                        ist.
+                    </p>
+
+                    <p class="mb-0">
+                        Empfänger können insbesondere Hosting- und
+                        E-Mail-Dienstleister sowie zuständige Behörden
+                        sein. Mit Auftragsverarbeitern werden, soweit
+                        erforderlich, Verträge gemäß Art. 28 DSGVO
+                        geschlossen.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        11. Speicherdauer
+                    </h2>
+
+                    <ul class="mb-0">
+                        <li>
+                            Kontodaten: grundsätzlich bis zur
+                            Kontolöschung
+                        </li>
+                        <li>
+                            Sitzungsdaten: bis zur Abmeldung oder zum
+                            Ablauf der Sitzung
+                        </li>
+                        <li>
+                            Remember-me-Daten: grundsätzlich bis zu
+                            30 Tage
+                        </li>
+                        <li>
+                            Verifikations- und Reset-Tokens: bis zur
+                            Verwendung, zum Ablauf oder zur
+                            automatischen Bereinigung
+                        </li>
+                        <li>
+                            Rate-Limit-Daten: bis zum Ablauf des
+                            jeweiligen Begrenzungszeitraums
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        12. Rechte betroffener Personen
+                    </h2>
+
+                    <p>
+                        Betroffene Personen haben im Rahmen der
+                        gesetzlichen Voraussetzungen insbesondere
+                        Rechte auf Auskunft, Berichtigung, Löschung,
+                        Einschränkung der Verarbeitung,
+                        Datenübertragbarkeit und Widerspruch.
+                    </p>
+
+                    <p class="mb-0">
+                        Zur Ausübung der Rechte genügt eine Nachricht
+                        an
+                        <a th:href="'mailto:' + ${legal.email}"
+                           th:text="${legal.email}">
+                            kontakt@mainwetten.de
+                        </a>.
+                    </p>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        13. Beschwerderecht
+                    </h2>
+
+                    <p>
+                        Betroffene Personen können sich bei einer
+                        Datenschutzaufsichtsbehörde beschweren.
+                    </p>
+
+                    <address class="mb-0">
+                        <strong th:text="${legal.supervisoryAuthorityName}">
+                            Zuständige Landesdatenschutzbehörde
+                        </strong>
+                        <br>
+
+                        <span th:text="${legal.supervisoryAuthorityAddress}">
+                            Anschrift
+                        </span>
+                    </address>
+                </section>
+
+                <section>
+                    <h2 class="h4 mb-3">
+                        14. Stand und Änderungen
+                    </h2>
+
+                    <p>
+                        Diese Datenschutzerklärung wird angepasst,
+                        wenn sich Funktionen, Dienstleister oder
+                        rechtliche Anforderungen ändern.
+                    </p>
+
+                    <p class="mb-0">
+                        Stand: Juni 2026
+                    </p>
+                </section>
+
+            </article>
+
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
