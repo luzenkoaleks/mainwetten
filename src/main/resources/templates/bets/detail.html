@@ -340,10 +340,15 @@
 
                     <div class="participant-input-group">
                         <input id="inviteUsername"
-                               name="username"
+                               name="invitedUsername"
                                type="text"
                                class="form-control"
-                               placeholder="Benutzername">
+                               placeholder="Benutzername"
+                               autocomplete="off"
+                               autocapitalize="none"
+                               autocorrect="off"
+                               spellcheck="false"
+                               enterkeyhint="send">
 
                         <button class="btn btn-primary" type="submit">
                             Einladen

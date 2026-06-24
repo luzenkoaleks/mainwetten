@@ -158,8 +158,10 @@ public class BetController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(
                     "inviteError",
-                    bindingResult.getFieldError("username") != null
-                            ? bindingResult.getFieldError("username").getDefaultMessage()
+                    bindingResult.getFieldError("invitedUsername") != null
+                            ? bindingResult
+                            .getFieldError("invitedUsername")
+                            .getDefaultMessage()
                             : "Bitte prüfe deine Eingabe."
             );
 
@@ -169,7 +171,7 @@ public class BetController {
             betInvitationService.inviteUser(
                     id,
                     authentication.getName(),
-                    inviteUserForm.getUsername()
+                    inviteUserForm.getInvitedUsername()
             );
 
             redirectAttributes.addFlashAttribute("inviteSuccess", "Benutzer wurde eingeladen.");

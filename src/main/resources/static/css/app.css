@@ -902,14 +902,13 @@ a.app-card:hover {
    7. Authentication pages (login, register, password reset)
    ========================================================================== */
 
-.auth-page {
+..auth-page {
     min-height: calc(100vh - 5rem);
-    display: flex;
-    align-items: center;
 }
 
 .auth-page > .row {
-    width: 100%;
+    min-height: inherit;
+    align-items: center;
 }
 
 .auth-panel {
@@ -1018,7 +1017,7 @@ a.app-card:hover {
 /* REMOVED from original: .auth-card — unused in templates */
 
 @media (max-width: 575.98px) {
-    .auth-page {
+    .auth-page > .row {
         align-items: flex-start;
     }
 
