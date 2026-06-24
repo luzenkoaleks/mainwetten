@@ -902,7 +902,7 @@ a.app-card:hover {
    7. Authentication pages (login, register, password reset)
    ========================================================================== */
 
-..auth-page {
+.auth-page {
     min-height: calc(100vh - 5rem);
 }
 
