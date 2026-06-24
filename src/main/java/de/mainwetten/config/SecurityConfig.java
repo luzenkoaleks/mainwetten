@@ -1,7 +1,7 @@
 package de.mainwetten.config;
 
 import de.mainwetten.user.AppUser;
-import de.mainwetten.user.AppUserRepository;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,16 +18,29 @@ import de.mainwetten.security.ratelimit.LoginRateLimitSuccessHandler;
 import de.mainwetten.security.ratelimit.PublicFormRateLimiter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import org.springframework.security.web.authentication.RememberMeServices;
+
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy;
+
+import de.mainwetten.user.LoginIdentifierService;
+
 @Configuration
 public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            PublicFormRateLimiter publicFormRateLimiter
+            PublicFormRateLimiter publicFormRateLimiter,
+            LoginIdentifierService loginIdentifierService,
+            RememberMeServices rememberMeServices,
+            SessionRegistry sessionRegistry
     ) throws Exception {
         LoginRateLimitFilter loginRateLimitFilter =
-                new LoginRateLimitFilter(publicFormRateLimiter);
+                new LoginRateLimitFilter(
+                        publicFormRateLimiter,
+                        loginIdentifierService
+                );
 
         LoginRateLimitSuccessHandler loginSuccessHandler =
                 new LoginRateLimitSuccessHandler(
@@ -43,6 +56,8 @@ public class SecurityConfig {
                                 "/verify-email",
                                 "/forgot-password",
                                 "/reset-password",
+                                "/impressum",
+                                "/datenschutz",
                                 "/css/**",
                                 "/js/**",
                                 "/images/**"
@@ -58,7 +73,7 @@ public class SecurityConfig {
                                                 "frame-ancestors 'none'; " +
                                                 "object-src 'none'; " +
                                                 "script-src 'self'; " +
-                                                "style-src 'self' https://cdn.jsdelivr.net; " +
+                                                "style-src 'self'; " +
                                                 "img-src 'self' data:; " +
                                                 "font-src 'self'; " +
                                                 "connect-src 'self'"
@@ -78,6 +93,18 @@ public class SecurityConfig {
                         .successHandler(loginSuccessHandler)
                         .permitAll()
                 )
+                .rememberMe(remember -> remember
+                        .rememberMeServices(rememberMeServices)
+                )
+                .sessionManagement(session -> session
+                        .maximumSessions(-1)
+                        .sessionRegistry(sessionRegistry)
+                        .expiredSessionStrategy(
+                                new SimpleRedirectSessionInformationExpiredStrategy(
+                                        "/login?sessionExpired=true"
+                                )
+                        )
+                )
                 .addFilterBefore(
                         loginRateLimitFilter,
                         UsernamePasswordAuthenticationFilter.class
@@ -96,12 +123,21 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(AppUserRepository appUserRepository) {
-        return username -> {
-            AppUser appUser = appUserRepository.findByUsernameIgnoreCase(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    public UserDetailsService userDetailsService(
+            LoginIdentifierService loginIdentifierService
+    ) {
+        return loginIdentifier -> {
+            AppUser appUser = loginIdentifierService
+                    .findUser(loginIdentifier)
+                    .orElseThrow(() ->
+                            new UsernameNotFoundException(
+                                    "User not found"
+                            )
+                    );
 
-            return User.withUsername(appUser.getUsername())
+            return User.withUsername(
+                            appUser.getUsername()
+                    )
                     .password(appUser.getPasswordHash())
                     .disabled(!appUser.isEmailVerified())
                     .roles("USER")

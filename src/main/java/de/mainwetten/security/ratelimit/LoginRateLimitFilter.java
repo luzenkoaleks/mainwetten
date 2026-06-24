@@ -10,14 +10,21 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Locale;
 
+import de.mainwetten.user.LoginIdentifierService;
+
 public final class LoginRateLimitFilter extends OncePerRequestFilter {
 
     private final PublicFormRateLimiter rateLimiter;
 
+    private final LoginIdentifierService
+            loginIdentifierService;
+
     public LoginRateLimitFilter(
-            PublicFormRateLimiter rateLimiter
+            PublicFormRateLimiter rateLimiter,
+            LoginIdentifierService loginIdentifierService
     ) {
         this.rateLimiter = rateLimiter;
+        this.loginIdentifierService = loginIdentifierService;
     }
 
     @Override
@@ -34,14 +41,20 @@ public final class LoginRateLimitFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain
     ) throws ServletException, IOException {
-        String username = request.getParameter(
+        String loginIdentifier = request.getParameter(
                 UsernamePasswordAuthenticationFilter
                         .SPRING_SECURITY_FORM_USERNAME_KEY
         );
 
+        String canonicalIdentifier =
+                loginIdentifierService
+                        .normalizeForRateLimit(
+                                loginIdentifier
+                        );
+
         String clientKey = buildClientKey(
                 request.getRemoteAddr(),
-                username
+                canonicalIdentifier
         );
 
         if (!rateLimiter.tryConsumeLoginAttempt(clientKey)) {

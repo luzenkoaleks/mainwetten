@@ -18,6 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.time.LocalDate;
 import java.util.List;
 
+import de.mainwetten.security.usage.UsageLimitExceededException;
+
 @Controller
 @RequestMapping("/bets")
 public class BetController {
@@ -81,7 +83,28 @@ public class BetController {
             return "bets/new";
         }
 
-        betService.createBet(form, authentication.getName());
+        try {
+            betService.createBet(
+                    form,
+                    authentication.getName()
+            );
+        } catch (UsageLimitExceededException exception) {
+            bindingResult.reject(
+                    "usageLimitExceeded",
+                    exception.getMessage()
+            );
+
+            model.addAttribute(
+                    "scoringModes",
+                    ScoringMode.values()
+            );
+            model.addAttribute(
+                    "fishCategories",
+                    FishCategory.values()
+            );
+
+            return "bets/new";
+        }
 
         redirectAttributes.addFlashAttribute(
                 "betSuccess",
@@ -135,8 +158,10 @@ public class BetController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute(
                     "inviteError",
-                    bindingResult.getFieldError("username") != null
-                            ? bindingResult.getFieldError("username").getDefaultMessage()
+                    bindingResult.getFieldError("invitedUsername") != null
+                            ? bindingResult
+                            .getFieldError("invitedUsername")
+                            .getDefaultMessage()
                             : "Bitte prüfe deine Eingabe."
             );
 
@@ -146,7 +171,7 @@ public class BetController {
             betInvitationService.inviteUser(
                     id,
                     authentication.getName(),
-                    inviteUserForm.getUsername()
+                    inviteUserForm.getInvitedUsername()
             );
 
             redirectAttributes.addFlashAttribute("inviteSuccess", "Benutzer wurde eingeladen.");

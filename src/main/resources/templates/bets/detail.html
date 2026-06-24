@@ -218,7 +218,7 @@
                 </div>
 
                 <p class="leaderboard-note mt-3 mb-0" th:if="${showTieBreaker}">
-                    Bei Punktegleichstand entscheidet die Tiebreaker-Länge. Dafür zählen nur Fischarten,
+                    Bei Punktegleichstand entscheidet die Tiebreaker-Länge (Die Gesamtlänge der größten Fänge). Dabei zählen nur Fischarten,
                     die alle gleichauf liegenden Spieler gefangen haben.
                 </p>
             </section>
@@ -340,10 +340,15 @@
 
                     <div class="participant-input-group">
                         <input id="inviteUsername"
-                               name="username"
+                               name="invitedUsername"
                                type="text"
                                class="form-control"
-                               placeholder="Benutzername">
+                               placeholder="Benutzername"
+                               autocomplete="off"
+                               autocapitalize="none"
+                               autocorrect="off"
+                               spellcheck="false"
+                               enterkeyhint="send">
 
                         <button class="btn btn-primary" type="submit">
                             Einladen
@@ -377,5 +382,7 @@
         </div>
     </div>
 </main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
 </body>
 </html>

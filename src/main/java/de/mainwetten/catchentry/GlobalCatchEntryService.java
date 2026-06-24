@@ -15,6 +15,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.mainwetten.security.usage.CatchUsageLimitService;
+
 @Service
 public class GlobalCatchEntryService {
 
@@ -23,6 +25,7 @@ public class GlobalCatchEntryService {
     private final BetParticipantRepository betParticipantRepository;
     private final FishSpeciesRepository fishSpeciesRepository;
     private final CatchEntryWindowService catchEntryWindowService;
+    private final CatchUsageLimitService catchUsageLimitService;
 
 
     public GlobalCatchEntryService(
@@ -30,13 +33,15 @@ public class GlobalCatchEntryService {
             CatchAssignmentRepository catchAssignmentRepository,
             BetParticipantRepository betParticipantRepository,
             FishSpeciesRepository fishSpeciesRepository,
-            CatchEntryWindowService catchEntryWindowService
+            CatchEntryWindowService catchEntryWindowService,
+            CatchUsageLimitService catchUsageLimitService
     ) {
         this.catchRecordRepository = catchRecordRepository;
         this.catchAssignmentRepository = catchAssignmentRepository;
         this.betParticipantRepository = betParticipantRepository;
         this.fishSpeciesRepository = fishSpeciesRepository;
         this.catchEntryWindowService = catchEntryWindowService;
+        this.catchUsageLimitService = catchUsageLimitService;
     }
 
     @Transactional(readOnly = true)
@@ -105,8 +110,14 @@ public class GlobalCatchEntryService {
             selectedBets.add(bet);
         }
 
+        AppUser lockedUser =
+                catchUsageLimitService
+                        .lockUserAndCheckLimit(
+                                user.getId()
+                        );
+
         CatchRecord catchRecord = new CatchRecord();
-        catchRecord.setUser(user);
+        catchRecord.setUser(lockedUser);
         catchRecord.setFishSpecies(fishSpecies);
         catchRecord.setLengthCm(form.getLengthCm());
         catchRecord.setCaughtAt(OffsetDateTime.now());

@@ -28,6 +28,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import de.mainwetten.security.usage.CatchUsageLimitService;
+
 @ExtendWith(MockitoExtension.class)
 class CatchEntryServiceTest {
 
@@ -45,6 +47,9 @@ class CatchEntryServiceTest {
 
     @Mock
     private CatchEntryWindowService catchEntryWindowService;
+
+    @Mock
+    private CatchUsageLimitService catchUsageLimitService;
 
     @InjectMocks
     private CatchEntryService catchEntryService;
@@ -204,6 +209,10 @@ class CatchEntryServiceTest {
         Bet bet = createBet(10L, FishCategory.ALL);
         BetParticipant participation = createParticipation(bet, user);
 
+        when(catchUsageLimitService
+                .lockUserAndCheckLimit(1L))
+                .thenReturn(user);
+
         FishSpecies saltwaterFish = createFishSpecies(
                 5L,
                 "Dorsch",
@@ -248,6 +257,10 @@ class CatchEntryServiceTest {
         AppUser user = createUser(1L, "Alice");
         Bet bet = createBet(10L, FishCategory.FRESHWATER);
         BetParticipant participation = createParticipation(bet, user);
+
+        when(catchUsageLimitService
+                .lockUserAndCheckLimit(1L))
+                .thenReturn(user);
 
         FishSpecies fishSpecies = createFishSpecies(
                 5L,

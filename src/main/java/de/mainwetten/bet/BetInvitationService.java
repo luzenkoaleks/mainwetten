@@ -51,6 +51,11 @@ public class BetInvitationService {
 
             if (participant.getStatus() == ParticipantStatus.DECLINED) {
                 participant.setStatus(ParticipantStatus.INVITED);
+                participant.setInvitedBy(
+                        inviterParticipation.getUser()
+                );
+
+                betParticipantRepository.save(participant);
                 return;
             }
         }
@@ -59,6 +64,9 @@ public class BetInvitationService {
         participant.setBet(inviterParticipation.getBet());
         participant.setUser(invitedUser);
         participant.setStatus(ParticipantStatus.INVITED);
+        participant.setInvitedBy(
+                inviterParticipation.getUser()
+        );
 
         betParticipantRepository.save(participant);
     }

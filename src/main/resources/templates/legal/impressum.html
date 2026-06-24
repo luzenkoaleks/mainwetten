@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Impressum')}"></head>
+
+<body>
+
+<header th:replace="~{fragments/layout :: navbar('legal', false)}"></header>
+
+<main class="container app-page">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-9">
+
+            <section class="form-page-hero mb-4">
+                <p class="section-kicker mb-2">
+                    Rechtliche Informationen
+                </p>
+
+                <h1 class="form-page-title mb-2">
+                    Impressum
+                </h1>
+
+                <p class="form-page-lead mb-0">
+                    Angaben zum Betreiber von Mainwetten.
+                </p>
+            </section>
+
+            <article class="bg-white border rounded-4 shadow-sm p-4 p-md-5">
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">
+                        Angaben gemäß § 5 DDG
+                    </h2>
+
+                    <address class="mb-0">
+                        <strong th:text="${legal.fullName}">
+                            Vorname Nachname
+                        </strong>
+                        <br>
+
+                        <span th:text="${legal.street}">
+                            Straße und Hausnummer
+                        </span>
+                        <br>
+
+                        <span th:text="${legal.postalCode}">
+                            00000
+                        </span>
+                        <span th:text="${legal.city}">
+                            Ort
+                        </span>
+                        <br>
+
+                        <span th:text="${legal.country}">
+                            Deutschland
+                        </span>
+                    </address>
+                </section>
+
+                <section class="mb-5">
+                    <h2 class="h4 mb-3">Kontakt</h2>
+
+                    <p class="mb-0">
+                        E-Mail:
+                        <a th:href="'mailto:' + ${legal.email}"
+                           th:text="${legal.email}">
+                            kontakt@mainwetten.de
+                        </a>
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="h4 mb-3">
+                        Hinweis zum Angebot
+                    </h2>
+
+                    <p class="mb-0">
+                        Mainwetten ist eine privat betriebene
+                        Webanwendung zur Organisation von Angelwetten
+                        und zur Erfassung gemeinsamer Fänge.
+                    </p>
+                </section>
+            </article>
+
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

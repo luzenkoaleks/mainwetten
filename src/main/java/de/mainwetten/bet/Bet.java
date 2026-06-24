@@ -36,8 +36,8 @@ public class Bet {
     @Column(name = "fish_category", nullable = false, length = 30)
     private FishCategory fishCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "created_by_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "created_by_id", nullable = true)
     private AppUser createdBy;
 
     @Column(name = "created_at", nullable = false)
